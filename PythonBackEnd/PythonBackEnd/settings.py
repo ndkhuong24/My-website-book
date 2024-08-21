@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -124,3 +127,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Cho phép tất cả các nguồn gốc (không khuyến khích cho môi trường sản xuất)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Hoặc, chỉ cho phép các nguồn gốc cụ thể
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",  # Ví dụ: URL của frontend trong môi trường phát triển
+]
+
+# Nếu bạn cần hỗ trợ CORS cho các phương thức HTTP khác ngoài GET, POST, PUT, DELETE
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+    'HEAD',
+]
+
+# Nếu bạn cần hỗ trợ CORS cho các tiêu đề tùy chỉnh
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'accept',
+    'authorization',
+    'x-requested-with',
+    'x-csrftoken',
+    'x-xsrf-token',
+]

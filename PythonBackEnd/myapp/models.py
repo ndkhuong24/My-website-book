@@ -11,6 +11,7 @@ class Author(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)  # Lưu đường dẫn của ảnh
     created_at = models.DateTimeField(auto_now_add=True)  # Tự động thiết lập thời gian khi tạo
     updated_at = models.DateTimeField(auto_now=True)  # Tự động cập nhật thời gian khi lưu
+    status = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
