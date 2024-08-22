@@ -1,12 +1,13 @@
-import { Component } from '@angular/core'; import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { Component } from '@angular/core';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'status-cell-renderer',
   standalone: true,
   template: `
-    <div class="tag {{ value }}Tag">
-      <div class="circle {{ value }}Circle"></div>
+    <div class="tag {{ getTagClass() }}">
+      <div class="circle {{ getCircleClass() }}"></div>
       <span>{{ valueFormatted }}</span>
     </div>
   `,
@@ -29,14 +30,10 @@ import { ICellRendererParams } from 'ag-grid-community';
         border: 1.5px solid rgb(70, 227, 114, 0.2);
       }
 
-      .outOfStockTag {
+      .inactiveTag {
         background-color: rgb(255, 0, 0, 0.05);
         color: rgb(234, 83, 83);
         border: 1.5px solid rgb(255, 0, 0, 0.3);
-      }
-
-      .pausedTag {
-        background-color: #caab7036;
       }
 
       .circle {
@@ -51,28 +48,57 @@ import { ICellRendererParams } from 'ag-grid-community';
         background-color: #6d9b7e;
       }
 
-      .outOfStockCircle {
+      .inactiveCircle {
         background-color: #ea5353;
-      }
-
-      .pausedCircle {
-        background-color: #a06d37;
       }
     `,
   ],
 })
-export class StatusCellRenderer implements ICellRendererAngularComp {
+export class StatusCellRenderComponent implements ICellRendererAngularComp {
   public value: string = '';
   public valueFormatted: string = '';
 
   agInit(params: ICellRendererParams): void {
-    this.value = params.value;
-    this.valueFormatted = params.valueFormatted!;
+    this.value = this.getStatusValue(params.value);
+    this.valueFormatted = this.value;
   }
 
   refresh(params: ICellRendererParams): boolean {
-    this.value = params.value;
-    this.valueFormatted = params.valueFormatted!;
+    this.value = this.getStatusValue(params.value);
+    this.valueFormatted = this.value;
     return true;
+  }
+
+  private getStatusValue(value: number): string {
+    switch (value) {
+      case 0:
+        return 'Hoạt động';
+      case 1:
+        return 'Không hoạt động';
+      default:
+        return 'Không xác định';
+    }
+  }
+
+  getTagClass(): string {
+    switch (this.value) {
+      case 'Hoạt động':
+        return 'activeTag';
+      case 'Không hoạt động':
+        return 'inactiveTag';
+      default:
+        return '';
+    }
+  }
+
+  getCircleClass(): string {
+    switch (this.value) {
+      case 'Hoạt động':
+        return 'activeCircle';
+      case 'Không hoạt động':
+        return 'inactiveCircle';
+      default:
+        return '';
+    }
   }
 }
