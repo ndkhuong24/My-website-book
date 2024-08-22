@@ -5,7 +5,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { provideClientHydration } from '@angular/platform-browser';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http'; 
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     SidebarComponent,
     HeaderComponent,
-    AgGridModule, // Chỉ cần import AgGridModule
-    provideHttpClient()
+    AgGridModule,
+    provideHttpClient(withFetch()) 
   ]
 };
