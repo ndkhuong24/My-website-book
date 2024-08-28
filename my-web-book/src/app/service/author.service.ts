@@ -13,4 +13,8 @@ export class AuthorService {
     getAllAuthor(): Observable<any> {
         return this.http.get<any>(this.apiUrl);
     }
+
+    deleteById(id: number): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    }
 }
