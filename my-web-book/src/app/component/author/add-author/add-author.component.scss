@@ -1,0 +1,58 @@
+#title {
+    margin: 10px;
+}
+
+#button-layout {
+    margin: 10px;
+}
+
+mat-dialog-actions {
+    margin-top: 15px;
+}
+
+button {
+    text-transform: uppercase;
+    margin-left: 8px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: inline-flex;
+    /* Thêm dòng này */
+    align-items: center;
+    /* Thêm dòng này để căn giữa icon và text */
+}
+
+button[mat-raised-button] {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+mat-icon {
+    margin-right: 4px;
+    font-size: 20px;
+    /* Đảm bảo kích thước của icon hợp lý */
+}
+
+button[color="warn"] {
+    background-color: #f44336;
+    color: #ffffff;
+}
+
+button[color="primary"] {
+    background-color: #2196f3;
+    color: #ffffff;
+}
+
+button {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+button:focus {
+    outline: none;
+}
+
+.col-6 {
+    mat-form-field {
+        width: 100%;
+    }
+}

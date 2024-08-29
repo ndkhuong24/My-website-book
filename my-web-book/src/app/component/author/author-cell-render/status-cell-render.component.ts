@@ -71,9 +71,9 @@ export class StatusCellRenderComponent implements ICellRendererAngularComp {
 
   private getStatusValue(value: number): string {
     switch (value) {
-      case 0:
-        return 'Hoạt động';
       case 1:
+        return 'Hoạt động';
+      case 0:
         return 'Không hoạt động';
       default:
         return 'Không xác định';

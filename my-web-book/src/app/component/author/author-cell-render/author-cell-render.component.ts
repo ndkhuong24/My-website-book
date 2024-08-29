@@ -36,13 +36,13 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import Swal from 'sweetalert2';
 import { AuthorService } from '../../../service/author.service';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthorComponent } from '../author.component';
 
 @Component({
   selector: 'app-author-cell-render',
   standalone: true,
-  imports: [],
+  imports: [ToastrModule],
   templateUrl: './author-cell-render.component.html',
   styleUrl: './author-cell-render.component.scss'
 })
@@ -82,8 +82,7 @@ export class AuthorCellRenderComponent implements ICellRendererAngularComp {
       if (result.isConfirmed) {
         this.authorService.deleteById(rowData.id).subscribe((response) => {
           if (response.message === 'Delete Author successful!') {
-            // this.toastr.success('Xóa thành công', 'Thông báo');
-            Swal.fire('Xóa', 'Xóa thành công', 'success');
+            this.toastr.success('Xóa thành công', 'Thông báo');
             this.authorComponent.ngOnInit();
             this.cdr.detectChanges();
           } else {
@@ -95,6 +94,5 @@ export class AuthorCellRenderComponent implements ICellRendererAngularComp {
   }
 
   onStopSellingClick() {
-    // Implement logic for stop selling click
   }
 }

@@ -1,15 +1,17 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AgGridModule } from 'ag-grid-angular';
 import { AuthorService } from '../../service/author.service';
 import { ColDef } from 'ag-grid-community';
 import { AuthorCellRenderComponent } from './author-cell-render/author-cell-render.component';
 import { StatusCellRenderComponent } from './author-cell-render/status-cell-render.component';
+import { AddAuthorComponent } from './add-author/add-author.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-author',
   standalone: true,
-  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent],
+  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule],
   templateUrl: './author.component.html',
   styleUrls: ['./author.component.scss']
 })
@@ -24,6 +26,8 @@ export class AuthorComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private authorService: AuthorService,
+    private matdialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -40,14 +44,6 @@ export class AuthorComponent implements OnInit {
     })
 
     this.columnDefs = [
-      // {
-      //   headerName: 'ID',
-      //   field: 'id',
-      //   sortable: true,
-      //   filter: true,
-      //   maxWidth: 70,
-      //   cellStyle: { 'align-items': 'center', 'justify-content': 'center', 'display': 'flex' }
-      // },
       {
         headerName: 'Tên',
         field: 'name',
@@ -94,30 +90,11 @@ export class AuthorComponent implements OnInit {
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
         flex: 1
       },
-      // {
-      //   headerName: 'Ngày tạo',
-      //   field: 'created_at',
-      //   sortable: true,
-      //   filter: true,
-      //   valueGetter: (params) => this.formatDateTime(params.data.created_at),
-      //   cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' }
-      // },
-      // {
-      //   headerName: 'Ngày sửa',
-      //   field: 'updated_at',
-      //   sortable: true,
-      //   filter: true,
-      //   valueGetter: (params) => this.formatDateTime(params.data.updated_at),
-      //   cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' }
-      // },
       {
         headerName: 'Trạng thái',
         field: 'status',
         sortable: true,
         filter: true,
-        // valueGetter: (params: { data: { status: number; }; }) => {
-        //   return params.data.status === 0 ? 'Hoạt động' : 'Ngừng hoạt động';
-        // },
         cellRenderer: StatusCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
         flex: 1
@@ -151,5 +128,21 @@ export class AuthorComponent implements OnInit {
   formatDate(date: string): any {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return new Date(date).toLocaleDateString('vi-VN', options);
+  }
+
+  addAuthor(): void {
+    const dialogRef = this.matdialog.open(AddAuthorComponent, {
+      width: '80vh',
+      height: '80vh',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'addAuthor') {
+        // Handle the result here
+        this.ngOnInit();
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

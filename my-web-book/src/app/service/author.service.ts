@@ -17,4 +17,20 @@ export class AuthorService {
     deleteById(id: number): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}/${id}`);
     }
+
+    addAuthor(authorData: any, profilePicture: File | null): Observable<any> {
+        const formData = new FormData();
+        formData.append('name', authorData.name);
+        formData.append('pen_name', authorData.penName || '');
+        formData.append('bio', authorData.description || '');
+        formData.append('birth_date', authorData.birthDate ? authorData.birthDate.toISOString().split('T')[0] : '');
+        formData.append('nationality', authorData.selectedCountry || '');
+        formData.append('status', authorData.status);
+
+        if (profilePicture) {
+            formData.append('profile_picture', profilePicture);
+        }
+        return this.http.post<any>(this.apiUrl, formData);
+    }
+
 }

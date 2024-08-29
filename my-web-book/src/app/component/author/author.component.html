@@ -1,5 +1,6 @@
 <div class="container" *ngIf="isBrowser">
-    <h3>Tác giả</h3>
+    <button class="btn btn-secondary" id="button-add" (click)="addAuthor()">Thêm mới</button>
+
     <ag-grid-angular style="width: 100%; height: 600px;" class="ag-theme-alpine" [rowData]="rowData"
         [columnDefs]="columnDefs" [headerHeight]="headerHeight" [rowHeight]="rowHeight"></ag-grid-angular>
 </div>
