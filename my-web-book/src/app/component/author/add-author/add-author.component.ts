@@ -54,8 +54,6 @@ export class AddAuthorComponent {
 
   onStatusChange(newStatus: boolean): void {
     this.status = newStatus;
-
-    console.log('Status changed to:', newStatus);
   }
 
   onFileChange(event: Event): void {
