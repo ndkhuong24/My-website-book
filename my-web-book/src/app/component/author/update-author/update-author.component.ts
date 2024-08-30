@@ -49,7 +49,7 @@ export class UpdateAuthorComponent {
   status: boolean;
   imageFile: File | null = null;
   imageSrc: string | ArrayBuffer | null = null;
-  countries: string[] = ['USA', 'UK', 'Vietnam', 'Japan'];
+  countries: string[] = ['Korea', 'English', 'Japan' , 'China'];
   selectedCountry: string = '';
 
   constructor(

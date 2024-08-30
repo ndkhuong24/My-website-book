@@ -38,7 +38,7 @@ export class AddAuthorComponent {
   birthDate: Date | null = null;
   selectedCountry: string = '';
   status: boolean = true;
-  countries: string[] = ['USA', 'UK', 'Vietnam', 'Japan'];
+  countries: string[] = ['Korea', 'English', 'Japan' , 'China'];
   imageFile: File | null = null;
   imageSrc: string | ArrayBuffer | null = null;
 
