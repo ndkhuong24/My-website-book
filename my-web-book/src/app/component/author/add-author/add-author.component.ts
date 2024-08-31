@@ -157,5 +157,4 @@ export class AddAuthorComponent {
       }, 0);
     }
   }
-
 }

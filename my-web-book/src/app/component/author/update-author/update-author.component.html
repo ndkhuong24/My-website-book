@@ -20,28 +20,53 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Bút danh</mat-label>
-            <input matInput [(ngModel)]="author.pen_name" />
+            <input matInput [(ngModel)]="author.pen_name" required minlength="3" maxlength="250"
+                pattern="^[a-zA-ZÀ-ỹ\s]+$" #penNameInput="ngModel" />
+            <mat-error *ngIf="penNameInput.errors?.['required']">Bút danh là bắt buộc.</mat-error>
+            <mat-error *ngIf="penNameInput.errors?.['minlength']">
+                Bút danh phải có ít nhất 3 ký tự.
+            </mat-error>
+            <mat-error *ngIf="penNameInput.errors?.['maxlength']">
+                Bút danh không được vượt quá 250 ký tự.
+            </mat-error>
+            <mat-error *ngIf="penNameInput.errors?.['pattern']">
+                Bút danh chỉ được chứa các ký tự chữ cái và khoảng trắng.
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Mô tả</mat-label>
-            <input matInput [(ngModel)]="author.bio" />
+            <input matInput [(ngModel)]="author.bio" required minlength="3" maxlength="2500" pattern="^[a-zA-ZÀ-ỹ\s]+$"
+                #descriptionInput="ngModel" />
+            <mat-error *ngIf="descriptionInput.errors?.['required']">Mô tả là bắt buộc.</mat-error>
+            <mat-error *ngIf="descriptionInput.errors?.['minlength']">
+                Mô tả phải có ít nhất 3 ký tự.
+            </mat-error>
+            <mat-error *ngIf="descriptionInput.errors?.['maxlength']">
+                Mô tả không được vượt quá 2500 ký tự.
+            </mat-error>
+            <mat-error *ngIf="descriptionInput.errors?.['pattern']">
+                Mô tả chỉ được chứa các ký tự chữ cái và khoảng trắng.
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Ngày sinh</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="author.birth_date" />
+            <input matInput [matDatepicker]="picker" [(ngModel)]="author.birth_date" required
+                #birthDateInput="ngModel" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="birthDateInput.errors?.['required']">Ngày sinh là bắt buộc.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Quốc gia</mat-label>
-            <mat-select [(ngModel)]="selectedCountry">
+            <mat-select [(ngModel)]="selectedCountry" required #countryInput="ngModel">
                 <mat-option *ngFor="let country of countries" [value]="country">
                     {{ country }}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="countryInput.errors?.['required']">Quốc gia là bắt buộc.</mat-error>
         </mat-form-field>
 
         <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)">
