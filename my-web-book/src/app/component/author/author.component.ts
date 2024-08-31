@@ -132,7 +132,7 @@ export class AuthorComponent implements OnInit {
 
   addAuthor(): void {
     const dialogRef = this.matdialog.open(AddAuthorComponent, {
-      width: '80vh',
+      width: '150vh',
       height: '80vh',
       disableClose: true
     });

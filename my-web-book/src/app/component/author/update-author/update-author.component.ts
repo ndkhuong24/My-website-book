@@ -96,7 +96,7 @@ export class UpdateAuthorComponent {
       (response) => {
         if (response && response.message) {
           if (response.message === 'Update Author successful!') {
-            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.toastr.success('Cập nhật thành công', 'Thông báo');
             this.dialogRef.close("updateAuthor");
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');

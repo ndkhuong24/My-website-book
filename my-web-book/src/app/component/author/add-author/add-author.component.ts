@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,7 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AuthorService } from '../../../service/author.service';
-import { ToastRef, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-author',
@@ -32,13 +33,17 @@ import { ToastRef, ToastrService } from 'ngx-toastr';
 })
 
 export class AddAuthorComponent {
+  @ViewChild('authorNameInput') authorNameInput!: NgModel;
+  @ViewChild('penNameInput') penNameInput!: NgModel;
+  @ViewChild('descriptionInput') descriptionInput!: NgModel;
+
   authorName: string = '';
-  penname: string = '';
+  penName: string = '';
   description: string = '';
   birthDate: Date | null = null;
   selectedCountry: string = '';
   status: boolean = true;
-  countries: string[] = ['Korea', 'English', 'Japan' , 'China'];
+  countries: string[] = ['Korea', 'English', 'Japan', 'China'];
   imageFile: File | null = null;
   imageSrc: string | ArrayBuffer | null = null;
 
@@ -73,28 +78,84 @@ export class AddAuthorComponent {
   }
 
   addAuthor() {
+    if (!this.authorName) {
+      this.toastr.error('Tên tác giả không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.authorNameInput);
+      return;
+    }
+
+    if (!this.penName) {
+      this.toastr.error('Bút danh không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.penNameInput);
+      return;
+    }
+
+    if (!this.description) {
+      this.toastr.error('Mô tả không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.descriptionInput);
+      return;
+    }
+
+    if (!this.birthDate) {
+      this.toastr.error('Ngày sinh không được để trống', 'Thông báo');
+      return;
+    }
+
+    if (!this.selectedCountry) {
+      this.toastr.error('Quốc gia không được để trống', 'Thông báo');
+      return;
+    }
+
+    if (!this.imageFile) {
+      this.toastr.error('Vui lòng tải lên hình ảnh', 'Thông báo');
+      return;
+    }
+
     const authorData = {
       name: this.authorName,
-      penName: this.penname,
+      penName: this.penName,
       description: this.description,
       birthDate: this.birthDate,
       selectedCountry: this.selectedCountry,
       status: this.status ? 1 : 0
     };
 
-    this.authorService.addAuthor(authorData, this.imageFile).subscribe(response => {
-      if (response && response.message) {
-        if (response.message === 'Create a new Author successful!') {
-          this.toastr.success('Thêm thành công', 'Thông báo');
-          this.dialogRef.close("addAuthor");
-        } else {
+    Swal.fire({
+      title: 'Bạn muốn thêm',
+      text: 'Thao tác này sẽ không hoàn tác',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Thêm',
+      cancelButtonText: 'Thoát',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authorService.addAuthor(authorData, this.imageFile).subscribe(response => {
+          if (response && response.message) {
+            if (response.message === 'Create a new Author successful!') {
+              this.toastr.success('Thêm thành công', 'Thông báo');
+              this.dialogRef.close("addAuthor");
+            } else {
+              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+            }
+          } else {
+            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          }
+        }, error => {
           this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-        }
-      } else {
-        this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+        });
       }
-    }, error => {
-      this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
     });
   }
+
+  focusOnErrorField(field: NgModel): void {
+    if (field?.invalid) {
+      setTimeout(() => {
+        const element = document.querySelector(`[name="${field.name}"]`) as HTMLInputElement;
+        element?.focus();
+      }, 0);
+    }
+  }
+
 }
