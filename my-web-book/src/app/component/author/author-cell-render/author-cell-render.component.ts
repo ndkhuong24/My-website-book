@@ -68,7 +68,7 @@ export class AuthorCellRenderComponent implements ICellRendererAngularComp {
 
     this.authorService.getById(rowData.id).subscribe((response) => {
       const dialogRef = this.matdialog.open(UpdateAuthorComponent, {
-        width: '80vh',
+        width: '150vh',
         height: '80vh',
         disableClose: true,
         data: response

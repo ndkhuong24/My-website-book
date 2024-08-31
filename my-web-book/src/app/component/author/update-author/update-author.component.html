@@ -4,7 +4,18 @@
     <div class="col-6">
         <mat-form-field appearance="fill">
             <mat-label>Tên tác giả</mat-label>
-            <input matInput [(ngModel)]="author.name" />
+            <input matInput [(ngModel)]="author.name" required minlength="3" maxlength="250" pattern="^[a-zA-ZÀ-ỹ\s]+$"
+                #authorNameInput="ngModel" />
+            <mat-error *ngIf="authorNameInput.errors?.['required']">Tên tác giả là bắt buộc.</mat-error>
+            <mat-error *ngIf="authorNameInput.errors?.['minlength']">
+                Tên tác giả phải có ít nhất 3 ký tự.
+            </mat-error>
+            <mat-error *ngIf="authorNameInput.errors?.['maxlength']">
+                Tên tác giả không được vượt quá 250 ký tự.
+            </mat-error>
+            <mat-error *ngIf="authorNameInput.errors?.['pattern']">
+                Tên tác giả chỉ được chứa các ký tự chữ cái và khoảng trắng.
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
@@ -42,7 +53,7 @@
         <input style="margin-bottom: 10px;" type="file" (change)="onFileChange($event)" />
         <div *ngIf="imageSrc || author.profile_picture">
             <img [src]="imageSrc || author.profile_picture" alt="Selected Image"
-                style="max-width: 100%; height: auto;" />
+                style="max-width: 256px; height: auto;" />
         </div>
     </div>
 </div>
