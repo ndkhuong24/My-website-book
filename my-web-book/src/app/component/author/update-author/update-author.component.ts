@@ -35,22 +35,31 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './update-author.component.scss'
 })
 export class UpdateAuthorComponent {
-  author = {
-    id: 0,
-    name: "",
-    pen_name: "",
-    bio: "",
-    birth_date: "",
-    nationality: "",
-    profile_picture: "",
-    status: 0
-  };
+  // author = {
+  //   id: 0,
+  //   name: "",
+  //   pen_name: "",
+  //   bio: "",
+  //   birth_date: "",
+  //   nationality: "",
+  //   profile_picture: "",
+  //   status: 0
+  // };
+  @ViewChild('authorNameInput') authorNameInput!: NgModel;
+  @ViewChild('penNameInput') penNameInput!: NgModel;
+  @ViewChild('descriptionInput') descriptionInput!: NgModel;
 
   status: boolean;
   imageFile: File | null = null;
   imageSrc: string | ArrayBuffer | null = null;
   countries: string[] = ['Korea', 'English', 'Japan', 'China'];
   selectedCountry: string = '';
+  authorName: string;
+  penName: string;
+  description: string;
+  birthDate: string;
+  profile_picture: string;
+  id: number;
 
   constructor(
     public dialogRef: MatDialogRef<UpdateAuthorComponent>,
@@ -58,9 +67,14 @@ export class UpdateAuthorComponent {
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
-    this.author = data;
     this.status = data.status;
     this.selectedCountry = data.nationality;
+    this.authorName = data.name;
+    this.penName = data.pen_name;
+    this.description = data.bio;
+    this.birthDate = data.birth_date;
+    this.profile_picture = data.profile_picture;
+    this.id = data.id;
   }
 
   onStatusChange(event: boolean): void {
@@ -82,22 +96,25 @@ export class UpdateAuthorComponent {
   }
 
   updateAuthor(): void {
-    if (!this.author.name) {
+    if (!this.authorName) {
       this.toastr.error('Tên tác giả không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.authorNameInput);
       return;
     }
 
-    if (!this.author.pen_name) {
+    if (!this.penName) {
       this.toastr.error('Bút danh không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.penNameInput);
       return;
     }
 
-    if (!this.author.bio) {
+    if (!this.description) {
       this.toastr.error('Mô tả không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.descriptionInput);
       return;
     }
 
-    if (!this.author.birth_date) {
+    if (!this.birthDate) {
       this.toastr.error('Ngày sinh không được để trống', 'Thông báo');
       return;
     }
@@ -107,17 +124,17 @@ export class UpdateAuthorComponent {
       return;
     }
 
-    if (!this.imageFile && !this.author.profile_picture) {
+    if (!this.imageFile && !this.profile_picture) {
       this.toastr.error('Vui lòng tải lên hình ảnh', 'Thông báo');
       return;
     }
 
     const authorDataCurrent = {
-      id: this.author.id,
-      name: this.author.name,
-      penName: this.author.pen_name,
-      description: this.author.bio,
-      birthDate: this.author.birth_date,
+      id: this.id,
+      name: this.authorName,
+      penName: this.penName,
+      description: this.description,
+      birthDate: this.birthDate,
       selectedCountry: this.selectedCountry,
       status: this.status ? 1 : 0
     };
@@ -133,7 +150,7 @@ export class UpdateAuthorComponent {
       cancelButtonText: 'Thoát',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authorService.updateAuthor(this.author.id, authorDataCurrent, this.imageFile).subscribe(
+        this.authorService.updateAuthor(this.id, authorDataCurrent, this.imageFile).subscribe(
           (response) => {
             if (response && response.message) {
               if (response.message === 'Update Author successful!') {
@@ -152,5 +169,14 @@ export class UpdateAuthorComponent {
         );
       }
     });
+  }
+
+  focusOnErrorField(field: NgModel): void {
+    if (field?.invalid) {
+      setTimeout(() => {
+        const element = document.querySelector(`[name="${field.name}"]`) as HTMLInputElement;
+        element?.focus();
+      }, 0);
+    }
   }
 }
