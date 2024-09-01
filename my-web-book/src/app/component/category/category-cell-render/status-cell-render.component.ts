@@ -3,7 +3,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'status-cell-renderer-author',
+  selector: 'status-cell-renderer-category',
   standalone: true,
   template: `
     <div class="tag {{ getTagClass() }}">
@@ -54,6 +54,7 @@ import { ICellRendererParams } from 'ag-grid-community';
     `,
   ],
 })
+
 export class StatusCellRenderComponent implements ICellRendererAngularComp {
   public value: string = '';
   public valueFormatted: string = '';

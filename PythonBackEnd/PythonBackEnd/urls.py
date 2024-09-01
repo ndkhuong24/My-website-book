@@ -12,6 +12,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/authors', views.ListCreateAuthorView.as_view(), name='list-create-authors'),
     path('api/authors/<int:pk>', views.UpdateDeleteAuthorView.as_view(), name='retrieve-update-delete-author'),
+    path('api/category', views.ListCreateCategoryView.as_view(), name='list-create-category'),
+    path('api/category/<int:pk>', views.UpdateDeleteCategoryView.as_view(), name='retrieve-update-delete-category'),
 ]
 
 if settings.DEBUG:

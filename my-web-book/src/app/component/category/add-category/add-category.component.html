@@ -1,0 +1,34 @@
+<h2 mat-dialog-title id="title">Thêm thể loại</h2>
+
+<div mat-dialog-content class="container">
+    <mat-form-field appearance="fill">
+        <mat-label>Tên thể loại</mat-label>
+        <input matInput [(ngModel)]="categoryName" name="categoryName" required minlength="3" maxlength="250"
+            pattern="^[a-zA-ZÀ-ỹ\s]+$" #categoryNameInput="ngModel" />
+        <mat-error *ngIf="categoryNameInput.errors?.['required']">Tên thể loại là bắt buộc.</mat-error>
+        <mat-error *ngIf="categoryNameInput.errors?.['minlength']">
+            Tên thể loại phải có ít nhất 3 ký tự.
+        </mat-error>
+        <mat-error *ngIf="categoryNameInput.errors?.['maxlength']">
+            Tên thể loại không được vượt quá 250 ký tự.
+        </mat-error>
+        <mat-error *ngIf="categoryNameInput.errors?.['pattern']">
+            Tên thể loại chỉ được chứa các ký tự chữ cái và khoảng trắng.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)">
+        {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
+    </mat-slide-toggle>
+</div>
+
+<br>
+
+<div id="button-layout" mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="onCancel()">
+        <mat-icon>close</mat-icon> Thoát
+    </button>
+    <button mat-raised-button color="primary" (click)="addCategory()">
+        <mat-icon>save</mat-icon> Thêm mới
+    </button>
+</div>
