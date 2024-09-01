@@ -83,6 +83,10 @@ export class UpdateCategoryComponent {
             if (response.message === 'Update Category successful!') {
               this.toastr.success('Cập nhật thành công', 'Thông báo');
               this.dialogRef.close("updateCategory");
+            } else if (response.error) {
+              // Trường hợp tên thể loại bị trùng
+              // this.toastr.error(response.error, 'Thông báo');
+              this.toastr.error('Tên thể loại bị trùng. Vui lòng chọn tin khác', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }
@@ -90,7 +94,13 @@ export class UpdateCategoryComponent {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
         }, error => {
-          this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          // Kiểm tra nếu lỗi do tên bị trùng
+          if (error.error && error.error.error) {
+            this.toastr.error('Tên thể loại bị trùng. Vui lòng chọn tin khác', 'Thông báo');
+            // this.toastr.error(error.error.error, 'Thông báo');
+          } else {
+            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          }
         });
       }
     });

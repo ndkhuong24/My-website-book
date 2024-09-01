@@ -49,6 +49,48 @@ export class AddCategoryComponent {
     this.dialogRef.close();
   }
 
+  // addCategory() {
+  //   if (!this.categoryName) {
+  //     this.toastr.error('Tên thể loại không được để trống', 'Thông báo');
+  //     this.focusOnErrorField(this.categoryNameInput);
+  //     return;
+  //   }
+
+  //   const categoryData = {
+  //     name: this.categoryName,
+  //     status: this.status ? 1 : 0
+  //   };
+
+  //   Swal.fire({
+  //     title: 'Bạn muốn thêm',
+  //     text: 'Thao tác này sẽ không hoàn tác',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Thêm',
+  //     cancelButtonText: 'Thoát',
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       this.categoryService.addCategory(categoryData).subscribe(response => {
+  //         if (response && response.message) {
+  //           if (response.message === 'Create a new Category successful!') {
+  //             this.toastr.success('Thêm thành công', 'Thông báo');
+  //             this.dialogRef.close("addCategory");
+  //           }
+  //           else {
+  //             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+  //           }
+  //         } else {
+  //           this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+  //         }
+  //       }, error => {
+  //         this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+  //       });
+  //     }
+  //   });
+  // }
+
   addCategory() {
     if (!this.categoryName) {
       this.toastr.error('Tên thể loại không được để trống', 'Thông báo');
@@ -77,6 +119,10 @@ export class AddCategoryComponent {
             if (response.message === 'Create a new Category successful!') {
               this.toastr.success('Thêm thành công', 'Thông báo');
               this.dialogRef.close("addCategory");
+            } else if (response.error) {
+              // Trường hợp tên thể loại bị trùng
+              // this.toastr.error(response.error, 'Thông báo');
+              this.toastr.error('Tên thể lại loại trùng. Vui lòng chọn tin khác', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }
@@ -84,7 +130,12 @@ export class AddCategoryComponent {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
         }, error => {
-          this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          // Kiểm tra nếu lỗi do tên bị trùng
+          if (error.error && error.error.error) {
+            this.toastr.error('Tên thể lại loại trùng. Vui lòng chọn tin khác', 'Thông báo');
+          } else {
+            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          }
         });
       }
     });
