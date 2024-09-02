@@ -35,7 +35,7 @@ class UpdateDeleteAuthorView(RetrieveUpdateDestroyAPIView):
         if Category.objects.filter(name=name).exclude(id=author.id).exists():
             raise ValidationError({'error': 'Author with this name already exists.'})
 
-        author.updated_at = timezone.now()  # Cập nhật thời gian hiện tại
+        author.updated_at = timezone.now()
         serializer = self.get_serializer(author, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

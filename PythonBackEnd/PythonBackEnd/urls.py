@@ -15,7 +15,7 @@ urlpatterns = [
     path('api/category', views.ListCreateCategoryView.as_view(), name='list-create-category'),
     path('api/category/<int:pk>', views.UpdateDeleteCategoryView.as_view(), name='retrieve-update-delete-category'),
     path('api/tags/', views.ListCreateTagsView.as_view(), name='list-create-tags'),
-    path('api/tags/<int:pk>/', views.UpdateDeleteTagsView.as_view(), name='retrieve-update-delete-tags'),
+    path('api/tags/<int:pk>', views.UpdateDeleteTagsView.as_view(), name='retrieve-update-delete-tags'),
 ]
 
 if settings.DEBUG:
