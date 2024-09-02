@@ -1,0 +1,32 @@
+<h2 mat-dialog-title id="title">Cập nhật tags</h2>
+
+<div mat-dialog-content class="container row">
+    <mat-form-field appearance="fill">
+        <mat-label>Tên tags</mat-label>
+        <input matInput [(ngModel)]="tagsName" name="tagsName" required minlength="3" maxlength="250"
+            pattern="^[a-zA-ZÀ-ỹ\s]+$" #tagsNameInput="ngModel" />
+        <mat-error *ngIf="tagsNameInput.errors?.['required']">Tên tags là bắt buộc.</mat-error>
+        <mat-error *ngIf="tagsNameInput.errors?.['minlength']">
+            Tên tags phải có ít nhất 3 ký tự.
+        </mat-error>
+        <mat-error *ngIf="tagsNameInput.errors?.['maxlength']">
+            Tên tags không được vượt quá 250 ký tự.
+        </mat-error>
+        <mat-error *ngIf="tagsNameInput.errors?.['pattern']">
+            Tên tags chỉ được chứa các ký tự chữ cái và khoảng trắng.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)">
+        {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
+    </mat-slide-toggle>
+</div>
+
+<div id="button-layout" mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="onCancel()">
+        <mat-icon>close</mat-icon> Thoát
+    </button>
+    <button mat-raised-button color="primary" (click)="updateTags()">
+        <mat-icon>save</mat-icon> Cập nhật
+    </button>
+</div>

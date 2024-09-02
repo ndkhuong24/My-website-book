@@ -18,24 +18,24 @@ export class TagsService {
         return this.http.delete<any>(`${this.apiUrl}/${id}`);
     }
 
-    // addCategory(categoryData: any): Observable<any> {
-    //     const formData = new FormData();
-    //     formData.append('name', categoryData.name);
-    //     formData.append('status', categoryData.status);
+    addTags(tagsData: any): Observable<any> {
+        const formData = new FormData();
+        formData.append('name', tagsData.name);
+        formData.append('status', tagsData.status);
 
-    //     return this.http.post<any>(this.apiUrl, formData);
-    // }
+        return this.http.post<any>(this.apiUrl, formData);
+    }
 
-    // getById(id: any): Observable<any> {
-    //     return this.http.get<any>(`${this.apiUrl}/${id}`);
-    // }
+    getById(id: any): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/${id}`);
+    }
 
-    // updateCategory(categoryId: number, categoryData: any): Observable<any> {
-    //     const formData = new FormData();
+    updateTags(tagsID: number, tagsData: any): Observable<any> {
+        const formData = new FormData();
 
-    //     formData.append('name', categoryData.name);
-    //     formData.append('status', categoryData.status);
+        formData.append('name', tagsData.name);
+        formData.append('status', tagsData.status);
 
-    //     return this.http.put<any>(`${this.apiUrl}/${categoryId}`, formData);
-    // }
+        return this.http.put<any>(`${this.apiUrl}/${tagsID}`, formData);
+    }
 }

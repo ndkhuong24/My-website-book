@@ -7,6 +7,7 @@ import { AuthorCellRenderComponent } from '../author/author-cell-render/author-c
 import { AgGridModule } from 'ag-grid-angular';
 import { StatusCellRenderComponent } from './tags-cell-render/status-cell-render.component';
 import { TagsCellRenderComponent } from './tags-cell-render/tags-cell-render.component';
+import { AddTagsComponent } from './add-tags/add-tags.component';
 
 @Component({
   selector: 'app-tags',
@@ -77,6 +78,18 @@ export class TagsComponent implements OnInit {
   }
 
   addTags() {
-    throw new Error('Method not implemented.');
+    const dialogRef = this.matdialog.open(AddTagsComponent, {
+      width: '45vh',
+      height: '45vh',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'addTags') {
+        // Handle the result here
+        this.ngOnInit();
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

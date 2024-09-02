@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { TagsComponent } from '../tags.component';
 import { TagsService } from '../../../service/tags.service';
+import { UpdateTagsComponent } from '../update-tags/update-tags.component';
 
 @Component({
   selector: 'app-tags-cell-render',
@@ -36,7 +37,6 @@ export class TagsCellRenderComponent implements ICellRendererAngularComp {
 
   onRemoveClick() {
     const rowData = this.params.data;
-    console.log(rowData)
 
     Swal.fire({
       title: 'Bạn có chắc muốn xóa',
@@ -63,7 +63,23 @@ export class TagsCellRenderComponent implements ICellRendererAngularComp {
   }
 
   onupdateClick() {
-    throw new Error('Method not implemented.');
+    const rowData = this.params.data;
+
+    this.tagsService.getById(rowData.id).subscribe((response) => {
+      const dialogRef = this.matdialog.open(UpdateTagsComponent, {
+        width: '45vh',
+        height: '45vh',
+        disableClose: true,
+        data: response
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'updateTags') {
+          this.tagsComponent.ngOnInit();
+          this.cdr.detectChanges();
+        }
+      });
+    });
   }
 
 }

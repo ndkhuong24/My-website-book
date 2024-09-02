@@ -2,19 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, NgModel } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TagsService } from '../../../service/tags.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { CategoryService } from '../../../service/category.service';
 
 @Component({
-  selector: 'app-add-category',
+  selector: 'app-add-tags',
   standalone: true,
   imports: [MatFormFieldModule,
     MatInputModule,
@@ -26,19 +26,19 @@ import { CategoryService } from '../../../service/category.service';
     MatIconModule,
     MatSelectModule,
     MatSlideToggleModule],
-  templateUrl: './add-category.component.html',
-  styleUrl: './add-category.component.scss'
+  templateUrl: './add-tags.component.html',
+  styleUrl: './add-tags.component.scss'
 })
-export class AddCategoryComponent {
-  @ViewChild('categoryNameInput') categoryNameInput!: NgModel;
+export class AddTagsComponent {
+  @ViewChild('tagsNameInput') tagsNameInput!: NgModel;
 
+  tagsName: string = '';
   status: boolean = true;
-  categoryName: any;
 
   constructor(
-    public dialogRef: MatDialogRef<AddCategoryComponent>,
+    public dialogRef: MatDialogRef<AddTagsComponent>,
     private toastr: ToastrService,
-    private categoryService: CategoryService
+    private tagsService: TagsService
   ) { }
 
   onStatusChange(newStatus: boolean): void {
@@ -49,15 +49,15 @@ export class AddCategoryComponent {
     this.dialogRef.close();
   }
 
-  addCategory() {
-    if (!this.categoryName) {
-      this.toastr.error('Tên thể loại không được để trống', 'Thông báo');
-      this.focusOnErrorField(this.categoryNameInput);
+  addTags() {
+    if (!this.tagsName) {
+      this.toastr.error('Tên tags không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.tagsNameInput);
       return;
     }
 
-    const categoryData = {
-      name: this.categoryName,
+    const tagsData = {
+      name: this.tagsName,
       status: this.status ? 1 : 0
     };
 
@@ -72,15 +72,13 @@ export class AddCategoryComponent {
       cancelButtonText: 'Thoát',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoryService.addCategory(categoryData).subscribe(response => {
+        this.tagsService.addTags(tagsData).subscribe(response => {
           if (response && response.message) {
-            if (response.message === 'Create a new Category successful!') {
+            if (response.message === 'Create a new Tags successful!') {
               this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addCategory");
+              this.dialogRef.close("addTags");
             } else if (response.error) {
-              // Trường hợp tên thể loại bị trùng
-              // this.toastr.error(response.error, 'Thông báo');
-              this.toastr.error('Tên thể lại loại trùng. Vui lòng chọn tin khác', 'Thông báo');
+              this.toastr.error('Tên tags loại trùng. Vui lòng chọn tin khác', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }
@@ -88,9 +86,8 @@ export class AddCategoryComponent {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
         }, error => {
-          // Kiểm tra nếu lỗi do tên bị trùng
           if (error.error && error.error.error) {
-            this.toastr.error('Tên thể lại loại trùng. Vui lòng chọn tin khác', 'Thông báo');
+            this.toastr.error('Tên tags loại trùng. Vui lòng chọn tin khác', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
