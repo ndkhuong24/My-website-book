@@ -153,6 +153,6 @@ CORS_ALLOW_HEADERS = [
     'accept',
     'authorization',
     'x-requested-with',
-    'x-csrftoken',
+    'x-carton',
     'x-xsrf-token',
 ]
