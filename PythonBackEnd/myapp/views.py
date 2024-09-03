@@ -5,8 +5,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
-from myapp.models import Author, Category, Tags
-from myapp.serializers import AuthorSerializer, CategorySerializer, TagsSerializer
+from myapp.models import Author, Category, Tags, Languages
+from myapp.serializers import AuthorSerializer, CategorySerializer, TagsSerializer, LanguagesSerializer
 
 
 class ListCreateAuthorView(ListCreateAPIView):
@@ -127,3 +127,44 @@ class UpdateDeleteTagsView(RetrieveUpdateDestroyAPIView):
 
         tags.delete()
         return Response({'message': 'Delete Tags successful!'}, status=status.HTTP_200_OK)
+
+
+class ListCreateLanguagesView(ListCreateAPIView):
+    queryset = Languages.objects.all()
+    serializer_class = LanguagesSerializer
+
+    def create(self, request, *args, **kwargs):
+        name = request.data.get('name')
+        if Languages.objects.filter(name=name).exists():
+            raise ValidationError({'error': 'Languages with this name already exists.'})
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Create a new Languages successful!'}, status=status.HTTP_201_CREATED)
+
+
+class UpdateDeleteLanguagesView(RetrieveUpdateDestroyAPIView):
+    queryset = Languages.objects.all()
+    serializer_class = LanguagesSerializer
+
+    def put(self, request, *args, **kwargs):
+        languages = self.get_object()
+        name = request.data.get('name')
+        if Languages.objects.filter(name=name).exclude(id=languages.id).exists():
+            raise ValidationError({'error': 'Languages with this name already exists.'})
+
+        languages.updated_at = timezone.now()  # Cập nhật thời gian hiện tại
+        serializer = self.get_serializer(languages, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Update Languages successful!'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            languages = self.get_object()
+        except Languages.DoesNotExist:
+            raise NotFound({'error': 'Languages not found.'})
+
+        languages.delete()
+        return Response({'message': 'Delete Languages successful!'}, status=status.HTTP_200_OK)

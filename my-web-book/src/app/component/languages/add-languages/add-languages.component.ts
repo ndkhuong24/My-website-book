@@ -2,21 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, NgModel } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TagsService } from '../../../service/tags.service';
 import { ToastrService } from 'ngx-toastr';
-import { MatDialogRef } from '@angular/material/dialog';
+import { LanguagesService } from '../../../service/languages.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-add-tags',
+  selector: 'app-add-languages',
   standalone: true,
-  imports: [MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
@@ -25,20 +26,21 @@ import Swal from 'sweetalert2';
     MatRadioModule,
     MatIconModule,
     MatSelectModule,
-    MatSlideToggleModule],
-  templateUrl: './add-tags.component.html',
-  styleUrl: './add-tags.component.scss'
+    MatSlideToggleModule
+  ],
+  templateUrl: './add-languages.component.html',
+  styleUrl: './add-languages.component.scss'
 })
-export class AddTagsComponent {
-  @ViewChild('tagsNameInput') tagsNameInput!: NgModel;
+export class AddLanguagesComponent {
+  @ViewChild('languagesNameInput') languagesNameInput!: NgModel;
 
-  tagsName: string = '';
+  languagesName: string = '';
   status: boolean = true;
 
   constructor(
-    public dialogRef: MatDialogRef<AddTagsComponent>,
+    public dialogRef: MatDialogRef<AddLanguagesComponent>,
     private toastr: ToastrService,
-    private tagsService: TagsService
+    private languagesService: LanguagesService
   ) { }
 
   onStatusChange(newStatus: boolean): void {
@@ -49,15 +51,15 @@ export class AddTagsComponent {
     this.dialogRef.close();
   }
 
-  addTags() {
-    if (!this.tagsName) {
-      this.toastr.error('Tên tags không được để trống', 'Thông báo');
-      this.focusOnErrorField(this.tagsNameInput);
+  addLanguages() {
+    if (!this.languagesName) {
+      this.toastr.error('Tên ngôn ngữ không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.languagesNameInput);
       return;
     }
 
-    const tagsData = {
-      name: this.tagsName,
+    const languagesData = {
+      name: this.languagesName,
       status: this.status ? 1 : 0
     };
 
@@ -72,13 +74,13 @@ export class AddTagsComponent {
       cancelButtonText: 'Thoát',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.tagsService.addTags(tagsData).subscribe(response => {
+        this.languagesService.addLanguages(languagesData).subscribe(response => {
           if (response && response.message) {
-            if (response.message === 'Create a new Tags successful!') {
+            if (response.message === 'Create a new Languages successful!') {
               this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addTags");
+              this.dialogRef.close("addLanguages");
             } else if (response.error) {
-              this.toastr.error('Tên tags trùng. Vui lòng chọn tin khác', 'Thông báo');
+              this.toastr.error('Tên ngôn ngữ loại trùng. Vui lòng chọn tin khác', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }
@@ -87,7 +89,7 @@ export class AddTagsComponent {
           }
         }, error => {
           if (error.error && error.error.error) {
-            this.toastr.error('Tên tags trùng. Vui lòng chọn tin khác', 'Thông báo');
+            this.toastr.error('Tên ngôn ngữ trùng. Vui lòng chọn tin khác', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

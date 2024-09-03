@@ -1,22 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, NgModel } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TagsService } from '../../../service/tags.service';
 import { ToastrService } from 'ngx-toastr';
-import { MatDialogRef } from '@angular/material/dialog';
+import { LanguagesService } from '../../../service/languages.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-add-tags',
+  selector: 'app-update-languages',
   standalone: true,
-  imports: [MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
@@ -25,21 +26,28 @@ import Swal from 'sweetalert2';
     MatRadioModule,
     MatIconModule,
     MatSelectModule,
-    MatSlideToggleModule],
-  templateUrl: './add-tags.component.html',
-  styleUrl: './add-tags.component.scss'
+    MatSlideToggleModule
+  ],
+  templateUrl: './update-languages.component.html',
+  styleUrl: './update-languages.component.scss'
 })
-export class AddTagsComponent {
-  @ViewChild('tagsNameInput') tagsNameInput!: NgModel;
+export class UpdateLanguagesComponent {
+  @ViewChild('languagesNameInput') languagesNameInput!: NgModel;
 
-  tagsName: string = '';
-  status: boolean = true;
+  languagesName: string;
+  status: boolean;
+  languagesID: number;
 
   constructor(
-    public dialogRef: MatDialogRef<AddTagsComponent>,
+    public dialogRef: MatDialogRef<UpdateLanguagesComponent>,
+    private languagesService: LanguagesService,
     private toastr: ToastrService,
-    private tagsService: TagsService
-  ) { }
+    @Inject(MAT_DIALOG_DATA) private data: any
+  ) {
+    this.languagesName = data.name;
+    this.status = data.status;
+    this.languagesID = data.id;
+  }
 
   onStatusChange(newStatus: boolean): void {
     this.status = newStatus;
@@ -49,36 +57,36 @@ export class AddTagsComponent {
     this.dialogRef.close();
   }
 
-  addTags() {
-    if (!this.tagsName) {
-      this.toastr.error('Tên tags không được để trống', 'Thông báo');
-      this.focusOnErrorField(this.tagsNameInput);
+  updateLanguages() {
+    if (!this.languagesName) {
+      this.toastr.error('Tên ngôn ngữ không được để trống', 'Thông báo');
+      this.focusOnErrorField(this.languagesNameInput);
       return;
     }
 
-    const tagsData = {
-      name: this.tagsName,
+    const languagesData = {
+      name: this.languagesName,
       status: this.status ? 1 : 0
     };
 
     Swal.fire({
-      title: 'Bạn muốn thêm',
+      title: 'Bạn muốn cập nhật',
       text: 'Thao tác này sẽ không hoàn tác',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Thêm',
+      confirmButtonText: 'Cập nhật',
       cancelButtonText: 'Thoát',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.tagsService.addTags(tagsData).subscribe(response => {
+        this.languagesService.updateLanguages(this.languagesID, languagesData).subscribe((response) => {
           if (response && response.message) {
-            if (response.message === 'Create a new Tags successful!') {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addTags");
+            if (response.message === 'Update Languages successful!') {
+              this.toastr.success('Cập nhật thành công', 'Thông báo');
+              this.dialogRef.close("updateLanguages");
             } else if (response.error) {
-              this.toastr.error('Tên tags trùng. Vui lòng chọn tin khác', 'Thông báo');
+              this.toastr.error('Tên ngôn ngữ bị trùng. Vui lòng chọn tin khác', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }
@@ -87,13 +95,13 @@ export class AddTagsComponent {
           }
         }, error => {
           if (error.error && error.error.error) {
-            this.toastr.error('Tên tags trùng. Vui lòng chọn tin khác', 'Thông báo');
+            this.toastr.error('Tên ngôn ngữ bị trùng. Vui lòng chọn tin khác', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
         });
       }
-    });
+    })
   }
 
   focusOnErrorField(field: NgModel): void {

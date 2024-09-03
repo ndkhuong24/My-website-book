@@ -35,3 +35,13 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Languages(models.Model):
+    name = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True)  # Tự động thiết lập thời gian khi tạo
+    updated_at = models.DateTimeField(auto_now=True)  # Tự động cập nhật thời gian khi lưu
+    status = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.name

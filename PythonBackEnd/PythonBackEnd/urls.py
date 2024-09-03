@@ -16,6 +16,8 @@ urlpatterns = [
     path('api/category/<int:pk>', views.UpdateDeleteCategoryView.as_view(), name='retrieve-update-delete-category'),
     path('api/tags', views.ListCreateTagsView.as_view(), name='list-create-tags'),
     path('api/tags/<int:pk>', views.UpdateDeleteTagsView.as_view(), name='retrieve-update-delete-tags'),
+    path('api/languages', views.ListCreateLanguagesView.as_view(), name='list-create-languages'),
+    path('api/languages/<int:pk>', views.UpdateDeleteLanguagesView.as_view(), name='retrieve-update-delete-languages'),
 ]
 
 if settings.DEBUG:
