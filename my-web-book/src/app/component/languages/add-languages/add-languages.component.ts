@@ -80,7 +80,7 @@ export class AddLanguagesComponent {
               this.toastr.success('Thêm thành công', 'Thông báo');
               this.dialogRef.close("addLanguages");
             } else if (response.error) {
-              this.toastr.error('Tên ngôn ngữ loại trùng. Vui lòng chọn tin khác', 'Thông báo');
+              this.toastr.error('Tên ngôn ngữ trùng. Vui lòng chọn tin khác', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }

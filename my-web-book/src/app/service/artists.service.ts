@@ -30,7 +30,7 @@ export class ArtistsService {
         return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
-    updateTags(artistsID: number, artistsData: any): Observable<any> {
+    updateArtists(artistsID: number, artistsData: any): Observable<any> {
         const formData = new FormData();
 
         formData.append('name', artistsData.name);
