@@ -28,7 +28,7 @@
     <button mat-raised-button color="warn" (click)="onCancel()">
         <mat-icon>close</mat-icon> Thoát
     </button>
-    <button mat-raised-button color="primary" (click)="addArtists()">
+    <button mat-raised-button color="primary" (click)="addArtists()" [disabled]="artistsNameInput.invalid">
         <mat-icon>save</mat-icon> Thêm mới
     </button>
 </div>

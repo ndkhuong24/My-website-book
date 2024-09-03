@@ -28,7 +28,7 @@
     <button mat-raised-button color="warn" (click)="onCancel()">
         <mat-icon>close</mat-icon> Thoát
     </button>
-    <button mat-raised-button color="primary" (click)="addTags()">
+    <button mat-raised-button color="primary" (click)="addTags()" [disabled]="tagsNameInput.invalid">
         <mat-icon>save</mat-icon> Thêm mới
     </button>
 </div>

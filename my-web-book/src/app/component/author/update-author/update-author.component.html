@@ -1,78 +1,6 @@
 <h2 mat-dialog-title id="title">Cập nhật tác giả</h2>
 
 <div mat-dialog-content class="container row">
-    <!-- <div class="col-6">
-        <mat-form-field appearance="fill">
-            <mat-label>Tên tác giả</mat-label>
-            <input matInput [(ngModel)]="author.name" required minlength="3" maxlength="250" pattern="^[a-zA-ZÀ-ỹ\s]+$"
-                #authorNameInput="ngModel" />
-            <mat-error *ngIf="authorNameInput.errors?.['required']">Tên tác giả là bắt buộc.</mat-error>
-            <mat-error *ngIf="authorNameInput.errors?.['minlength']">
-                Tên tác giả phải có ít nhất 3 ký tự.
-            </mat-error>
-            <mat-error *ngIf="authorNameInput.errors?.['maxlength']">
-                Tên tác giả không được vượt quá 250 ký tự.
-            </mat-error>
-            <mat-error *ngIf="authorNameInput.errors?.['pattern']">
-                Tên tác giả chỉ được chứa các ký tự chữ cái và khoảng trắng.
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Bút danh</mat-label>
-            <input matInput [(ngModel)]="author.pen_name" required minlength="3" maxlength="250"
-                pattern="^[a-zA-ZÀ-ỹ\s]+$" #penNameInput="ngModel" />
-            <mat-error *ngIf="penNameInput.errors?.['required']">Bút danh là bắt buộc.</mat-error>
-            <mat-error *ngIf="penNameInput.errors?.['minlength']">
-                Bút danh phải có ít nhất 3 ký tự.
-            </mat-error>
-            <mat-error *ngIf="penNameInput.errors?.['maxlength']">
-                Bút danh không được vượt quá 250 ký tự.
-            </mat-error>
-            <mat-error *ngIf="penNameInput.errors?.['pattern']">
-                Bút danh chỉ được chứa các ký tự chữ cái và khoảng trắng.
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Mô tả</mat-label>
-            <input matInput [(ngModel)]="author.bio" required minlength="3" maxlength="2500" pattern="^[a-zA-ZÀ-ỹ\s]+$"
-                #descriptionInput="ngModel" />
-            <mat-error *ngIf="descriptionInput.errors?.['required']">Mô tả là bắt buộc.</mat-error>
-            <mat-error *ngIf="descriptionInput.errors?.['minlength']">
-                Mô tả phải có ít nhất 3 ký tự.
-            </mat-error>
-            <mat-error *ngIf="descriptionInput.errors?.['maxlength']">
-                Mô tả không được vượt quá 2500 ký tự.
-            </mat-error>
-            <mat-error *ngIf="descriptionInput.errors?.['pattern']">
-                Mô tả chỉ được chứa các ký tự chữ cái và khoảng trắng.
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Ngày sinh</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="author.birth_date" required
-                #birthDateInput="ngModel" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <mat-error *ngIf="birthDateInput.errors?.['required']">Ngày sinh là bắt buộc.</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Quốc gia</mat-label>
-            <mat-select [(ngModel)]="selectedCountry" required #countryInput="ngModel">
-                <mat-option *ngFor="let country of countries" [value]="country">
-                    {{ country }}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="countryInput.errors?.['required']">Quốc gia là bắt buộc.</mat-error>
-        </mat-form-field>
-
-        <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)">
-            {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
-        </mat-slide-toggle>
-    </div> -->
     <div class="col-6">
         <mat-form-field appearance="fill">
             <mat-label>Tên tác giả</mat-label>
@@ -148,26 +76,17 @@
     <div class="col-6">
         <input style="margin-bottom: 10px;" type="file" (change)="onFileChange($event)" />
         <div *ngIf="imageSrc || profile_picture">
-            <img [src]="imageSrc || profile_picture" alt="Selected Image"
-                style="max-width: 256px; height: auto;" />
+            <img [src]="imageSrc || profile_picture" alt="Selected Image" style="max-width: 256px; height: auto;" />
         </div>
     </div>
-
-    <!-- <div class="col-6">
-        <input style="margin-bottom: 10px;" type="file" (change)="onFileChange($event)" />
-        <div *ngIf="imageSrc || author.profile_picture">
-            <img [src]="imageSrc || author.profile_picture" alt="Selected Image"
-                style="max-width: 256px; height: auto;" />
-        </div>
-    </div> -->
-
 </div>
 
 <div id="button-layout" mat-dialog-actions align="end">
     <button mat-raised-button color="warn" (click)="onCancel()">
         <mat-icon>close</mat-icon> Thoát
     </button>
-    <button mat-raised-button color="primary" (click)="updateAuthor()">
+    <button mat-raised-button color="primary" (click)="updateAuthor()" [disabled]="authorNameInput.invalid || penNameInput.invalid || descriptionInput.invalid || 
+                        birthDateInput.invalid || countryInput.invalid">
         <mat-icon>save</mat-icon> Cập nhật
     </button>
 </div>
