@@ -5,8 +5,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
-from myapp.models import Author, Category, Tags, Languages
-from myapp.serializers import AuthorSerializer, CategorySerializer, TagsSerializer, LanguagesSerializer
+from myapp.models import Author, Category, Tags, Languages, Artists
+from myapp.serializers import AuthorSerializer, CategorySerializer, TagsSerializer, LanguagesSerializer, \
+    ArtistsSerializer
 
 
 class ListCreateAuthorView(ListCreateAPIView):
@@ -72,7 +73,7 @@ class UpdateDeleteCategoryView(RetrieveUpdateDestroyAPIView):
         if Category.objects.filter(name=name).exclude(id=category.id).exists():
             raise ValidationError({'error': 'Category with this name already exists.'})
 
-        category.updated_at = timezone.now()  # Cập nhật thời gian hiện tại
+        category.updated_at = timezone.now()
         serializer = self.get_serializer(category, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -113,7 +114,7 @@ class UpdateDeleteTagsView(RetrieveUpdateDestroyAPIView):
         if Tags.objects.filter(name=name).exclude(id=tags.id).exists():
             raise ValidationError({'error': 'Tags with this name already exists.'})
 
-        tags.updated_at = timezone.now()  # Cập nhật thời gian hiện tại
+        tags.updated_at = timezone.now()
         serializer = self.get_serializer(tags, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -154,7 +155,7 @@ class UpdateDeleteLanguagesView(RetrieveUpdateDestroyAPIView):
         if Languages.objects.filter(name=name).exclude(id=languages.id).exists():
             raise ValidationError({'error': 'Languages with this name already exists.'})
 
-        languages.updated_at = timezone.now()  # Cập nhật thời gian hiện tại
+        languages.updated_at = timezone.now()
         serializer = self.get_serializer(languages, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -168,3 +169,44 @@ class UpdateDeleteLanguagesView(RetrieveUpdateDestroyAPIView):
 
         languages.delete()
         return Response({'message': 'Delete Languages successful!'}, status=status.HTTP_200_OK)
+
+
+class ListCreateArtistsView(ListCreateAPIView):
+    queryset = Artists.objects.all()
+    serializer_class = ArtistsSerializer
+
+    def create(self, request, *args, **kwargs):
+        name = request.data.get('name')
+        if Artists.objects.filter(name=name).exists():
+            raise ValidationError({'error': 'Artists with this name already exists.'})
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Create a new Artists successful!'}, status=status.HTTP_201_CREATED)
+
+
+class UpdateDeleteArtistsView(RetrieveUpdateDestroyAPIView):
+    queryset = Artists.objects.all()
+    serializer_class = ArtistsSerializer
+
+    def put(self, request, *args, **kwargs):
+        artists = self.get_object()
+        name = request.data.get('name')
+        if Artists.objects.filter(name=name).exclude(id=artists.id).exists():
+            raise ValidationError({'error': 'Artists with this name already exists.'})
+
+        artists.updated_at = timezone.now()
+        serializer = self.get_serializer(artists, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Update Artists successful!'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            artists = self.get_object()
+        except Artists.DoesNotExist:
+            raise NotFound({'error': 'Artists not found.'})
+
+        artists.delete()
+        return Response({'message': 'Delete Artists successful!'}, status=status.HTTP_200_OK)

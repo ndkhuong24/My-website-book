@@ -1,6 +1,19 @@
 from django.db import models
 
 
+class CommonInfo(models.Model):
+    name = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.IntegerField(default=1)
+
+    class Meta:
+        abstract = True  # Định nghĩa lớp này là trừu tượng
+
+    def __str__(self):
+        return self.name
+
+
 class Author(models.Model):
     name = models.CharField(max_length=250)
     pen_name = models.CharField(max_length=250, blank=True,
@@ -17,31 +30,56 @@ class Author(models.Model):
         return self.name
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=250)
-    created_at = models.DateTimeField(auto_now_add=True)  # Tự động thiết lập thời gian khi tạo
-    updated_at = models.DateTimeField(auto_now=True)  # Tự động cập nhật thời gian khi lưu
-    status = models.IntegerField(default=1)
-
-    def __str__(self):
-        return self.name
+class Category(CommonInfo):
+    pass
 
 
-class Tags(models.Model):
-    name = models.CharField(max_length=250)
-    created_at = models.DateTimeField(auto_now_add=True)  # Tự động thiết lập thời gian khi tạo
-    updated_at = models.DateTimeField(auto_now=True)  # Tự động cập nhật thời gian khi lưu
-    status = models.IntegerField(default=1)
-
-    def __str__(self):
-        return self.name
+class Tags(CommonInfo):
+    pass
 
 
-class Languages(models.Model):
-    name = models.CharField(max_length=250)
-    created_at = models.DateTimeField(auto_now_add=True)  # Tự động thiết lập thời gian khi tạo
-    updated_at = models.DateTimeField(auto_now=True)  # Tự động cập nhật thời gian khi lưu
-    status = models.IntegerField(default=1)
+class Languages(CommonInfo):
+    pass
 
-    def __str__(self):
-        return self.name
+
+class Artists(CommonInfo):
+    pass
+
+# class Category(models.Model):
+#     name = models.CharField(max_length=250)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     status = models.IntegerField(default=1)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Tags(models.Model):
+#     name = models.CharField(max_length=250)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     status = models.IntegerField(default=1)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Languages(models.Model):
+#     name = models.CharField(max_length=250)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     status = models.IntegerField(default=1)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Artists(models.Model):
+#     name = models.CharField(max_length=250)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     status = models.IntegerField(default=1)
+#
+#     def __str__(self):
+#         return self.name

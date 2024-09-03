@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Author, Category, Tags, Languages
+from .models import Author, Category, Tags, Languages, Artists
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -24,4 +24,10 @@ class TagsSerializer(serializers.ModelSerializer):
 class LanguagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Languages
+        fields = '__all__'
+
+
+class ArtistsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artists
         fields = '__all__'

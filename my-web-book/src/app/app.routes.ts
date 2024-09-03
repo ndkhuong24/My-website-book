@@ -3,10 +3,12 @@ import { AuthorComponent } from './component/author/author.component';
 import { CategoryComponent } from './component/category/category.component';
 import { TagsComponent } from './component/tags/tags.component';
 import { LanguagesComponent } from './component/languages/languages.component';
+import { ArtistsComponent } from './component/artists/artists.component';
 
 export const routes: Routes = [
     { path: 'api/author', component: AuthorComponent },
     { path: 'api/category', component: CategoryComponent },
     { path: 'api/tags', component: TagsComponent },
     { path: 'api/languages', component: LanguagesComponent },
+    { path: 'api/artists', component: ArtistsComponent },
 ];

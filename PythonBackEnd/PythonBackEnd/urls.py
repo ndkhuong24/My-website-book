@@ -18,6 +18,8 @@ urlpatterns = [
     path('api/tags/<int:pk>', views.UpdateDeleteTagsView.as_view(), name='retrieve-update-delete-tags'),
     path('api/languages', views.ListCreateLanguagesView.as_view(), name='list-create-languages'),
     path('api/languages/<int:pk>', views.UpdateDeleteLanguagesView.as_view(), name='retrieve-update-delete-languages'),
+    path('api/artists', views.ListCreateArtistsView.as_view(), name='list-create-artists'),
+    path('api/artists/<int:pk>', views.UpdateDeleteArtistsView.as_view(), name='retrieve-update-delete-artists'),
 ]
 
 if settings.DEBUG:
