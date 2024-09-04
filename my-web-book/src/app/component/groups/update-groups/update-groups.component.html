@@ -1,1 +1,32 @@
-<p>update-groups works!</p>
+<h2 mat-dialog-title id="title">Cập nhật groups</h2>
+
+<div mat-dialog-content class="container row">
+    <mat-form-field appearance="fill">
+        <mat-label>Tên groups</mat-label>
+        <input matInput [(ngModel)]="groupsName" name="groupsName" required minlength="3" maxlength="250"
+            pattern="^[a-zA-ZÀ-ỹ\s]+$" #groupsNameInput="ngModel" />
+        <mat-error *ngIf="groupsNameInput.errors?.['required']">Tên groups là bắt buộc.</mat-error>
+        <mat-error *ngIf="groupsNameInput.errors?.['minlength']">
+            Tên groups phải có ít nhất 3 ký tự.
+        </mat-error>
+        <mat-error *ngIf="groupsNameInput.errors?.['maxlength']">
+            Tên groups không được vượt quá 250 ký tự.
+        </mat-error>
+        <mat-error *ngIf="groupsNameInput.errors?.['pattern']">
+            Tên groups chỉ được chứa các ký tự chữ cái và khoảng trắng.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)">
+        {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
+    </mat-slide-toggle>
+</div>
+
+<div id="button-layout" mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="onCancel()">
+        <mat-icon>close</mat-icon> Thoát
+    </button>
+    <button mat-raised-button color="primary" (click)="updateGroups()" [disabled]="groupsNameInput.invalid">
+        <mat-icon>save</mat-icon> Cập nhật
+    </button>
+</div>

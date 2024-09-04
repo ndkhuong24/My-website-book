@@ -18,7 +18,7 @@ export class GroupsService {
         return this.http.delete<any>(`${this.apiUrl}/${id}`);
     }
 
-    addGroupsComponent(groupsData: any): Observable<any> {
+    addGroups(groupsData: any): Observable<any> {
         const formData = new FormData();
         formData.append('name', groupsData.name);
         formData.append('status', groupsData.status);
@@ -30,7 +30,7 @@ export class GroupsService {
         return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
-    updateGroupsComponent(groupsID: number, groupsData: any): Observable<any> {
+    updateGroups(groupsID: number, groupsData: any): Observable<any> {
         const formData = new FormData();
 
         formData.append('name', groupsData.name);
