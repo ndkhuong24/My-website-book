@@ -5,9 +5,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
-from myapp.models import Author, Category, Tags, Languages, Artists
+from myapp.models import Author, Category, Tags, Languages, Artists, Parodies, Characters, Groups
 from myapp.serializers import AuthorSerializer, CategorySerializer, TagsSerializer, LanguagesSerializer, \
-    ArtistsSerializer
+    ArtistsSerializer, ParodiesSerializer, CharactersSerializer, GroupsSerializer
 
 
 class ListCreateAuthorView(ListCreateAPIView):
@@ -210,3 +210,126 @@ class UpdateDeleteArtistsView(RetrieveUpdateDestroyAPIView):
 
         artists.delete()
         return Response({'message': 'Delete Artists successful!'}, status=status.HTTP_200_OK)
+
+
+class ListCreateParodiesView(ListCreateAPIView):
+    queryset = Parodies.objects.all()
+    serializer_class = ParodiesSerializer
+
+    def create(self, request, *args, **kwargs):
+        name = request.data.get('name')
+        if Parodies.objects.filter(name=name).exists():
+            raise ValidationError({'error': 'Parodies with this name already exists.'})
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Create a new Parodies successful!'}, status=status.HTTP_201_CREATED)
+
+
+class UpdateDeleteParodiesView(RetrieveUpdateDestroyAPIView):
+    queryset = Parodies.objects.all()
+    serializer_class = ParodiesSerializer
+
+    def put(self, request, *args, **kwargs):
+        parodies = self.get_object()
+        name = request.data.get('name')
+        if Parodies.objects.filter(name=name).exclude(id=parodies.id).exists():
+            raise ValidationError({'error': 'Parodies with this name already exists.'})
+
+        parodies.updated_at = timezone.now()
+        serializer = self.get_serializer(parodies, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Update Parodies successful!'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            parodies = self.get_object()
+        except Parodies.DoesNotExist:
+            raise NotFound({'error': 'Parodies not found.'})
+
+        parodies.delete()
+        return Response({'message': 'Delete Parodies successful!'}, status=status.HTTP_200_OK)
+
+
+class ListCreateCharactersView(ListCreateAPIView):
+    queryset = Characters.objects.all()
+    serializer_class = CharactersSerializer
+
+    def create(self, request, *args, **kwargs):
+        name = request.data.get('name')
+        if Characters.objects.filter(name=name).exists():
+            raise ValidationError({'error': 'Characters with this name already exists.'})
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Create a new Characters successful!'}, status=status.HTTP_201_CREATED)
+
+
+class UpdateDeleteCharactersView(RetrieveUpdateDestroyAPIView):
+    queryset = Characters.objects.all()
+    serializer_class = CharactersSerializer
+
+    def put(self, request, *args, **kwargs):
+        characters = self.get_object()
+        name = request.data.get('name')
+        if Characters.objects.filter(name=name).exclude(id=characters.id).exists():
+            raise ValidationError({'error': 'Characters with this name already exists.'})
+
+        characters.updated_at = timezone.now()
+        serializer = self.get_serializer(characters, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Update Characters successful!'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            characters = self.get_object()
+        except Characters.DoesNotExist:
+            raise NotFound({'error': 'Characters not found.'})
+
+        characters.delete()
+        return Response({'message': 'Delete Characters successful!'}, status=status.HTTP_200_OK)
+
+
+class ListCreateGroupsView(ListCreateAPIView):
+    queryset = Groups.objects.all()
+    serializer_class = GroupsSerializer
+
+    def create(self, request, *args, **kwargs):
+        name = request.data.get('name')
+        if Groups.objects.filter(name=name).exists():
+            raise ValidationError({'error': 'Group with this name already exists.'})
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Create a new Group successful!'}, status=status.HTTP_201_CREATED)
+
+
+class UpdateDeleteGroupsView(RetrieveUpdateDestroyAPIView):
+    queryset = Groups.objects.all()
+    serializer_class = GroupsSerializer
+
+    def put(self, request, *args, **kwargs):
+        groups = self.get_object()
+        name = request.data.get('name')
+        if Groups.objects.filter(name=name).exclude(id=groups.id).exists():
+            raise ValidationError({'error': 'Group with this name already exists.'})
+
+        groups.updated_at = timezone.now()
+        serializer = self.get_serializer(groups, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message': 'Update Group successful!'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            groups = self.get_object()
+        except Groups.DoesNotExist:
+            raise NotFound({'error': 'Group not found.'})
+
+        groups.delete()
+        return Response({'message': 'Delete Group successful!'}, status=status.HTTP_200_OK)

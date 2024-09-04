@@ -1,33 +1,48 @@
 from rest_framework import serializers
 
-from .models import Author, Category, Tags, Languages, Artists
+from .models import Author, Category, Tags, Languages, Artists, Groups, Characters, Parodies
 
 
-class AuthorSerializer(serializers.ModelSerializer):
+class BaseModelSerializer(serializers.ModelSerializer):
     class Meta:
+        fields = '__all__'
+
+
+class AuthorSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
         model = Author
-        fields = '__all__'
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
+class CategorySerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
         model = Category
-        fields = '__all__'
 
 
-class TagsSerializer(serializers.ModelSerializer):
-    class Meta:
+class TagsSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
         model = Tags
-        fields = '__all__'
 
 
-class LanguagesSerializer(serializers.ModelSerializer):
-    class Meta:
+class LanguagesSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
         model = Languages
-        fields = '__all__'
 
 
-class ArtistsSerializer(serializers.ModelSerializer):
-    class Meta:
+class ArtistsSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
         model = Artists
-        fields = '__all__'
+
+
+class CharactersSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
+        model = Characters
+
+
+class GroupsSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
+        model = Groups
+
+
+class ParodiesSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
+        model = Parodies
