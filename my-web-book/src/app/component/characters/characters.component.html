@@ -1,1 +1,6 @@
-<p>characters works!</p>
+<div class="container" *ngIf="isBrowser">
+    <button class="btn btn-secondary" id="button-add" (click)="addCharacters()">Thêm mới</button>
+
+    <ag-grid-angular style="width: 100%; height: 600px;" class="ag-theme-alpine" [rowData]="rowData"
+        [columnDefs]="columnDefs" [headerHeight]="headerHeight" [rowHeight]="rowHeight"></ag-grid-angular>
+</div>

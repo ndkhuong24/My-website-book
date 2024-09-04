@@ -28,7 +28,6 @@ export class LanguagesComponent implements OnInit {
     private matdialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private languagesService: LanguagesService
-
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }

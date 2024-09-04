@@ -18,7 +18,7 @@ export class CharactersService {
         return this.http.delete<any>(`${this.apiUrl}/${id}`);
     }
 
-    addCharactersComponent(charactersData: any): Observable<any> {
+    addCharacters(charactersData: any): Observable<any> {
         const formData = new FormData();
         formData.append('name', charactersData.name);
         formData.append('status', charactersData.status);
@@ -30,7 +30,7 @@ export class CharactersService {
         return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
-    updadteCharactersComponent(charactersID: number, charactersData: any): Observable<any> {
+    updadteCharacters(charactersID: number, charactersData: any): Observable<any> {
         const formData = new FormData();
 
         formData.append('name', charactersData.name);
