@@ -20,11 +20,11 @@ urlpatterns = [
     path('api/languages/<int:pk>', views.UpdateDeleteLanguagesView.as_view(), name='retrieve-update-delete-languages'),
     path('api/artists', views.ListCreateArtistsView.as_view(), name='list-create-artists'),
     path('api/artists/<int:pk>', views.UpdateDeleteArtistsView.as_view(), name='retrieve-update-delete-artists'),
-    path('api/artists', views.ListCreateParodiesView.as_view(), name='list-create-artists'),
-    path('api/artists/<int:pk>', views.UpdateDeleteParodiesView.as_view(), name='retrieve-update-delete-artists'),
-    path('api/artists', views.ListCreateCharactersView.as_view(), name='list-create-artists'),
-    path('api/artists/<int:pk>', views.UpdateDeleteCharactersView.as_view(), name='retrieve-update-delete-groups'),
-    path('api/groups', views.ListCreateGroupsView.as_view(), name='list-create-artists'),
+    path('api/parodies', views.ListCreateParodiesView.as_view(), name='list-create-parodies'),
+    path('api/parodies/<int:pk>', views.UpdateDeleteParodiesView.as_view(), name='retrieve-update-delete-parodies'),
+    path('api/characters', views.ListCreateCharactersView.as_view(), name='list-create-characters'),
+    path('api/characters/<int:pk>', views.UpdateDeleteCharactersView.as_view(), name='retrieve-update-delete-characters'),
+    path('api/groups', views.ListCreateGroupsView.as_view(), name='list-create-groups'),
     path('api/groups/<int:pk>', views.UpdateDeleteGroupsView.as_view(), name='retrieve-update-delete-groups'),
 ]
 
