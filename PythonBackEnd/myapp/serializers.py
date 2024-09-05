@@ -1,18 +1,15 @@
 from rest_framework import serializers
 
-from .models import Author, Category, Tags, Languages, Artists, Groups, Characters, Parodies
+from .models import Category, Tags, Languages, Artists, Groups, Characters, Parodies
 
 
 class BaseModelSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = '__all__'
+        fields = '__all__'  # Đặt fields ở đây, các serializer khác sẽ tự động kế thừa
+        # Nếu có nhu cầu khác như read-only fields, bạn có thể thêm vào đây sau này
 
 
-class AuthorSerializer(BaseModelSerializer):
-    class Meta(BaseModelSerializer.Meta):
-        model = Author
-
-
+# Serializer cho từng model kế thừa từ BaseModelSerializer
 class CategorySerializer(BaseModelSerializer):
     class Meta(BaseModelSerializer.Meta):
         model = Category

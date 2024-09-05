@@ -73,8 +73,8 @@ export class AddCategoryComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.addCategory(categoryData).subscribe(response => {
-          if (response && response.message) {
-            if (response.message === 'Create a new Category successful!') {
+          if (response && response.status) {
+            if (response.status === 201) {
               this.toastr.success('Thêm thành công', 'Thông báo');
               this.dialogRef.close("addCategory");
             } else if (response.error) {
