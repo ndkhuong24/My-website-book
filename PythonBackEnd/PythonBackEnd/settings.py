@@ -156,3 +156,6 @@ CORS_ALLOW_HEADERS = [
     'x-carton',
     'x-xsrf-token',
 ]
+
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
+USE_TZ = True

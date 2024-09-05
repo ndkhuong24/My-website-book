@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Groups } from '../models/Groups.model';
+import { ResponseMessage } from '../models/response.model';
+import { GroupCreateUpdateData } from '../models/Groups-create-update.model';
 
 @Injectable({
     providedIn: 'root'
@@ -10,32 +13,28 @@ export class GroupsService {
 
     constructor(private http: HttpClient) { }
 
-    getAllGroups(): Observable<any> {
-        return this.http.get<any>(this.apiUrl);
+    // Lấy tất cả các nhóm
+    getAllGroups(): Observable<Groups[]> {
+        return this.http.get<Groups[]>(this.apiUrl);
     }
 
-    deleteById(id: number): Observable<any> {
-        return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    // Xóa nhóm theo ID, phản hồi một thông báo
+    deleteById(id: number): Observable<ResponseMessage> {
+        return this.http.delete<ResponseMessage>(`${this.apiUrl}/${id}`);
     }
 
-    addGroups(groupsData: any): Observable<any> {
-        const formData = new FormData();
-        formData.append('name', groupsData.name);
-        formData.append('status', groupsData.status);
-
-        return this.http.post<any>(this.apiUrl, formData);
+    // Thêm mới một nhóm
+    addGroups(groupsData: GroupCreateUpdateData): Observable<ResponseMessage> {
+        return this.http.post<ResponseMessage>(this.apiUrl, groupsData);
     }
 
-    getById(id: any): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/${id}`);
+    // Lấy thông tin nhóm theo ID
+    getById(id: number): Observable<Groups> {
+        return this.http.get<Groups>(`${this.apiUrl}/${id}`);
     }
 
-    updateGroups(groupsID: number, groupsData: any): Observable<any> {
-        const formData = new FormData();
-
-        formData.append('name', groupsData.name);
-        formData.append('status', groupsData.status);
-
-        return this.http.put<any>(`${this.apiUrl}/${groupsID}`, formData);
+    // Cập nhật thông tin nhóm
+    updateGroups(groupsID: number, groupData: GroupCreateUpdateData): Observable<ResponseMessage> {
+        return this.http.put<ResponseMessage>(`${this.apiUrl}/${groupsID}`, groupData);
     }
 }

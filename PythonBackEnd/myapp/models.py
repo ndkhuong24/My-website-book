@@ -1,9 +1,11 @@
 from django.db import models
+from django.utils import timezone
+from django.utils.timezone import localtime
 
 
 class CommonInfo(models.Model):
     name = models.CharField(max_length=250)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.IntegerField(default=1)
 
@@ -12,6 +14,16 @@ class CommonInfo(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def local_created_at(self):
+        """Trả về thời gian tạo theo múi giờ địa phương"""
+        return localtime(self.created_at)
+
+    @property
+    def local_updated_at(self):
+        """Trả về thời gian cập nhật theo múi giờ địa phương"""
+        return localtime(self.updated_at)
 
 
 class Author(models.Model):
@@ -28,6 +40,16 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def local_created_at(self):
+        """Trả về thời gian tạo theo múi giờ địa phương"""
+        return localtime(self.created_at)
+
+    @property
+    def local_updated_at(self):
+        """Trả về thời gian cập nhật theo múi giờ địa phương"""
+        return localtime(self.updated_at)
 
 
 class Category(CommonInfo):
@@ -56,42 +78,3 @@ class Characters(CommonInfo):
 
 class Groups(CommonInfo):
     pass
-
-# class Category(models.Model):
-#     name = models.CharField(max_length=250)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     status = models.IntegerField(default=1)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Tags(models.Model):
-#     name = models.CharField(max_length=250)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     status = models.IntegerField(default=1)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Languages(models.Model):
-#     name = models.CharField(max_length=250)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     status = models.IntegerField(default=1)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Artists(models.Model):
-#     name = models.CharField(max_length=250)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     status = models.IntegerField(default=1)
-#
-#     def __str__(self):
-#         return self.name

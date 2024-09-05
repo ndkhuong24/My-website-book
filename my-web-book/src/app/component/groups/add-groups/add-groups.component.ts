@@ -12,6 +12,8 @@ import { GroupsService } from '../../../service/groups.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { ResponseMessage } from '../../../models/response.model';
+import { error } from 'console';
 
 @Component({
   selector: 'app-add-groups',
@@ -74,26 +76,33 @@ export class AddGroupsComponent {
       cancelButtonText: 'Thoát',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.groupsService.addGroups(groupsData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Create a new Group successful!') {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addGroups");
-            } else if (response.error) {
+        this.groupsService.addGroups(groupsData).subscribe(
+          (response: ResponseMessage) => {
+            if (response) {
+              if (response.message) {
+                if (response.message === 'Create a new Group successful!') {
+                  this.toastr.success('Thêm thành công', 'Thông báo');
+                  this.dialogRef.close("addGroups");
+                } else {
+                  this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+                }
+              } else if (response.error) {
+                this.toastr.error(response.error, 'Thông báo');
+              } else {
+                this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+              }
+            } else {
+              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+            }
+          },
+          (error) => {
+            if (error.error && error.error.error) {
               this.toastr.error('Tên groups trùng. Vui lòng chọn tin khác', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên groups trùng. Vui lòng chọn tin khác', 'Thông báo');
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        });
+        )
       }
     });
   }
