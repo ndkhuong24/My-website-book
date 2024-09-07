@@ -50,14 +50,13 @@ export class CategoryCellRenderComponent implements ICellRendererAngularComp {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.deleteById(rowData.id).subscribe((response) => {
-          console.log(response)
-          // if (response.message === 'Delete Category successful!') {
-          //   this.toastr.success('Xóa thành công', 'Thông báo');
-          //   this.categoryComponen.ngOnInit();
-          //   this.cdr.detectChanges();
-          // } else {
-          //   this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          // }
+          if (response.status === 200) {
+            this.toastr.success('Xóa thành công', 'Thông báo');
+            this.categoryComponen.ngOnInit();
+            this.cdr.detectChanges();
+          } else {
+            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          }
         });
       }
     });

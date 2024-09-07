@@ -79,8 +79,8 @@ export class UpdateCategoryComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.updateCategory(this.categoryId, categoryData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Update Category successful!') {
+          if (response && response.status) {
+            if (response.status === 200) {
               this.toastr.success('Cập nhật thành công', 'Thông báo');
               this.dialogRef.close("updateCategory");
             } else if (response.error) {
