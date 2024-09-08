@@ -75,8 +75,8 @@ export class AddParodiesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.parodiesService.addParodies(parodiesData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Create a new Parodies successful!') {
+          if (response && response.status) {
+            if (response.status === 201) {
               this.toastr.success('Thêm thành công', 'Thông báo');
               this.dialogRef.close("addParodies");
             } else if (response.error) {

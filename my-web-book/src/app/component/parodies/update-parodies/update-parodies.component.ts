@@ -81,8 +81,8 @@ export class UpdateParodiesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.parodiesService.updateParodies(this.parodiesID, parodiesData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Update Parodies successful!') {
+          if (response && response.status) {
+            if (response.status === 200) {
               this.toastr.success('Cập nhật thành công', 'Thông báo');
               this.dialogRef.close("updateParodies");
             } else if (response.error) {
