@@ -139,7 +139,7 @@ class ListCreateCharactersView(BaseListCreateView):
 
 class UpdateDeleteCharactersView(BaseUpdateDeleteView):
     model = Characters
-    serializer_class = CharactersSerializeráda
+    serializer_class = CharactersSerializer
 
 
 class ListCreateGroupsView(BaseListCreateView):
