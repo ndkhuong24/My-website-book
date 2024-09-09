@@ -2,9 +2,9 @@ from rest_framework import status as http_status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
-from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups
+from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups, Comic
 from myapp.serializers import CategorySerializer, TagsSerializer, LanguagesSerializer, ArtistsSerializer, \
-    ParodiesSerializer, CharactersSerializer, GroupsSerializer
+    ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer
 
 
 class ServiceResult:
@@ -150,3 +150,8 @@ class ListCreateGroupsView(BaseListCreateView):
 class UpdateDeleteGroupsView(BaseUpdateDeleteView):
     model = Groups
     serializer_class = GroupsSerializer
+
+
+class ListCreateComicView(BaseListCreateView):
+    model = Comic
+    serializer_class = ComicSerializer

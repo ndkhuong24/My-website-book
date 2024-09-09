@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category, Tags, Languages, Artists, Groups, Characters, Parodies
+from .models import Category, Tags, Languages, Artists, Groups, Characters, Parodies, Comic
 
 
 class BaseModelSerializer(serializers.ModelSerializer):
@@ -43,3 +43,8 @@ class GroupsSerializer(BaseModelSerializer):
 class ParodiesSerializer(BaseModelSerializer):
     class Meta(BaseModelSerializer.Meta):
         model = Parodies
+
+
+class ComicSerializer(BaseModelSerializer):
+    class Meta(BaseModelSerializer.Meta):
+        model = Comic
