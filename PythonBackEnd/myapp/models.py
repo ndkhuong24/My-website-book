@@ -68,7 +68,7 @@ class Comic(models.Model):
     )
 
     name = models.CharField(max_length=250)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_picture/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Tự động thiết lập thời gian khi tạo
     updated_at = models.DateTimeField(auto_now=True)  # Tự động cập nhật thời gian khi lưu
     tags = models.ManyToManyField('Tags', related_name='comics', blank=True)
