@@ -4,7 +4,7 @@
     <mat-form-field appearance="fill">
         <mat-label>Tên tags</mat-label>
         <input matInput [(ngModel)]="tagsName" name="tagsName" required minlength="3" maxlength="250"
-            pattern="^[a-zA-ZÀ-ỹ\s]+$" #tagsNameInput="ngModel" />
+            pattern="^[a-zA-ZÀ-ỹ\s-]+$" #tagsNameInput="ngModel" />
         <mat-error *ngIf="tagsNameInput.errors?.['required']">Tên tags là bắt buộc.</mat-error>
         <mat-error *ngIf="tagsNameInput.errors?.['minlength']">
             Tên tags phải có ít nhất 3 ký tự.

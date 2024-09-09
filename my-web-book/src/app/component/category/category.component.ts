@@ -2,7 +2,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AgGridModule } from 'ag-grid-angular';
-import { AuthorCellRenderComponent } from '../author/author-cell-render/author-cell-render.component';
 import { ColDef } from 'ag-grid-community';
 import { CategoryService } from '../../service/category.service';
 import { StatusCellRenderComponent } from './category-cell-render/status-cell-render.component';
@@ -12,7 +11,7 @@ import { AddCategoryComponent } from './add-category/add-category.component';
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule],
+  imports: [AgGridModule, CommonModule, MatDialogModule],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss'
 })

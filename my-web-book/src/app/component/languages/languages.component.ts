@@ -3,7 +3,6 @@ import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angu
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AgGridModule } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-import { AuthorCellRenderComponent } from '../author/author-cell-render/author-cell-render.component';
 import { LanguagesService } from '../../service/languages.service';
 import { StatusCellRenderComponent } from './languages-cell-render/status-cell-render.component';
 import { LanguagesCellRenderComponent } from './languages-cell-render/languages-cell-render.component';
@@ -12,7 +11,7 @@ import { AddLanguagesComponent } from './add-languages/add-languages.component';
 @Component({
   selector: 'app-languages',
   standalone: true,
-  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule],
+  imports: [AgGridModule, CommonModule, MatDialogModule],
   templateUrl: './languages.component.html',
   styleUrl: './languages.component.scss'
 })

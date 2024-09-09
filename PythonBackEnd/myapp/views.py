@@ -23,7 +23,7 @@ class BaseListCreateView(ListCreateAPIView):
     serializer_class = None
 
     def get_queryset(self):
-        return self.model.objects.all()
+        return self.model.objects.all().order_by('name')
 
     def create(self, request, *args, **kwargs):
         name = request.data.get('name')

@@ -2,7 +2,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AgGridModule } from 'ag-grid-angular';
-import { AuthorCellRenderComponent } from '../author/author-cell-render/author-cell-render.component';
 import { ColDef } from 'ag-grid-community';
 import { ArtistsService } from '../../service/artists.service';
 import { StatusCellRenderComponent } from './artists-cell-render/status-cell-render.component';
@@ -13,7 +12,7 @@ import { AddArtistsComponent } from './add-artists/add-artists.component';
   selector: 'app-artists',
   standalone: true,
   imports: [
-    AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule
+    AgGridModule, CommonModule, MatDialogModule
   ],
   templateUrl: './artists.component.html',
   styleUrl: './artists.component.scss'

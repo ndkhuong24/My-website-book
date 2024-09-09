@@ -4,7 +4,6 @@ import { CharactersService } from '../../service/characters.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AgGridModule } from 'ag-grid-angular';
-import { AuthorCellRenderComponent } from '../author/author-cell-render/author-cell-render.component';
 import { StatusCellRenderComponent } from './characters-cell-render/status-cell-render.component';
 import { CharactersCellRenderComponent } from './characters-cell-render/characters-cell-render.component';
 import { AddCharactersComponent } from './add-characters/add-characters.component';
@@ -12,7 +11,7 @@ import { AddCharactersComponent } from './add-characters/add-characters.componen
 @Component({
   selector: 'app-characters',
   standalone: true,
-  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule],
+  imports: [AgGridModule, CommonModule, MatDialogModule],
   templateUrl: './characters.component.html',
   styleUrl: './characters.component.scss'
 })

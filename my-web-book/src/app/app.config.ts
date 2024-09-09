@@ -10,7 +10,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AddAuthorComponent } from './component/author/add-author/add-author.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -39,6 +38,5 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     SidebarComponent,
     HeaderComponent,
-    AddAuthorComponent
   ]
 };

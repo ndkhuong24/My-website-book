@@ -68,12 +68,15 @@ class Comic(models.Model):
     )
 
     name = models.CharField(max_length=250)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)  # Lưu đường dẫn của ảnh
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Tự động thiết lập thời gian khi tạo
     updated_at = models.DateTimeField(auto_now=True)  # Tự động cập nhật thời gian khi lưu
     tags = models.ManyToManyField('Tags', related_name='comics', blank=True)
     artists = models.ManyToManyField('Artists', related_name='comics', blank=True)
     languages = models.ManyToManyField('Languages', related_name='comics', blank=True)
+    parodies = models.ManyToManyField('Parodies', related_name='comics', blank=True)
+    characters = models.ManyToManyField('Characters', related_name='comics', blank=True)
+    groups = models.ManyToManyField('Groups', related_name='comics', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1)
 
     def __str__(self):

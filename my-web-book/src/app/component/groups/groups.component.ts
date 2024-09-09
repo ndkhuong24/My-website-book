@@ -4,7 +4,6 @@ import { GroupsService } from '../../service/groups.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AgGridModule } from 'ag-grid-angular';
-import { AuthorCellRenderComponent } from '../author/author-cell-render/author-cell-render.component';
 import { StatusCellRenderComponent } from './groups-cell-render/status-cell-render.component';
 import { GroupsCellRenderComponent } from './groups-cell-render/groups-cell-render.component';
 import { AddGroupsComponent } from './add-groups/add-groups.component';
@@ -12,7 +11,7 @@ import { AddGroupsComponent } from './add-groups/add-groups.component';
 @Component({
   selector: 'app-groups',
   standalone: true,
-  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule],
+  imports: [AgGridModule, CommonModule, MatDialogModule],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.scss'
 })

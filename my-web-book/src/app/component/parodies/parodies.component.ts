@@ -2,7 +2,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AgGridModule } from 'ag-grid-angular';
-import { AuthorCellRenderComponent } from '../author/author-cell-render/author-cell-render.component';
 import { ColDef } from 'ag-grid-community';
 import { ParodiesService } from '../../service/parodies.service';
 import { StatusCellRenderComponent } from './parodies-cell-render/status-cell-render.component';
@@ -12,7 +11,7 @@ import { AddParodiesComponent } from './add-parodies/add-parodies.component';
 @Component({
   selector: 'app-parodies',
   standalone: true,
-  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule],
+  imports: [AgGridModule, CommonModule, MatDialogModule],
   templateUrl: './parodies.component.html',
   styleUrl: './parodies.component.scss'
 })

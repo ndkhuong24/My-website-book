@@ -3,7 +3,6 @@ import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angu
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ColDef } from 'ag-grid-community';
 import { TagsService } from '../../service/tags.service';
-import { AuthorCellRenderComponent } from '../author/author-cell-render/author-cell-render.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { StatusCellRenderComponent } from './tags-cell-render/status-cell-render.component';
 import { TagsCellRenderComponent } from './tags-cell-render/tags-cell-render.component';
@@ -12,7 +11,7 @@ import { AddTagsComponent } from './add-tags/add-tags.component';
 @Component({
   selector: 'app-tags',
   standalone: true,
-  imports: [AgGridModule, CommonModule, AuthorCellRenderComponent, MatDialogModule],
+  imports: [AgGridModule, CommonModule, MatDialogModule],
   templateUrl: './tags.component.html',
   styleUrl: './tags.component.scss'
 })
