@@ -19,13 +19,13 @@ export class GroupsService {
     }
 
     // Xóa nhóm theo ID, phản hồi một thông báo
-    deleteById(id: number): Observable<ResponseMessage> {
-        return this.http.delete<ResponseMessage>(`${this.apiUrl}/${id}`);
+    deleteById(id: number): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/${id}`);
     }
 
     // Thêm mới một nhóm
-    addGroups(groupsData: GroupCreateUpdateData): Observable<ResponseMessage> {
-        return this.http.post<ResponseMessage>(this.apiUrl, groupsData);
+    addGroups(groupsData: GroupCreateUpdateData): Observable<any> {
+        return this.http.post<any>(this.apiUrl, groupsData);
     }
 
     // Lấy thông tin nhóm theo ID
@@ -34,7 +34,7 @@ export class GroupsService {
     }
 
     // Cập nhật thông tin nhóm
-    updateGroups(groupsID: number, groupData: GroupCreateUpdateData): Observable<ResponseMessage> {
-        return this.http.put<ResponseMessage>(`${this.apiUrl}/${groupsID}`, groupData);
+    updateGroups(groupsID: number, groupData: GroupCreateUpdateData): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/${groupsID}`, groupData);
     }
 }

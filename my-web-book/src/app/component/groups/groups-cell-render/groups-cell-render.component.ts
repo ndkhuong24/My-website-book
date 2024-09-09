@@ -50,7 +50,7 @@ export class GroupsCellRenderComponent implements ICellRendererAngularComp {
     }).then((result) => {
       if (result.isConfirmed) {
         this.groupsService.deleteById(rowData.id).subscribe((response) => {
-          if (response.message === 'Delete Group successful!') {
+          if (response.status === 200) {
             this.toastr.success('Xóa thành công', 'Thông báo');
             this.groupsComponent.ngOnInit();
             this.cdr.detectChanges();

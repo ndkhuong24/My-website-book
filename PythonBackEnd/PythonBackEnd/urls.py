@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/characters/<uuid:pk>', views.UpdateDeleteCharactersView.as_view(),
          name='retrieve-update-delete-characters'),
     path('api/groups', views.ListCreateGroupsView.as_view(), name='list-create-groups'),
-    path('api/groups/<int:pk>', views.UpdateDeleteGroupsView.as_view(), name='retrieve-update-delete-groups'),
+    path('api/groups/<uuid:pk>', views.UpdateDeleteGroupsView.as_view(), name='retrieve-update-delete-groups'),
 ]
 
 if settings.DEBUG:

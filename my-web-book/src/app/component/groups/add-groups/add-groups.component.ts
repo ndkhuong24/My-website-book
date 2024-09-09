@@ -77,10 +77,10 @@ export class AddGroupsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.groupsService.addGroups(groupsData).subscribe(
-          (response: ResponseMessage) => {
+          (response) => {
             if (response) {
-              if (response.message) {
-                if (response.message === 'Create a new Group successful!') {
+              if (response.status) {
+                if (response.status === 201) {
                   this.toastr.success('Thêm thành công', 'Thông báo');
                   this.dialogRef.close("addGroups");
                 } else {

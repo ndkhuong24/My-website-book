@@ -84,10 +84,10 @@ export class UpdateGroupsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.groupsService.updateGroups(this.groupsID, groupsData).subscribe(
-          (response: ResponseMessage) => {
+          (response) => {
             if (response) {
-              if (response.message) {
-                if (response.message === 'Update Group successful!') {
+              if (response.status) {
+                if (response.status === 200) {
                   this.toastr.success('Cập nhật thành công', 'Thông báo');
                   this.dialogRef.close("updateGroups");
                 } else {
