@@ -77,6 +77,7 @@ class Comic(models.Model):
     parodies = models.ManyToManyField('Parodies', related_name='comics', blank=True)
     characters = models.ManyToManyField('Characters', related_name='comics', blank=True)
     groups = models.ManyToManyField('Groups', related_name='comics', blank=True)
+    category = models.ManyToManyField('Category', related_name='comics', blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1)
 
     def __str__(self):
