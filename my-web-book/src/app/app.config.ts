@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
       FormsModule,
       ReactiveFormsModule,
       MatNativeDateModule,
-      AgGridModule
+      AgGridModule,
     ),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),

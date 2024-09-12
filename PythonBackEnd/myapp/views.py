@@ -155,3 +155,8 @@ class UpdateDeleteGroupsView(BaseUpdateDeleteView):
 class ListCreateComicView(BaseListCreateView):
     model = Comic
     serializer_class = ComicSerializer
+
+
+class UpdateDeleteComicView(BaseUpdateDeleteView):
+    model = Comic
+    serializer_class = ComicSerializer

@@ -7,6 +7,7 @@ import { ComicService } from '../../service/comic.service';
 import { CategoryService } from '../../service/category.service';
 import { StatusCellRenderComponent } from './comic-cell-render/status-cell-render.component';
 
+
 @Component({
   selector: 'app-comic',
   standalone: true,
@@ -19,12 +20,15 @@ export class ComicComponent implements OnInit {
   rowData: any[] = [];
   columnDefs: ColDef[] = [];
   headerHeight: number = 38;
-  rowHeight: number = 80;
+  rowHeight: number = 100;
+  masterDetail = true;
+  detailRowAutoHeight = true;
+  detailCellRendererParams: any;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private comicService: ComicService,
-    private categoryService:CategoryService,
+    private categoryService: CategoryService,
     private matdialog: MatDialog,
     private cdr: ChangeDetectorRef
   ) {
@@ -40,7 +44,6 @@ export class ComicComponent implements OnInit {
   initAgGrid(): void {
     this.comicService.getAllComic().subscribe((response) => {
       this.rowData = response
-      console.log(this.rowData)
     })
 
     this.columnDefs = [
@@ -50,7 +53,14 @@ export class ComicComponent implements OnInit {
         sortable: true,
         filter: true,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        flex: 1
+      },
+      {
+        headerName: 'Ảnh bìa',
+        field: 'profile_picture',
+        sortable: true,
+        cellRenderer: (params: { value: any }) => {
+          return `<img src="${params.value}" style="height: 100%;"/>`;
+        },
       },
       {
         headerName: 'Trạng thái',
@@ -59,14 +69,11 @@ export class ComicComponent implements OnInit {
         filter: true,
         cellRenderer: StatusCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        flex: 1
       },
       {
         headerName: 'Chức năng',
         field: 'actions',
-        // cellRenderer: ArtistsCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        flex: 1
       },
     ];
   }
