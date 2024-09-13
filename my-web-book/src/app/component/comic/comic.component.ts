@@ -2,10 +2,18 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef } from 'ag-grid-community';
+import { ClientSideRowModelModule, ColDef, GridApi, GridReadyEvent, ModuleRegistry } from 'ag-grid-community';
 import { ComicService } from '../../service/comic.service';
 import { CategoryService } from '../../service/category.service';
 import { StatusCellRenderComponent } from './comic-cell-render/status-cell-render.component';
+
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  // ExcelExportModule,
+  // SetFilterModule,
+  // MultiFilterModule,
+  // MasterDetailModule,
+]);
 
 
 @Component({
@@ -24,6 +32,7 @@ export class ComicComponent implements OnInit {
   masterDetail = true;
   detailRowAutoHeight = true;
   detailCellRendererParams: any;
+  private gridApi!: GridApi;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -76,6 +85,10 @@ export class ComicComponent implements OnInit {
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
       },
     ];
+  }
+
+  onGridReady(params: GridReadyEvent) {
+    this.gridApi = params.api;
   }
 
   addComic() {
