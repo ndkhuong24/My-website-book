@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, NgModel } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, NgModel, FormGroup, NgForm } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -104,4 +104,17 @@ export class AddTagsComponent {
       }, 0);
     }
   }
+
+  handleEnter(event: any) {
+    event.preventDefault(); // Ngăn hành vi mặc định của Enter
+
+    // Nếu đang focus vào nút "Thoát", kích hoạt hành động thoát
+    if (document.activeElement?.id === 'button-cancel') {
+      this.onCancel();
+    } else {
+      // Nếu không, kích hoạt hành động thêm tags
+      this.addTags();
+    }
+  }
+
 }

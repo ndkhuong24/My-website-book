@@ -2,37 +2,38 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AgGridModule } from 'ag-grid-angular';
-import { ClientSideRowModelModule, ColDef, GridApi, GridReadyEvent, ModuleRegistry } from 'ag-grid-community';
+import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { ModuleRegistry } from '@ag-grid-community/core';
+import { MasterDetailModule } from '@ag-grid-enterprise/master-detail';
+import { ExcelExportModule } from '@ag-grid-enterprise/excel-export';
+import { MultiFilterModule } from '@ag-grid-enterprise/multi-filter';
+import { SetFilterModule } from '@ag-grid-enterprise/set-filter';
 import { ComicService } from '../../service/comic.service';
 import { CategoryService } from '../../service/category.service';
 import { StatusCellRenderComponent } from './comic-cell-render/status-cell-render.component';
-
-ModuleRegistry.registerModules([
-  ClientSideRowModelModule,
-  // ExcelExportModule,
-  // SetFilterModule,
-  // MultiFilterModule,
-  // MasterDetailModule,
-]);
-
+import { response } from 'express';
+import { ComicCellRenderComponent } from './comic-cell-render/comic-cell-render.component';
+import { AddComicComponent } from './add-comic/add-comic.component';
 
 @Component({
   selector: 'app-comic',
   standalone: true,
-  imports: [AgGridModule, CommonModule, MatDialogModule],
+  imports: [
+    AgGridModule,
+    CommonModule,
+    MatDialogModule,
+  ],
   templateUrl: './comic.component.html',
-  styleUrl: './comic.component.scss'
+  styleUrls: ['./comic.component.scss']
 })
+
+
 export class ComicComponent implements OnInit {
   isBrowser: boolean;
   rowData: any[] = [];
   columnDefs: ColDef[] = [];
   headerHeight: number = 38;
   rowHeight: number = 100;
-  masterDetail = true;
-  detailRowAutoHeight = true;
-  detailCellRendererParams: any;
-  private gridApi!: GridApi;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -52,8 +53,8 @@ export class ComicComponent implements OnInit {
 
   initAgGrid(): void {
     this.comicService.getAllComic().subscribe((response) => {
-      this.rowData = response
-    })
+      this.rowData = response;
+    });
 
     this.columnDefs = [
       {
@@ -68,7 +69,103 @@ export class ComicComponent implements OnInit {
         field: 'profile_picture',
         sortable: true,
         cellRenderer: (params: { value: any }) => {
-          return `<img src="${params.value}" style="height: 100%;"/>`;
+          return `<img src="${params.value}" style="height: 100px; width: auto;"/>`;
+        },
+      },
+      {
+        headerName: 'Tags',
+        field: 'tags',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        valueFormatter: (params: { value: any }) => {
+          if (Array.isArray(params.value)) {
+            return `${params.value.length} tags`;
+          } else {
+            return 'No tags';
+          }
+        },
+      },
+      {
+        headerName: 'Thể loại',
+        valueGetter: (params: { data: any }) => {
+          if (params.data && params.data.category && params.data.category.length > 0) {
+            return params.data.category[0].name;
+          } else {
+            return 'Chưa có thể loại';
+          }
+        },
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+      },
+      {
+        headerName: 'Ngôn ngữ',
+        valueGetter: (params: { data: any }) => {
+          if (params.data && params.data.languages && params.data.languages.length > 0) {
+            return params.data.languages[0].name;
+          } else {
+            return 'Chưa có ngôn ngữ';
+          }
+        },
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+      },
+      {
+        headerName: 'Artists',
+        field: 'artists',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        valueFormatter: (params: { value: any }) => {
+          if (Array.isArray(params.value)) {
+            return `${params.value.length} artists`;
+          } else {
+            return 'No artists';
+          }
+        },
+      },
+      {
+        headerName: 'Groups',
+        field: 'groups',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        valueFormatter: (params: { value: any }) => {
+          if (Array.isArray(params.value)) {
+            return `${params.value.length} groups`;
+          } else {
+            return 'No groups';
+          }
+        },
+      },
+      {
+        headerName: 'Parodies',
+        field: 'parodies',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        valueFormatter: (params: { value: any }) => {
+          if (Array.isArray(params.value)) {
+            return `${params.value.length} parodies`;
+          } else {
+            return 'No parodies';
+          }
+        },
+      },
+      {
+        headerName: 'Characters',
+        field: 'characters',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        valueFormatter: (params: { value: any }) => {
+          if (Array.isArray(params.value)) {
+            return `${params.value.length} characters`;
+          } else {
+            return 'No characters';
+          }
         },
       },
       {
@@ -82,16 +179,25 @@ export class ComicComponent implements OnInit {
       {
         headerName: 'Chức năng',
         field: 'actions',
+        cellRenderer: ComicCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        pinned: 'right',
       },
     ];
   }
 
-  onGridReady(params: GridReadyEvent) {
-    this.gridApi = params.api;
-  }
-
   addComic() {
-    throw new Error('Method not implemented.');
+    const dialogRef = this.matdialog.open(AddComicComponent, {
+      width: '100vh',
+      height: '100vh',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'addComic') {
+        this.ngOnInit();
+        this.cdr.detectChanges();
+      }
+    })
   }
 }

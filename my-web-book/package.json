@@ -11,6 +11,10 @@
   },
   "private": true,
   "dependencies": {
+    "@ag-grid-enterprise/excel-export": "^32.1.0",
+    "@ag-grid-enterprise/master-detail": "^32.1.0",
+    "@ag-grid-enterprise/multi-filter": "^32.1.0",
+    "@ag-grid-enterprise/set-filter": "^32.1.0",
     "@angular/animations": "^18.0.0",
     "@angular/cdk": "^18.2.2",
     "@angular/common": "^18.0.0",

@@ -14,9 +14,9 @@ export class ComicService {
         return this.http.get<any>(this.apiUrl);
     }
 
-    // deleteById(id: number): Observable<any> {
-    //     return this.http.delete<any>(`${this.apiUrl}/${id}`);
-    // }
+    deleteById(id: number): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    }
 
     // addAuthor(authorData: any, profilePicture: File | null): Observable<any> {
     //     const formData = new FormData();

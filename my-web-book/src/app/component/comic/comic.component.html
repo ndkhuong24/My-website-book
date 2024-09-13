@@ -2,8 +2,6 @@
     <button class="btn btn-secondary" id="button-add" (click)="addComic()">Thêm mới</button>
 
     <ag-grid-angular style="width: 100%; height: 600px;" class="ag-theme-alpine" [rowData]="rowData"
-        (gridReady)="onGridReady($event)" [columnDefs]="columnDefs" [headerHeight]="headerHeight"
-        [masterDetail]="masterDetail" [detailCellRendererParams]="detailCellRendererParams" [rowHeight]="rowHeight"
-        [detailRowAutoHeight]="detailRowAutoHeight">
+        [columnDefs]="columnDefs" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
     </ag-grid-angular>
 </div>

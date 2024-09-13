@@ -48,7 +48,7 @@ export class ParodiesComponent implements OnInit {
         headerName: 'STT',
         valueGetter: (params) => params.node?.rowIndex != null ? params.node.rowIndex + 1 : null,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        flex: 1
+        
       },
       {
         headerName: 'Tên',
@@ -56,7 +56,7 @@ export class ParodiesComponent implements OnInit {
         sortable: true,
         filter: true,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        flex: 1
+        
       },
       {
         headerName: 'Trạng thái',
@@ -65,14 +65,14 @@ export class ParodiesComponent implements OnInit {
         filter: true,
         cellRenderer: StatusCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        flex: 1
+        
       },
       {
         headerName: 'Chức năng',
         field: 'actions',
         cellRenderer: ParodiesCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        flex: 1
+        
       },
     ];
   }
