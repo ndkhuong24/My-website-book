@@ -76,8 +76,8 @@
         </div>
     </div>
 
-    <div class="col-12">
-        <ag-grid-angular *ngIf="rowData.length > 0" style="width: 100%; height: auto;" class="ag-theme-alpine"
+    <div class="col-4">
+        <ag-grid-angular *ngIf="rowData.length > 0" style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
             [rowData]="rowData" [columnDefs]="columnDefs" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
         </ag-grid-angular>
     </div>

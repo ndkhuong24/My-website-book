@@ -19,9 +19,10 @@ import { ParodiesService } from '../../../service/parodies.service';
 import { CharactersService } from '../../../service/characters.service';
 import { GroupsService } from '../../../service/groups.service';
 import { CategoryService } from '../../../service/category.service';
-import { MatCheckboxModule } from '@angular/material/checkbox'; // Thêm dòng này
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ColDef } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
+import { ButtonCellRendererComponent } from './button-cell-renderer.component';
 
 @Component({
   selector: 'app-add-comic',
@@ -39,7 +40,6 @@ import { AgGridModule } from 'ag-grid-angular';
     MatSlideToggleModule,
     MatCheckboxModule,
     AgGridModule,
-    // MatDialogModule,
   ],
   templateUrl: './add-comic.component.html',
   styleUrl: './add-comic.component.scss'
@@ -48,7 +48,7 @@ export class AddComicComponent {
   rowData: any[] = [];
   columnDefs: ColDef[] = [];
   headerHeight: number = 38;
-  rowHeight: number = 100
+  rowHeight: number = 50
 
   imageFile: File | null = null;
   imageSrc: string | ArrayBuffer | null = null;
@@ -69,7 +69,8 @@ export class AddComicComponent {
   selectedLanguages: any[] = [];
   selectedArtist: number | null = null;
   selectedGroup: number | null = null;
-  selectedTags: number | null = null;
+  // selectedTags: number | null = null;
+  selectedTags: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<AddComicComponent>,
@@ -152,14 +153,59 @@ export class AddComicComponent {
     });
   }
 
-  onChangeTags(selectedId: number | null) {
-    this.selectedTags = selectedId;
+  onChangeTags(selectedIds: string[]) {
+    this.selectedTags = selectedIds;
 
     this.tagsActive.forEach((tag: any) => {
-      tag.selected = (tag.id === selectedId);
+      tag.selected = false;
     });
+
+    this.rowData = selectedIds.map(selectedId => {
+      const selectedTag = this.tagsActive.find(tag => tag.id === selectedId);
+      if (selectedTag) {
+        selectedTag.selected = true;
+        return selectedTag;
+      }
+      return null;
+    }).filter(tag => tag !== null);
+
+    this.columnDefs = [
+      {
+        headerName: 'Tên',
+        field: 'name',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1
+      },
+      {
+        headerName: 'Chức năng',
+        field: 'actions',
+        cellRenderer: ButtonCellRendererComponent,
+        cellRendererParams: {
+          onClick: this.onButtonClick.bind(this)
+        },
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1
+      },
+    ];
   }
 
+  onButtonClick(rowData: any) {
+    console.log(rowData.id);
+
+    // Xóa mục khỏi selectedTags
+    this.selectedTags = this.selectedTags.filter(tagId => tagId !== rowData.id);
+
+    // Cập nhật lại rowData và tagsActive
+    this.tagsActive.forEach((tag: any) => {
+      if (tag.id === rowData.id) {
+        tag.selected = false;
+      }
+    });
+
+    this.rowData = this.rowData.filter(tag => tag.id !== rowData.id);
+  }
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
