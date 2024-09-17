@@ -10,7 +10,7 @@ export class LanguagesService {
 
     constructor(private http: HttpClient) { }
 
-    getAllTags(): Observable<any> {
+    getAllLanguages(): Observable<any> {
         return this.http.get<any>(this.apiUrl);
     }
 

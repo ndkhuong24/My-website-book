@@ -54,14 +54,23 @@ class ComicSerializer(serializers.ModelSerializer):
     groups = GroupsSerializer(many=True, read_only=True)
     category = CategorySerializer(many=True, read_only=True)
 
-    # Sử dụng PrimaryKeyRelatedField để tạo hoặc cập nhật qua ID
-    tags_ids = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(), many=True, write_only=True)
-    artists_ids = serializers.PrimaryKeyRelatedField(queryset=Artists.objects.all(), many=True, write_only=True)
-    languages_ids = serializers.PrimaryKeyRelatedField(queryset=Languages.objects.all(), many=True, write_only=True)
-    parodies_ids = serializers.PrimaryKeyRelatedField(queryset=Parodies.objects.all(), many=True, write_only=True)
-    characters_ids = serializers.PrimaryKeyRelatedField(queryset=Characters.objects.all(), many=True, write_only=True)
-    groups_ids = serializers.PrimaryKeyRelatedField(queryset=Groups.objects.all(), many=True, write_only=True)
-    category_ids = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), many=True, write_only=True)
+    # tags_ids = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(), many=True, write_only=True)
+    # parodies_ids = serializers.PrimaryKeyRelatedField(queryset=Parodies.objects.all(), many=True, write_only=True)
+    # characters_ids = serializers.PrimaryKeyRelatedField(queryset=Characters.objects.all(), many=True, write_only=True)
+    tags_ids = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(), many=True, write_only=True,
+                                                  pk_field=serializers.UUIDField())
+    artists_ids = serializers.PrimaryKeyRelatedField(queryset=Artists.objects.all(), many=True, write_only=True,
+                                                     pk_field=serializers.UUIDField())
+    languages_ids = serializers.PrimaryKeyRelatedField(queryset=Languages.objects.all(), many=True, write_only=True,
+                                                       pk_field=serializers.UUIDField())
+    parodies_ids = serializers.PrimaryKeyRelatedField(queryset=Parodies.objects.all(), many=True, write_only=True,
+                                                      pk_field=serializers.UUIDField())
+    characters_ids = serializers.PrimaryKeyRelatedField(queryset=Characters.objects.all(), many=True, write_only=True,
+                                                        pk_field=serializers.UUIDField())
+    groups_ids = serializers.PrimaryKeyRelatedField(queryset=Groups.objects.all(), many=True, write_only=True,
+                                                    pk_field=serializers.UUIDField())
+    category_ids = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), many=True, write_only=True,
+                                                      pk_field=serializers.UUIDField())
 
     class Meta:
         model = Comic

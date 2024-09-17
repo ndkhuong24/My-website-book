@@ -188,7 +188,7 @@ export class ComicComponent implements OnInit {
 
   addComic() {
     const dialogRef = this.matdialog.open(AddComicComponent, {
-      width: '100vh',
+      width: '150vh',
       height: '100vh',
       disableClose: true
     });

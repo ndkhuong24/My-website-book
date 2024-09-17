@@ -38,7 +38,7 @@ export class LanguagesComponent implements OnInit {
   }
 
   initAgGrid() {
-    this.languagesService.getAllTags().subscribe((response) => {
+    this.languagesService.getAllLanguages().subscribe((response) => {
       this.rowData = response
     })
 

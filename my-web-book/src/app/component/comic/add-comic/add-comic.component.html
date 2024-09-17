@@ -1,1 +1,95 @@
-<p>add-comic works!</p>
+<h2 mat-dialog-title id="title">Thêm tác giả</h2>
+
+<div mat-dialog-content class="container row">
+    <div class="col-6">
+        <mat-form-field appearance="fill">
+            <mat-label>Tên tác giả</mat-label>
+            <input matInput [(ngModel)]="comicName" />
+        </mat-form-field>
+
+        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+            <mat-label style="margin-bottom: 8px;">Thể loại</mat-label>
+            <div>
+                <mat-checkbox *ngFor="let category of categoryActive" [checked]="category.selected"
+                    (change)="onCategoryChange(category, $event.checked)">
+                    {{ category.name }}
+                </mat-checkbox>
+            </div>
+        </div>
+
+        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+            <mat-label style="margin-bottom: 8px;">Ngôn ngữ</mat-label>
+            <div>
+                <mat-checkbox *ngFor="let language of languagesActive" [checked]="language.selected"
+                    (change)="onLanguageChange(language, $event.checked)">
+                    {{ language.name }}
+                </mat-checkbox>
+            </div>
+        </div>
+
+        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+            <mat-label style="margin-bottom: 8px;">Artists</mat-label>
+            <div>
+                <mat-select [(ngModel)]="selectedArtist" multiple="true" (ngModelChange)="onChangeArtist($event)"
+                    placeholder="Chọn Artist">
+                    <mat-option *ngFor="let artist of artistsActive" [value]="artist.id">
+                        {{ artist.name }}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+
+        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+            <mat-label style="margin-bottom: 8px;">Groups</mat-label>
+            <div>
+                <mat-select [(ngModel)]="selectedGroup" multiple="true" (ngModelChange)="onChangeGroup($event)"
+                    placeholder="Chọn Group">
+                    <mat-option *ngFor="let group of groupsActive" [value]="group.id">
+                        {{ group.name }}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+
+        <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)"
+            style="margin-bottom: 20px;margin-top: 20px;">
+            {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
+        </mat-slide-toggle>
+
+        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+            <mat-label style="margin-bottom: 8px;">Tags</mat-label>
+            <div>
+                <mat-select [(ngModel)]="selectedTags" multiple="true" (ngModelChange)="onChangeTags($event)"
+                    placeholder="Chọn Tag">
+                    <mat-option *ngFor="let tag of tagsActive" [value]="tag.id">
+                        {{ tag.name }}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <input class="file" type="file" (change)="onFileChange($event)" accept="image/*" />
+
+        <div *ngIf="imageFile">
+            <img [src]="imageSrc" alt="Selected Image" style="max-width: auto; height: 430px;" />
+        </div>
+    </div>
+
+    <div class="col-12">
+        <ag-grid-angular *ngIf="rowData.length > 0" style="width: 100%; height: auto;" class="ag-theme-alpine"
+            [rowData]="rowData" [columnDefs]="columnDefs" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
+        </ag-grid-angular>
+    </div>
+</div>
+
+
+
+<div id="button-layout" mat-dialog-actions align="center">
+    <button mat-raised-button color="warn" (click)="onCancel()">
+        <mat-icon>close</mat-icon> Thoát
+    </button>
+    <!-- <button mat-raised-button color="primary" (click)="addAuthor()">
+        <mat-icon>save</mat-icon> Thêm mới
+    </button> -->
+</div>
