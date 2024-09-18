@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ComicService } from '../../../service/comic.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { TagsService } from '../../../service/tags.service';
 import { ArtistsService } from '../../../service/artists.service';
@@ -23,6 +23,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ColDef } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 import { ButtonCellRendererComponent } from './button-cell-renderer.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips'; // Import MatChipsModule
 
 @Component({
   selector: 'app-add-comic',
@@ -40,6 +42,8 @@ import { ButtonCellRendererComponent } from './button-cell-renderer.component';
     MatSlideToggleModule,
     MatCheckboxModule,
     AgGridModule,
+    MatAutocompleteModule,
+    MatChipsModule
   ],
   templateUrl: './add-comic.component.html',
   styleUrl: './add-comic.component.scss'
@@ -72,6 +76,9 @@ export class AddComicComponent {
   // selectedTags: number | null = null;
   selectedTags: any[] = [];
 
+  tagSearch: string = '';
+  filteredTags: any[] = [];
+
   constructor(
     public dialogRef: MatDialogRef<AddComicComponent>,
     private toastr: ToastrService,
@@ -100,7 +107,23 @@ export class AddComicComponent {
       this.charactersActive = results.characters.filter((character: any) => character.status === 1);
       this.groupsActive = results.groups.filter((group: any) => group.status === 1);
       this.categoryActive = results.categories.filter((category: any) => category.status === 1);
+
+      this.filteredTags = this.tagsActive;
     });
+  }
+
+  filterTags() {
+    const searchTerm = this.tagSearch.toLowerCase();
+    this.filteredTags = this.tagsActive.filter(tag => tag.name.toLowerCase().includes(searchTerm));
+  }
+
+  onTagSelected(event: any) {
+    const selectedTagId = event.option.value;
+    if (!this.selectedTags.includes(selectedTagId)) {
+      this.selectedTags.push(selectedTagId);
+      this.onChangeTags(this.selectedTags);
+    }
+    this.tagSearch = '';
   }
 
   onStatusChange(newStatus: boolean): void {

@@ -59,12 +59,14 @@
         <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
             <mat-label style="margin-bottom: 8px;">Tags</mat-label>
             <div>
-                <mat-select [(ngModel)]="selectedTags" multiple="true" (ngModelChange)="onChangeTags($event)"
-                    placeholder="Chọn Tag">
-                    <mat-option *ngFor="let tag of tagsActive" [value]="tag.id">
-                        {{ tag.name }}
-                    </mat-option>
-                </mat-select>
+                <mat-form-field>
+                    <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="tagSearch" (input)="filterTags()">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTagSelected($event)">
+                        <mat-option *ngFor="let tag of filteredTags" [value]="tag.id">
+                            {{ tag.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
             </div>
         </div>
     </div>
