@@ -192,12 +192,8 @@ export class AddComicComponent {
   }
 
   onButtonClick(rowData: any) {
-    console.log(rowData.id);
-
-    // Xóa mục khỏi selectedTags
     this.selectedTags = this.selectedTags.filter(tagId => tagId !== rowData.id);
 
-    // Cập nhật lại rowData và tagsActive
     this.tagsActive.forEach((tag: any) => {
       if (tag.id === rowData.id) {
         tag.selected = false;
@@ -218,5 +214,9 @@ export class AddComicComponent {
       }
       reader.readAsDataURL(this.imageFile)
     }
+  }
+
+  addComic() {
+    console.log(this.selectedTags)
   }
 }
