@@ -65,3 +65,15 @@ button:focus {
     display: flex;
     flex-direction: column;
 }
+
+.full-width {
+    width: 100%;
+}
+
+mat-form-field.full-width {
+    width: 100%;
+}
+
+mat-form-field.full-width input {
+    width: 100%;
+}
