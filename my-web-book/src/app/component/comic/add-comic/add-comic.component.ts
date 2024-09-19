@@ -117,10 +117,15 @@ export class AddComicComponent {
     this.filteredTags = this.tagsActive.filter(tag => tag.name.toLowerCase().includes(searchTerm));
   }
 
+  displayTagName(tag: any): string {
+    return tag ? tag.name : '';
+  }
+
   onTagSelected(event: any) {
-    const selectedTagId = event.option.value;
-    if (!this.selectedTags.includes(selectedTagId)) {
-      this.selectedTags.push(selectedTagId);
+    const selectedTag = event.option.value;
+
+    if (selectedTag && !this.selectedTags.some(tag => tag.id === selectedTag.id)) {
+      this.selectedTags.push(selectedTag.id);
       this.onChangeTags(this.selectedTags);
     }
     this.tagSearch = '';
@@ -224,6 +229,8 @@ export class AddComicComponent {
     });
 
     this.rowData = this.rowData.filter(tag => tag.id !== rowData.id);
+
+    this.tagSearch = '';
   }
 
   onFileChange(event: Event): void {

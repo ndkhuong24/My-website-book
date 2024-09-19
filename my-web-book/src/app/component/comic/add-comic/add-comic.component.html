@@ -71,8 +71,9 @@
             <div>
                 <mat-form-field class="full-width">
                     <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="tagSearch" (input)="filterTags()">
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTagSelected($event)">
-                        <mat-option *ngFor="let tag of filteredTags" [value]="tag.id">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTagSelected($event)"
+                        [displayWith]="displayTagName">
+                        <mat-option *ngFor="let tag of filteredTags" [value]="tag">
                             {{ tag.name }}
                         </mat-option>
                     </mat-autocomplete>
