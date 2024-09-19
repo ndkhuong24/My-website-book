@@ -404,6 +404,44 @@ export class AddComicComponent {
   }
 
   addComic() {
-    
+    const formData = new FormData();
+
+    formData.append('name', this.comicName);
+
+    const statusValue = this.status ? 1 : 0;
+
+    formData.append('status', statusValue.toString());
+    if (this.imageFile) {
+      formData.append('profile_picture', this.imageFile);
+    }
+
+    this.selectedTags.forEach(tagId => formData.append('tags_ids', tagId));
+    if (this.selectedArtist !== null) {
+      formData.append('artists_ids', this.selectedArtist.toString());
+    }
+
+    this.selectedLanguages.forEach(languageId => formData.append('languages_ids', languageId));
+    this.selectedParodies.forEach(parodyId => formData.append('parodies_ids', parodyId));
+    this.selectedCharacters.forEach(characterId => formData.append('characters_ids', characterId));
+
+    if (this.selectedGroup !== null) {
+      formData.append('groups_ids', this.selectedGroup.toString());
+    }
+    this.selectedCategories.forEach(categoryId => formData.append('category_ids', categoryId));
+
+    this.comicService.addComic(formData).subscribe((response) => {
+      if (response && response.message) {
+        if (response.message === 'Create a new Comic successful!') {
+          this.toastr.success('Thêm thành công', 'Thông báo');
+          this.dialogRef.close("addComic");
+        } else if (response.error) {
+          this.toastr.error('Tên Comic trùng. Vui lòng chọn tin khác', 'Thông báo');
+        } else {
+          this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+        }
+      } else {
+        this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+      }
+    });
   }
 }

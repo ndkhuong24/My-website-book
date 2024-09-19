@@ -18,27 +18,9 @@ export class ComicService {
         return this.http.delete<any>(`${this.apiUrl}/${id}`);
     }
 
-    // addAuthor(authorData: any, profilePicture: File | null): Observable<any> {
-    //     const formData = new FormData();
-    //     formData.append('name', authorData.name);
-    //     formData.append('pen_name', authorData.penName || '');
-    //     formData.append('bio', authorData.description || '');
-    //     if (authorData.birthDate) {
-    //         const birthDate = new Date(authorData.birthDate);
-    //         const birthDateString = `${birthDate.getFullYear()}-${(birthDate.getMonth() + 1).toString().padStart(2, '0')}-${birthDate.getDate().toString().padStart(2, '0')}`;
-    //         formData.append('birth_date', birthDateString);
-    //     } else {
-    //         formData.append('birth_date', '');
-    //     }
-    //     formData.append('nationality', authorData.selectedCountry || '');
-    //     formData.append('status', authorData.status);
-
-    //     if (profilePicture) {
-    //         formData.append('profile_picture', profilePicture);
-    //     }
-
-    //     return this.http.post<any>(this.apiUrl, formData);
-    // }
+    addComic(comicData: any): Observable<any> {
+        return this.http.post<any>(this.apiUrl, comicData);
+    }
 
     // getById(id: any): Observable<any> {
     //     return this.http.get<any>(`${this.apiUrl}/${id}`);
