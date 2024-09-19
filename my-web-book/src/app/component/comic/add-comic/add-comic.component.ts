@@ -128,7 +128,6 @@ export class AddComicComponent {
       this.selectedTags.push(selectedTag.id);
       this.onChangeTags(this.selectedTags);
     }
-    this.tagSearch = '';
   }
 
   onStatusChange(newStatus: boolean): void {
@@ -229,8 +228,6 @@ export class AddComicComponent {
     });
 
     this.rowData = this.rowData.filter(tag => tag.id !== rowData.id);
-
-    this.tagSearch = '';
   }
 
   onFileChange(event: Event): void {
