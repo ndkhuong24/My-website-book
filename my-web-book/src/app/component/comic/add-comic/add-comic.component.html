@@ -1,131 +1,140 @@
 <h2 mat-dialog-title id="title">Thêm tác giả</h2>
 
 <div mat-dialog-content class="container row">
-    <div class="col-6">
-        <mat-form-field appearance="fill">
-            <mat-label>Tên tác giả</mat-label>
-            <input matInput [(ngModel)]="comicName" />
-        </mat-form-field>
+    <div class="col-8 row">
+        <div class="col-6">
+            <mat-form-field appearance="fill">
+                <mat-label>Tên tác giả</mat-label>
+                <input matInput [(ngModel)]="comicName" />
+            </mat-form-field>
 
-        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-            <mat-label style="margin-bottom: 8px;">Thể loại</mat-label>
-            <div>
-                <mat-checkbox *ngFor="let category of categoryActive" [checked]="category.selected"
-                    (change)="onCategoryChange(category, $event.checked)">
-                    {{ category.name }}
-                </mat-checkbox>
+            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+                <mat-label style="margin-bottom: 8px;">Thể loại</mat-label>
+                <div>
+                    <mat-checkbox *ngFor="let category of categoryActive" [checked]="category.selected"
+                        (change)="onCategoryChange(category, $event.checked)">
+                        {{ category.name }}
+                    </mat-checkbox>
+                </div>
+            </div>
+
+            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+                <mat-label style="margin-bottom: 8px;">Ngôn ngữ</mat-label>
+                <div>
+                    <mat-checkbox *ngFor="let language of languagesActive" [checked]="language.selected"
+                        (change)="onLanguageChange(language, $event.checked)">
+                        {{ language.name }}
+                    </mat-checkbox>
+                </div>
+            </div>
+
+            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+                <mat-label style="margin-bottom: 8px;">Artists</mat-label>
+                <div>
+                    <mat-select [(ngModel)]="selectedArtist" multiple="true" (ngModelChange)="onChangeArtist($event)"
+                        placeholder="Chọn Artist">
+                        <mat-option *ngFor="let artist of artistsActive" [value]="artist.id">
+                            {{ artist.name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+
+            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
+                <mat-label style="margin-bottom: 8px;">Groups</mat-label>
+                <div>
+                    <mat-select [(ngModel)]="selectedGroup" multiple="true" (ngModelChange)="onChangeGroup($event)"
+                        placeholder="Chọn Group">
+                        <mat-option *ngFor="let group of groupsActive" [value]="group.id">
+                            {{ group.name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+
+            <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)"
+                style="margin-bottom: 20px;margin-top: 20px;">
+                {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
+            </mat-slide-toggle>
+        </div>
+
+        <div class="col-6">
+            <input class="file" type="file" (change)="onFileChange($event)" accept="image/*" />
+
+            <div *ngIf="imageFile">
+                <img [src]="imageSrc" alt="Selected Image" style="max-width: auto; height: 430px;" />
             </div>
         </div>
 
-        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-            <mat-label style="margin-bottom: 8px;">Ngôn ngữ</mat-label>
-            <div>
-                <mat-checkbox *ngFor="let language of languagesActive" [checked]="language.selected"
-                    (change)="onLanguageChange(language, $event.checked)">
-                    {{ language.name }}
-                </mat-checkbox>
+        <div class="col-4">
+            <div class="checkbox-container">
+                <mat-label style="margin-bottom: 8px;">Tags</mat-label>
+                <div>
+                    <mat-form-field class="full-width">
+                        <input type="text" matInput [matAutocomplete]="autoTags" [(ngModel)]="tagSearch"
+                            (input)="filterTags()">
+                        <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="onTagSelected($event)"
+                            [displayWith]="displayTagName">
+                            <mat-option *ngFor="let tag of filteredTags" [value]="tag">
+                                {{ tag.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
             </div>
+            <ag-grid-angular *ngIf="rowData.length > 0" style="width: 100%;" class="ag-theme-alpine"
+                domLayout="autoHeight" [rowData]="rowData" [columnDefs]="columnDefs" [headerHeight]="headerHeight"
+                [rowHeight]="rowHeight">
+            </ag-grid-angular>
         </div>
 
-        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-            <mat-label style="margin-bottom: 8px;">Artists</mat-label>
-            <div>
-                <mat-select [(ngModel)]="selectedArtist" multiple="true" (ngModelChange)="onChangeArtist($event)"
-                    placeholder="Chọn Artist">
-                    <mat-option *ngFor="let artist of artistsActive" [value]="artist.id">
-                        {{ artist.name }}
-                    </mat-option>
-                </mat-select>
+        <div class="col-4">
+            <div class="checkbox-container">
+                <mat-label style="margin-bottom: 8px;">Parodies</mat-label>
+                <div>
+                    <mat-form-field class="full-width">
+                        <input type="text" matInput [matAutocomplete]="autoParodies" [(ngModel)]="parodySearch"
+                            (input)="filterParodies()">
+                        <mat-autocomplete #autoParodies="matAutocomplete" (optionSelected)="onParodySelected($event)"
+                            [displayWith]="displayParodyName">
+                            <mat-option *ngFor="let parody of filteredParodies" [value]="parody">
+                                {{ parody.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
             </div>
+            <ag-grid-angular *ngIf="rowData1.length > 0" style="width: 100%;" class="ag-theme-alpine"
+                domLayout="autoHeight" [rowData]="rowData1" [columnDefs]="columnDefs1" [headerHeight]="headerHeight"
+                [rowHeight]="rowHeight">
+            </ag-grid-angular>
         </div>
 
-        <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-            <mat-label style="margin-bottom: 8px;">Groups</mat-label>
-            <div>
-                <mat-select [(ngModel)]="selectedGroup" multiple="true" (ngModelChange)="onChangeGroup($event)"
-                    placeholder="Chọn Group">
-                    <mat-option *ngFor="let group of groupsActive" [value]="group.id">
-                        {{ group.name }}
-                    </mat-option>
-                </mat-select>
+        <div class="col-4">
+            <div class="checkbox-container">
+                <mat-label style="margin-bottom: 8px;">Characters</mat-label>
+                <div>
+                    <mat-form-field class="full-width">
+                        <input type="text" matInput [matAutocomplete]="autoCharacters" [(ngModel)]="characterSearch"
+                            (input)="filterCharacters()">
+                        <mat-autocomplete #autoCharacters="matAutocomplete"
+                            (optionSelected)="onCharacterSelected($event)" [displayWith]="displayCharacterName">
+                            <mat-option *ngFor="let character of filteredCharacters" [value]="character">
+                                {{ character.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
-
-        <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)"
-            style="margin-bottom: 20px;margin-top: 20px;">
-            {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
-        </mat-slide-toggle>
-    </div>
-
-    <div class="col-6">
-        <input class="file" type="file" (change)="onFileChange($event)" accept="image/*" />
-
-        <div *ngIf="imageFile">
-            <img [src]="imageSrc" alt="Selected Image" style="max-width: auto; height: 430px;" />
+            <ag-grid-angular *ngIf="rowData2.length > 0" style="width: 100%;" class="ag-theme-alpine"
+                domLayout="autoHeight" [rowData]="rowData2" [columnDefs]="columnDefs2" [headerHeight]="headerHeight"
+                [rowHeight]="rowHeight">
+            </ag-grid-angular>
         </div>
     </div>
 
     <div class="col-4">
-        <div class="checkbox-container">
-            <mat-label style="margin-bottom: 8px;">Tags</mat-label>
-            <div>
-                <mat-form-field class="full-width">
-                    <input type="text" matInput [matAutocomplete]="autoTags" [(ngModel)]="tagSearch"
-                        (input)="filterTags()">
-                    <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="onTagSelected($event)"
-                        [displayWith]="displayTagName">
-                        <mat-option *ngFor="let tag of filteredTags" [value]="tag">
-                            {{ tag.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-        </div>
-        <ag-grid-angular *ngIf="rowData.length > 0" style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
-            [rowData]="rowData" [columnDefs]="columnDefs" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
-        </ag-grid-angular>
-    </div>
-
-    <div class="col-4">
-        <div class="checkbox-container">
-            <mat-label style="margin-bottom: 8px;">Parodies</mat-label>
-            <div>
-                <mat-form-field class="full-width">
-                    <input type="text" matInput [matAutocomplete]="autoParodies" [(ngModel)]="parodySearch"
-                        (input)="filterParodies()">
-                    <mat-autocomplete #autoParodies="matAutocomplete" (optionSelected)="onParodySelected($event)"
-                        [displayWith]="displayParodyName">
-                        <mat-option *ngFor="let parody of filteredParodies" [value]="parody">
-                            {{ parody.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-        </div>
-        <ag-grid-angular *ngIf="rowData1.length > 0" style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
-            [rowData]="rowData1" [columnDefs]="columnDefs1" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
-        </ag-grid-angular>
-    </div>
-
-    <div class="col-4">
-        <div class="checkbox-container">
-            <mat-label style="margin-bottom: 8px;">Characters</mat-label>
-            <div>
-                <mat-form-field class="full-width">
-                    <input type="text" matInput [matAutocomplete]="autoCharacters" [(ngModel)]="characterSearch"
-                        (input)="filterCharacters()">
-                    <mat-autocomplete #autoCharacters="matAutocomplete" (optionSelected)="onCharacterSelected($event)"
-                        [displayWith]="displayCharacterName">
-                        <mat-option *ngFor="let character of filteredCharacters" [value]="character">
-                            {{ character.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-        </div>
-        <ag-grid-angular *ngIf="rowData2.length > 0" style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
-            [rowData]="rowData2" [columnDefs]="columnDefs2" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
-        </ag-grid-angular>
+        hello
     </div>
 </div>
 
