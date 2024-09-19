@@ -70,8 +70,9 @@
             <mat-label style="margin-bottom: 8px;">Tags</mat-label>
             <div>
                 <mat-form-field class="full-width">
-                    <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="tagSearch" (input)="filterTags()">
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTagSelected($event)"
+                    <input type="text" matInput [matAutocomplete]="autoTags" [(ngModel)]="tagSearch"
+                        (input)="filterTags()">
+                    <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="onTagSelected($event)"
                         [displayWith]="displayTagName">
                         <mat-option *ngFor="let tag of filteredTags" [value]="tag">
                             {{ tag.name }}
@@ -82,6 +83,48 @@
         </div>
         <ag-grid-angular *ngIf="rowData.length > 0" style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
             [rowData]="rowData" [columnDefs]="columnDefs" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
+        </ag-grid-angular>
+    </div>
+
+    <div class="col-4">
+        <div class="checkbox-container">
+            <mat-label style="margin-bottom: 8px;">Parodies</mat-label>
+            <div>
+                <mat-form-field class="full-width">
+                    <input type="text" matInput [matAutocomplete]="autoParodies" [(ngModel)]="parodySearch"
+                        (input)="filterParodies()">
+                    <mat-autocomplete #autoParodies="matAutocomplete" (optionSelected)="onParodySelected($event)"
+                        [displayWith]="displayParodyName">
+                        <mat-option *ngFor="let parody of filteredParodies" [value]="parody">
+                            {{ parody.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+        <ag-grid-angular *ngIf="rowData1.length > 0" style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
+            [rowData]="rowData1" [columnDefs]="columnDefs1" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
+        </ag-grid-angular>
+    </div>
+
+    <div class="col-4">
+        <div class="checkbox-container">
+            <mat-label style="margin-bottom: 8px;">Characters</mat-label>
+            <div>
+                <mat-form-field class="full-width">
+                    <input type="text" matInput [matAutocomplete]="autoCharacters" [(ngModel)]="characterSearch"
+                        (input)="filterCharacters()">
+                    <mat-autocomplete #autoCharacters="matAutocomplete" (optionSelected)="onCharacterSelected($event)"
+                        [displayWith]="displayCharacterName">
+                        <mat-option *ngFor="let character of filteredCharacters" [value]="character">
+                            {{ character.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+        <ag-grid-angular *ngIf="rowData2.length > 0" style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
+            [rowData]="rowData2" [columnDefs]="columnDefs2" [headerHeight]="headerHeight" [rowHeight]="rowHeight">
         </ag-grid-angular>
     </div>
 </div>

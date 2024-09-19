@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ComicService } from '../../../service/comic.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { TagsService } from '../../../service/tags.service';
 import { ArtistsService } from '../../../service/artists.service';
@@ -51,6 +51,13 @@ import { MatChipsModule } from '@angular/material/chips'; // Import MatChipsModu
 export class AddComicComponent {
   rowData: any[] = [];
   columnDefs: ColDef[] = [];
+
+  rowData1: any[] = [];
+  columnDefs1: ColDef[] = [];
+
+  rowData2: any[] = [];
+  columnDefs2: ColDef[] = [];
+
   headerHeight: number = 38;
   rowHeight: number = 50
 
@@ -73,11 +80,18 @@ export class AddComicComponent {
   selectedLanguages: any[] = [];
   selectedArtist: number | null = null;
   selectedGroup: number | null = null;
-  // selectedTags: number | null = null;
   selectedTags: any[] = [];
+  selectedParodies: any[] = [];
+  selectedCharacters: any[] = [];
 
   tagSearch: string = '';
   filteredTags: any[] = [];
+
+  parodySearch: string = '';
+  filteredParodies: any[] = [];
+
+  characterSearch: string = '';
+  filteredCharacters: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<AddComicComponent>,
@@ -109,6 +123,8 @@ export class AddComicComponent {
       this.categoryActive = results.categories.filter((category: any) => category.status === 1);
 
       this.filteredTags = this.tagsActive;
+      this.filteredParodies = this.parodiesActive;
+      this.filteredCharacters = this.charactersActive;
     });
   }
 
@@ -117,16 +133,54 @@ export class AddComicComponent {
     this.filteredTags = this.tagsActive.filter(tag => tag.name.toLowerCase().includes(searchTerm));
   }
 
+  filterParodies() {
+    const searchTerm = this.parodySearch.toLowerCase();
+    this.filteredParodies = this.parodiesActive.filter(parody => parody.name.toLowerCase().includes(searchTerm));
+  }
+
+  filterCharacters() {
+    const searchTerm = this.characterSearch.toLowerCase();
+    this.filteredCharacters = this.charactersActive.filter(character => character.name.toLowerCase().includes(searchTerm));
+  }
+
   displayTagName(tag: any): string {
     return tag ? tag.name : '';
+  }
+
+  displayParodyName(parody: any): string {
+    return parody ? parody.name : '';
+  }
+
+  displayCharacterName(character: any): string {
+    return character ? character.name : '';
   }
 
   onTagSelected(event: any) {
     const selectedTag = event.option.value;
 
-    if (selectedTag && !this.selectedTags.some(tag => tag.id === selectedTag.id)) {
+    // Kiểm tra xem tag đã tồn tại trong danh sách selectedTags chưa
+    if (selectedTag && !this.selectedTags.includes(selectedTag.id)) {
       this.selectedTags.push(selectedTag.id);
       this.onChangeTags(this.selectedTags);
+    }
+  }
+
+  onParodySelected(event: any) {
+    const selectedParody = event.option.value;
+
+    // Kiểm tra xem parody đã tồn tại trong danh sách selectedParodies chưa
+    if (selectedParody && !this.selectedParodies.includes(selectedParody.id)) {
+      this.selectedParodies.push(selectedParody.id);
+      this.onChangeParodies(this.selectedParodies);
+    }
+  }
+
+  onCharacterSelected(event: any) {
+    const selectedCharacter = event.option.value;
+
+    if (selectedCharacter && !this.selectedCharacters.includes(selectedCharacter.id)) {
+      this.selectedCharacters.push(selectedCharacter.id);
+      this.onChangeCharacters(this.selectedCharacters);
     }
   }
 
@@ -210,7 +264,7 @@ export class AddComicComponent {
         field: 'actions',
         cellRenderer: ButtonCellRendererComponent,
         cellRendererParams: {
-          onClick: this.onButtonClick.bind(this)
+          onClick: this.onButtonClickTags.bind(this)
         },
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
         flex: 1
@@ -218,7 +272,83 @@ export class AddComicComponent {
     ];
   }
 
-  onButtonClick(rowData: any) {
+  onChangeParodies(selectedIds: any[]) {
+    this.selectedParodies = selectedIds;
+
+    this.parodiesActive.forEach((parody: any) => {
+      parody.selected = false;
+    });
+
+    this.rowData1 = selectedIds.map(selectedId => {
+      const selectedParody = this.parodiesActive.find(parody => parody.id === selectedId);
+      if (selectedParody) {
+        selectedParody.selected = true;
+        return selectedParody;
+      }
+      return null;
+    }).filter(parody => parody !== null);
+
+    this.columnDefs1 = [
+      {
+        headerName: 'Tên',
+        field: 'name',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1
+      },
+      {
+        headerName: 'Chức năng',
+        field: 'actions',
+        cellRenderer: ButtonCellRendererComponent,
+        cellRendererParams: {
+          onClick: this.onButtonClickParodies.bind(this)
+        },
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1
+      },
+    ];
+  }
+
+  onChangeCharacters(selectedIds: any[]) {
+    this.selectedCharacters = selectedIds;
+
+    this.charactersActive.forEach((character: any) => {
+      character.selected = false;
+    });
+
+    this.rowData2 = selectedIds.map(selectedId => {
+      const selectedCharacter = this.charactersActive.find(character => character.id === selectedId);
+      if (selectedCharacter) {
+        selectedCharacter.selected = true;
+        return selectedCharacter;
+      }
+      return null;
+    }).filter(character => character !== null);
+
+    this.columnDefs2 = [
+      {
+        headerName: 'Tên',
+        field: 'name',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1
+      },
+      {
+        headerName: 'Chức năng',
+        field: 'actions',
+        cellRenderer: ButtonCellRendererComponent,
+        cellRendererParams: {
+          onClick: this.onButtonClickCharacters.bind(this)
+        },
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1
+      },
+    ];
+  }
+
+  onButtonClickTags(rowData: any) {
     this.selectedTags = this.selectedTags.filter(tagId => tagId !== rowData.id);
 
     this.tagsActive.forEach((tag: any) => {
@@ -228,6 +358,36 @@ export class AddComicComponent {
     });
 
     this.rowData = this.rowData.filter(tag => tag.id !== rowData.id);
+  }
+
+  onButtonClickCharacters(rowData2: any) {
+    // Xóa character khỏi danh sách selectedCharacters
+    this.selectedCharacters = this.selectedCharacters.filter(characterID => characterID !== rowData2.id);
+
+    // Đặt lại trạng thái selected của character trong danh sách charactersActive
+    this.charactersActive.forEach((character: any) => {
+      if (character.id === rowData2.id) {
+        character.selected = false;
+      }
+    });
+
+    // Cập nhật lại rowData2 để loại bỏ character đã bị xóa
+    this.rowData2 = this.rowData2.filter(character => character.id !== rowData2.id);
+  }
+
+
+  onButtonClickParodies(rowData1: any) {
+    this.selectedParodies = this.selectedParodies.filter(parodyID => parodyID !== rowData1.id);
+
+    // Đặt lại trạng thái selected của parody trong danh sách parodiesActive
+    this.parodiesActive.forEach((parody: any) => {
+      if (parody.id === rowData1.id) {
+        parody.selected = false;
+      }
+    });
+
+    // Cập nhật lại rowData1 để loại bỏ parody đã bị xóa
+    this.rowData1 = this.rowData1.filter(parody => parody.id !== rowData1.id);
   }
 
   onFileChange(event: Event): void {
@@ -244,6 +404,6 @@ export class AddComicComponent {
   }
 
   addComic() {
-    console.log(this.selectedTags)
+    
   }
 }

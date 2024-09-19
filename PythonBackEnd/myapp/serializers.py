@@ -54,7 +54,6 @@ class ComicSerializer(serializers.ModelSerializer):
     groups = GroupsSerializer(many=True, read_only=True)
     category = CategorySerializer(many=True, read_only=True)
 
-    # parodies_ids = serializers.PrimaryKeyRelatedField(queryset=Parodies.objects.all(), many=True, write_only=True)
     # characters_ids = serializers.PrimaryKeyRelatedField(queryset=Characters.objects.all(), many=True, write_only=True)
     tags_ids = serializers.PrimaryKeyRelatedField(queryset=Tags.objects.all(), many=True, write_only=True,
                                                   pk_field=serializers.UUIDField())
