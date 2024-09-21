@@ -82,3 +82,12 @@ class Comic(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ComicDetail(models.Model):
+    image_detail = models.ImageField(upload_to='image_detail/', blank=True, null=True)
+    page_number = models.IntegerField()
+    comic = models.ForeignKey(Comic, related_name='comic_details', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"Page {self.page_number} of {self.comic.name}"

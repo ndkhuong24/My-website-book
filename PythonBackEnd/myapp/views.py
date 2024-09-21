@@ -2,9 +2,9 @@ from rest_framework import status as http_status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
-from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups, Comic
+from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups, Comic, ComicDetail
 from myapp.serializers import CategorySerializer, TagsSerializer, LanguagesSerializer, ArtistsSerializer, \
-    ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer
+    ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer, ComicDetailSerializer
 
 
 class ServiceResult:
@@ -160,3 +160,35 @@ class ListCreateComicView(BaseListCreateView):
 class UpdateDeleteComicView(BaseUpdateDeleteView):
     model = Comic
     serializer_class = ComicSerializer
+
+
+class ListCreateComicDetailView(ListCreateAPIView):
+    model = ComicDetail
+    serializer_class = ComicDetailSerializer
+
+    def get_queryset(self):
+        return self.model.objects.all().order_by('page_number')
+
+    def create(self, request, *args, **kwargs):
+        page_number = request.data.get('page_number')
+        if ComicDetail.objects.filter(page_number=page_number).exists():
+            return ServiceResult.get_result(
+                success=False,
+                message=f'ComicDetail with this page number already exists.',
+                status_code=http_status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Create a new ComicDetail successful!',
+            status_code=http_status.HTTP_201_CREATED
+        )
+
+
+class UpdateDeleteComicDetailView(BaseUpdateDeleteView):
+    model = ComicDetail
+    serializer_class = ComicDetailSerializer

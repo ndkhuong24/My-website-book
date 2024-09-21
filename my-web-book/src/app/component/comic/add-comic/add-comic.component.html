@@ -134,7 +134,15 @@
     </div>
 
     <div class="col-4">
-        hello
+        <div class="drop-zone" id="drop-zone" (click)="onDropZoneClick()" (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+            Kéo và thả ảnh vào đây hoặc nhấp để chọn ảnh
+            <input type="file" id="file-input" accept="image/*" multiple style="display: none;"
+                (change)="onFileSelected($event)">
+        </div>
+        <div class="preview-container" id="preview-container">
+            <img *ngFor="let imgSrc of imagePreviews" [src]="imgSrc" alt="Image Preview">
+        </div>
     </div>
 </div>
 

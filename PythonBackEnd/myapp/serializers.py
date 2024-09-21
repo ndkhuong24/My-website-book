@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category, Tags, Languages, Artists, Groups, Characters, Parodies, Comic
+from .models import Category, Tags, Languages, Artists, Groups, Characters, Parodies, Comic, ComicDetail
 
 
 class BaseModelSerializer(serializers.ModelSerializer):
@@ -121,4 +121,29 @@ class ComicSerializer(serializers.ModelSerializer):
         instance.groups.set(groups_data)
         instance.category.set(category_data)
 
+        return instance
+
+
+class ComicDetailSerializer(serializers.ModelSerializer):
+    comic = ComicSerializer(read_only=True)
+    comic_id = serializers.PrimaryKeyRelatedField(queryset=Comic.objects.all(), write_only=True)
+
+    class Meta:
+        model = ComicDetail
+        fields = [
+            'id', 'image_detail', 'page_number', 'comic', 'comic_id'
+        ]
+
+    def create(self, validated_data):
+        comic_id = validated_data.pop('comic_id')
+        comic_detail = ComicDetail.objects.create(comic_id=comic_id.id, **validated_data)
+        return comic_detail
+
+    def update(self, instance, validated_data):
+        comic_id = validated_data.pop('comic_id', None)
+        if comic_id:
+            instance.comic_id = comic_id.id
+        instance.image_detail = validated_data.get('image_detail', instance.image_detail)
+        instance.page_number = validated_data.get('page_number', instance.page_number)
+        instance.save()
         return instance

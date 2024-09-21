@@ -77,3 +77,37 @@ mat-form-field.full-width {
 mat-form-field.full-width input {
     width: 100%;
 }
+
+.drop-zone {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    padding: 25px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    flex-direction: column;
+}
+
+.drop-zone--over {
+    border-color: #666;
+}
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.preview-container img {
+    max-width: 100px;
+    max-height: 100px;
+    margin: 5px;
+}

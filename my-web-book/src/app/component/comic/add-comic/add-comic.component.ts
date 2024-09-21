@@ -93,6 +93,10 @@ export class AddComicComponent {
   characterSearch: string = '';
   filteredCharacters: any[] = [];
 
+  imagePreviews: string[] = [];
+
+  imageFileDetail: File[] | [] | undefined;
+
   constructor(
     public dialogRef: MatDialogRef<AddComicComponent>,
     private toastr: ToastrService,
@@ -158,7 +162,6 @@ export class AddComicComponent {
   onTagSelected(event: any) {
     const selectedTag = event.option.value;
 
-    // Kiểm tra xem tag đã tồn tại trong danh sách selectedTags chưa
     if (selectedTag && !this.selectedTags.includes(selectedTag.id)) {
       this.selectedTags.push(selectedTag.id);
       this.onChangeTags(this.selectedTags);
@@ -168,7 +171,6 @@ export class AddComicComponent {
   onParodySelected(event: any) {
     const selectedParody = event.option.value;
 
-    // Kiểm tra xem parody đã tồn tại trong danh sách selectedParodies chưa
     if (selectedParody && !this.selectedParodies.includes(selectedParody.id)) {
       this.selectedParodies.push(selectedParody.id);
       this.onChangeParodies(this.selectedParodies);
@@ -361,17 +363,14 @@ export class AddComicComponent {
   }
 
   onButtonClickCharacters(rowData2: any) {
-    // Xóa character khỏi danh sách selectedCharacters
     this.selectedCharacters = this.selectedCharacters.filter(characterID => characterID !== rowData2.id);
 
-    // Đặt lại trạng thái selected của character trong danh sách charactersActive
     this.charactersActive.forEach((character: any) => {
       if (character.id === rowData2.id) {
         character.selected = false;
       }
     });
 
-    // Cập nhật lại rowData2 để loại bỏ character đã bị xóa
     this.rowData2 = this.rowData2.filter(character => character.id !== rowData2.id);
   }
 
@@ -379,14 +378,12 @@ export class AddComicComponent {
   onButtonClickParodies(rowData1: any) {
     this.selectedParodies = this.selectedParodies.filter(parodyID => parodyID !== rowData1.id);
 
-    // Đặt lại trạng thái selected của parody trong danh sách parodiesActive
     this.parodiesActive.forEach((parody: any) => {
       if (parody.id === rowData1.id) {
         parody.selected = false;
       }
     });
 
-    // Cập nhật lại rowData1 để loại bỏ parody đã bị xóa
     this.rowData1 = this.rowData1.filter(parody => parody.id !== rowData1.id);
   }
 
@@ -432,6 +429,9 @@ export class AddComicComponent {
     this.comicService.addComic(formData).subscribe((response) => {
       if (response && response.message) {
         if (response.message === 'Create a new Comic successful!') {
+          // for (let i = 0; i < this.imageFileDetail?.length; i++) {
+          //   formData.append('image', this.imageFileDetail[i]);
+          // }
           this.toastr.success('Thêm thành công', 'Thông báo');
           this.dialogRef.close("addComic");
         } else if (response.error) {
@@ -442,6 +442,94 @@ export class AddComicComponent {
       } else {
         this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
       }
+    });
+  }
+
+  onDropZoneClick(): void {
+    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files) {
+      const sortedFiles = Array.from(input.files).sort((a, b) => {
+        const nameA = a.name.replace(/\D/g, '');
+        const nameB = b.name.replace(/\D/g, '');
+        const numA = parseInt(nameA, 10);
+        const numB = parseInt(nameB, 10);
+
+        if (isNaN(numA) || isNaN(numB)) {
+          return a.name.localeCompare(b.name);
+        }
+
+        return numA - numB;
+      });
+
+      this.imageFileDetail = sortedFiles;
+
+      this.handleFiles(sortedFiles);
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    const dropZone = document.getElementById('drop-zone');
+    dropZone?.classList.add('drop-zone--over');
+  }
+
+  onDragLeave(): void {
+    const dropZone = document.getElementById('drop-zone');
+    dropZone?.classList.remove('drop-zone--over');
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const dropZone = document.getElementById('drop-zone');
+    dropZone?.classList.remove('drop-zone--over');
+    if (event.dataTransfer?.files) {
+      const sortedFiles = Array.from(event.dataTransfer.files).sort((a, b) => {
+        const nameA = a.name.replace(/\D/g, '');
+        const nameB = b.name.replace(/\D/g, '');
+        const numA = parseInt(nameA, 10);
+        const numB = parseInt(nameB, 10);
+
+        if (isNaN(numA) || isNaN(numB)) {
+          return a.name.localeCompare(b.name);
+        }
+
+        return numA - numB;
+      });
+
+      this.imageFileDetail = sortedFiles;
+
+      this.handleFiles(sortedFiles);
+    }
+  }
+
+  handleFiles(files: File[]): void {
+    this.imagePreviews = [];
+
+    const sortedFiles = files.sort((a, b) => {
+      const nameA = a.name.replace(/\D/g, '');
+      const nameB = b.name.replace(/\D/g, '');
+      const numA = parseInt(nameA, 10);
+      const numB = parseInt(nameB, 10);
+
+      if (isNaN(numA) || isNaN(numB)) {
+        return a.name.localeCompare(b.name);
+      }
+
+      return numA - numB;
+    });
+
+    sortedFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviews.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
     });
   }
 }
