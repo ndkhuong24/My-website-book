@@ -429,11 +429,38 @@ export class AddComicComponent {
     this.comicService.addComic(formData).subscribe((response) => {
       if (response && response.message) {
         if (response.message === 'Create a new Comic successful!') {
-          // for (let i = 0; i < this.imageFileDetail?.length; i++) {
-          //   formData.append('image', this.imageFileDetail[i]);
+          // if (this.imageFileDetail) {
+          //   for (let i = 0; i < this.imageFileDetail.length; i++) {
+          //     const comicDetail = new FormData();
+          //     comicDetail.append('comic_id', response.data.id);
+          //     comicDetail.append('image_detail', this.imageFileDetail[i]);
+          //     comicDetail.append('page_number', i.toString());
+
+          //     this.comicService.addComicDetail(comicDetail);
+          //   }
           // }
-          this.toastr.success('Thêm thành công', 'Thông báo');
-          this.dialogRef.close("addComic");
+          if ((this.imageFileDetail ?? []).length > 0) {
+            const comicDetailRequests = (this.imageFileDetail ?? []).map((file, index) => {
+              const comicDetail = new FormData();
+              comicDetail.append('comic_id', response.data.id);
+              comicDetail.append('image_detail', file);
+              comicDetail.append('page_number', (index + 1).toString());
+              return this.comicService.addComicDetail(comicDetail);
+            });
+
+            forkJoin(comicDetailRequests).subscribe(
+              () => {
+                this.toastr.success('Thêm thành công', 'Thông báo');
+                this.dialogRef.close('addComic');
+              },
+              (error) => {
+                this.toastr.error('Đã xảy ra lỗi khi thêm chi tiết truyện tranh', 'Thông báo');
+              }
+            );
+          } else {
+            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.dialogRef.close('addComic');
+          }
         } else if (response.error) {
           this.toastr.error('Tên Comic trùng. Vui lòng chọn tin khác', 'Thông báo');
         } else {
