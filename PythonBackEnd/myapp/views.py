@@ -189,6 +189,35 @@ class ListCreateComicDetailView(ListCreateAPIView):
         )
 
 
-class UpdateDeleteComicDetailView(BaseUpdateDeleteView):
-    model = ComicDetail
+class UpdateDeleteComicDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = ComicDetail.objects.all()
     serializer_class = ComicDetailSerializer
+
+    def put(self, request, *args, **kwargs):
+        obj = self.get_object()
+        page_number = request.data.get('page_number')
+        if ComicDetail.objects.filter(page_number=page_number).exclude(id=obj.id).exists():
+            return ServiceResult.get_result(
+                success=False,
+                message=f'ComicDetail with this page number already exists.',
+                status_code=http_status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(obj, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Update ComicDetail successful!',
+            status_code=http_status.HTTP_200_OK
+        )
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.delete()
+        return ServiceResult.get_result(
+            success=True,
+            message='Delete ComicDetail successful!',
+            status_code=http_status.HTTP_200_OK
+        )
