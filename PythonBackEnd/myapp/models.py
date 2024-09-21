@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.utils.timezone import localtime
 
 
@@ -91,3 +93,15 @@ class ComicDetail(models.Model):
 
     def __str__(self):
         return f"Page {self.page_number} of {self.comic.name}"
+
+
+@receiver(post_delete, sender=ComicDetail)
+def delete_comic_detail_file(sender, instance, **kwargs):
+    if instance.image_detail:
+        instance.image_detail.delete(False)
+
+
+@receiver(post_delete, sender=Comic)
+def delete_comic_detail_file(sender, instance, **kwargs):
+    if instance.profile_picture:
+        instance.profile_picture.delete(False)

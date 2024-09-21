@@ -429,16 +429,6 @@ export class AddComicComponent {
     this.comicService.addComic(formData).subscribe((response) => {
       if (response && response.message) {
         if (response.message === 'Create a new Comic successful!') {
-          // if (this.imageFileDetail) {
-          //   for (let i = 0; i < this.imageFileDetail.length; i++) {
-          //     const comicDetail = new FormData();
-          //     comicDetail.append('comic_id', response.data.id);
-          //     comicDetail.append('image_detail', this.imageFileDetail[i]);
-          //     comicDetail.append('page_number', i.toString());
-
-          //     this.comicService.addComicDetail(comicDetail);
-          //   }
-          // }
           if ((this.imageFileDetail ?? []).length > 0) {
             const comicDetailRequests = (this.imageFileDetail ?? []).map((file, index) => {
               const comicDetail = new FormData();
