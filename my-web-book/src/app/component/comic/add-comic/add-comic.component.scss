@@ -81,7 +81,8 @@ mat-form-field.full-width input {
 .drop-zone {
     width: 100%;
     max-width: 300px;
-    height: 200px;
+    min-height: 200px;
+    /* Đảm bảo chiều cao tối thiểu */
     padding: 25px;
     border: 2px dashed #ccc;
     border-radius: 10px;
@@ -94,6 +95,8 @@ mat-form-field.full-width input {
     color: #333;
     cursor: pointer;
     flex-direction: column;
+    overflow: auto;
+    /* Cho phép cuộn nếu nội dung quá lớn */
 }
 
 .drop-zone--over {
@@ -104,10 +107,14 @@ mat-form-field.full-width input {
     display: flex;
     flex-wrap: wrap;
     margin-top: 10px;
+    width: 100%;
+    /* Đảm bảo chiều rộng đầy đủ */
+    justify-content: center;
+    /* Căn giữa các ảnh */
 }
 
 .preview-container img {
     max-width: 100px;
     max-height: 100px;
-    margin: 5px;
+    margin: 2px;
 }
