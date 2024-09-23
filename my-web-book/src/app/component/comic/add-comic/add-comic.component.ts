@@ -401,6 +401,56 @@ export class AddComicComponent {
   }
 
   addComic() {
+    if (!this.comicName) {
+      this.toastr.error('Tên truyện tranh là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.selectedCategories || this.selectedCategories.length === 0) {
+      this.toastr.error('Thể loại là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.selectedLanguages || this.selectedLanguages.length === 0) {
+      this.toastr.error('Ngôn ngữ là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.selectedTags || this.selectedTags.length === 0) {
+      this.toastr.error('Tag là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.selectedParodies || this.selectedParodies.length === 0) {
+      this.toastr.error('Parody là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.selectedCharacters || this.selectedCharacters.length === 0) {
+      this.toastr.error('Character là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.selectedArtist) {
+      this.toastr.error('Tác giả là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.selectedGroup) {
+      this.toastr.error('Nhóm là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.imageFile) {
+      this.toastr.error('Ảnh bìa là bắt buộc', 'Thông báo');
+      return;
+    }
+    
+    if (!this.imageFileDetail || this.imageFileDetail.length === 0) {
+      this.toastr.error('Ảnh chi tiết là bắt buộc', 'Thông báo');
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append('name', this.comicName);

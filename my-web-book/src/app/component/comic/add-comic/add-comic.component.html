@@ -4,8 +4,19 @@
     <div class="col-8 row">
         <div class="col-6">
             <mat-form-field appearance="fill">
-                <mat-label>Tên tác giả</mat-label>
-                <input matInput [(ngModel)]="comicName" />
+                <mat-label>Tên truyện tranh</mat-label>
+                <input matInput [(ngModel)]="comicName" name="comicName" required minlength="3" maxlength="250"
+                    pattern="^[a-zA-ZÀ-ỹ\s]+$" #comicNameInput="ngModel" />
+                <mat-error *ngIf="comicNameInput.errors?.['required']">Tên truyện tranh là bắt buộc.</mat-error>
+                <mat-error *ngIf="comicNameInput.errors?.['minlength']">
+                    Tên truyện tranh phải có ít nhất 3 ký tự.
+                </mat-error>
+                <mat-error *ngIf="comicNameInput.errors?.['maxlength']">
+                    Tên truyện tranh không được vượt quá 250 ký tự.
+                </mat-error>
+                <mat-error *ngIf="comicNameInput.errors?.['pattern']">
+                    Tên truyện tranh chỉ được chứa các ký tự chữ cái và khoảng trắng.
+                </mat-error>
             </mat-form-field>
 
             <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
@@ -158,7 +169,7 @@
     <button mat-raised-button color="warn" (click)="onCancel()">
         <mat-icon>close</mat-icon> Thoát
     </button>
-    <button mat-raised-button color="primary" disabled (click)="addComic()">
+    <button mat-raised-button color="primary" (click)="addComic()" [disabled]="comicNameInput.invalid">
         <mat-icon>save</mat-icon> Thêm mới
     </button>
 </div>
