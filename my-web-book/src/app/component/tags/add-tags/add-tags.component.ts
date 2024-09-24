@@ -73,7 +73,7 @@ export class AddTagsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.tagsService.addTags(tagsData).subscribe((response) => {
-          if (response.status == 200 && response.message == 'Create a new Tags successful!' && response.success == true) {
+          if (response.status == 201 && response.message == 'Create a new Tags successful!' && response.success == true) {
             this.toastr.success('Thêm thành công', 'Thông báo');
             this.dialogRef.close("addTags");
           } else if (response.status == 200 && response.success == false && response.message == 'Tags with this name already exists.') {
