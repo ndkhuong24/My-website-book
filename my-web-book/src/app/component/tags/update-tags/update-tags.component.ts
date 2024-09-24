@@ -81,21 +81,11 @@ export class UpdateTagsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.tagsService.updateTags(this.tagsID, tagsData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Update Tags successful!') {
-              this.toastr.success('Cập nhật thành công', 'Thông báo');
-              this.dialogRef.close("updateTags");
-            } else if (response.error) {
-              this.toastr.error('Tên tags bị trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên tags bị trùng. Vui lòng chọn tin khác', 'Thông báo');
+          if (response.status == 200 && response.success == true && response.message == 'Update Tags successful!') {
+            this.toastr.success('Cập nhật thành công', 'Thông báo');
+            this.dialogRef.close("updateTags");
+          } else if (response.status == 200 && response.success == false && response.message == 'Tags with this name already exists.') {
+            this.toastr.error('Tên tag đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

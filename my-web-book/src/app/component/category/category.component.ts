@@ -47,6 +47,7 @@ export class CategoryComponent implements OnInit {
         headerName: 'STT',
         valueGetter: (params) => params.node?.rowIndex != null ? params.node.rowIndex + 1 : null,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1,
       },
       {
         headerName: 'Tên',
@@ -54,6 +55,25 @@ export class CategoryComponent implements OnInit {
         sortable: true,
         filter: true,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1,
+      },
+      {
+        headerName: 'Ngày tạo',
+        field: 'created_at',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        valueFormatter: this.dateFormatter,
+        flex: 1,
+      },
+      {
+        headerName: 'Ngày cập nhật',
+        field: 'updated_at',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        valueFormatter: this.dateFormatter,
+        flex: 1,
       },
       {
         headerName: 'Trạng thái',
@@ -62,14 +82,21 @@ export class CategoryComponent implements OnInit {
         filter: true,
         cellRenderer: StatusCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1,
       },
       {
         headerName: 'Chức năng',
         field: 'actions',
         cellRenderer: CategoryCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1,
       },
     ];
+  }
+
+  dateFormatter(params: { value: string | number | Date; }) {
+    const date = new Date(params.value);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   }
 
   addCategory(): void {

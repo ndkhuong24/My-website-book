@@ -50,7 +50,7 @@ export class TagsCellRenderComponent implements ICellRendererAngularComp {
     }).then((result) => {
       if (result.isConfirmed) {
         this.tagsService.deleteById(rowData.id).subscribe((response) => {
-          if (response.message === 'Delete Tags successful!') {
+          if (response.message === 'Delete Tags successful!' && response.status === 200) {
             this.toastr.success('Xóa thành công', 'Thông báo');
             this.tagsComponent.ngOnInit();
             this.cdr.detectChanges();

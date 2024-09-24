@@ -72,22 +72,12 @@ export class AddTagsComponent {
       cancelButtonText: 'Thoát',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.tagsService.addTags(tagsData).subscribe(response => {
-          if (response && response.message) {
-            if (response.message === 'Create a new Tags successful!') {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addTags");
-            } else if (response.error) {
-              this.toastr.error('Tên tags trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên tags trùng. Vui lòng chọn tin khác', 'Thông báo');
+        this.tagsService.addTags(tagsData).subscribe((response) => {
+          if (response.status == 200 && response.message == 'Create a new Tags successful!' && response.success == true) {
+            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.dialogRef.close("addTags");
+          } else if (response.status == 200 && response.success == false && response.message == 'Tags with this name already exists.') {
+            this.toastr.error('Tên tag đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

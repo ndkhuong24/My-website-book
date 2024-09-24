@@ -50,7 +50,7 @@ export class CategoryCellRenderComponent implements ICellRendererAngularComp {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.deleteById(rowData.id).subscribe((response) => {
-          if (response.status === 200) {
+          if (response.status === 200 && response.message === 'Delete Category successful!') {
             this.toastr.success('Xóa thành công', 'Thông báo');
             this.categoryComponen.ngOnInit();
             this.cdr.detectChanges();

@@ -72,25 +72,12 @@ export class AddCategoryComponent {
       cancelButtonText: 'Thoát',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoryService.addCategory(categoryData).subscribe(response => {
-          if (response && response.status) {
-            if (response.status === 201) {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addCategory");
-            } else if (response.error) {
-              // Trường hợp tên thể loại bị trùng
-              // this.toastr.error(response.error, 'Thông báo');
-              this.toastr.error('Tên thể lại loại trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          // Kiểm tra nếu lỗi do tên bị trùng
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên thể lại loại trùng. Vui lòng chọn tin khác', 'Thông báo');
+        this.categoryService.addCategory(categoryData).subscribe((response) => {
+          if (response.status == 201 && response.message == 'Create a new Category successful!' && response.success == true) {
+            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.dialogRef.close("addCategory");
+          } else if (response.status == 200 && response.message == 'Category with this name already exists.' && response.success == false) {
+            this.toastr.error('Tên thể loại đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

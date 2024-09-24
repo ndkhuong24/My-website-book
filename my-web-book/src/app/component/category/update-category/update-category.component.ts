@@ -79,25 +79,11 @@ export class UpdateCategoryComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.updateCategory(this.categoryId, categoryData).subscribe((response) => {
-          if (response && response.status) {
-            if (response.status === 200) {
-              this.toastr.success('Cập nhật thành công', 'Thông báo');
-              this.dialogRef.close("updateCategory");
-            } else if (response.error) {
-              // Trường hợp tên thể loại bị trùng
-              // this.toastr.error(response.error, 'Thông báo');
-              this.toastr.error('Tên thể loại bị trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          // Kiểm tra nếu lỗi do tên bị trùng
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên thể loại bị trùng. Vui lòng chọn tin khác', 'Thông báo');
-            // this.toastr.error(error.error.error, 'Thông báo');
+          if (response.status == 200 && response.message == 'Update Category successful!' && response.success == true) {
+            this.toastr.success('Cập nhật thành công', 'Thông báo');
+            this.dialogRef.close("updateCategory");
+          } else if (response.status == 200 && response.message == 'Category with this name already exists.' && response.success == false) {
+            this.toastr.error('Tên thể loại đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
