@@ -47,7 +47,6 @@ export class CategoryComponent implements OnInit {
         headerName: 'STT',
         valueGetter: (params) => params.node?.rowIndex != null ? params.node.rowIndex + 1 : null,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
       },
       {
         headerName: 'Tên',
@@ -55,7 +54,6 @@ export class CategoryComponent implements OnInit {
         sortable: true,
         filter: true,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
       },
       {
         headerName: 'Trạng thái',
@@ -64,14 +62,12 @@ export class CategoryComponent implements OnInit {
         filter: true,
         cellRenderer: StatusCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
       },
       {
         headerName: 'Chức năng',
         field: 'actions',
         cellRenderer: CategoryCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
       },
     ];
   }
@@ -85,7 +81,6 @@ export class CategoryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'addCategory') {
-        // Handle the result here
         this.ngOnInit();
         this.cdr.detectChanges();
       }
