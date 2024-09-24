@@ -405,47 +405,47 @@ export class AddComicComponent {
       this.toastr.error('Tên truyện tranh là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.selectedCategories || this.selectedCategories.length === 0) {
       this.toastr.error('Thể loại là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.selectedLanguages || this.selectedLanguages.length === 0) {
       this.toastr.error('Ngôn ngữ là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.selectedTags || this.selectedTags.length === 0) {
       this.toastr.error('Tag là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.selectedParodies || this.selectedParodies.length === 0) {
       this.toastr.error('Parody là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.selectedCharacters || this.selectedCharacters.length === 0) {
       this.toastr.error('Character là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.selectedArtist) {
       this.toastr.error('Tác giả là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.selectedGroup) {
       this.toastr.error('Nhóm là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.imageFile) {
       this.toastr.error('Ảnh bìa là bắt buộc', 'Thông báo');
       return;
     }
-    
+
     if (!this.imageFileDetail || this.imageFileDetail.length === 0) {
       this.toastr.error('Ảnh chi tiết là bắt buộc', 'Thông báo');
       return;
@@ -479,28 +479,30 @@ export class AddComicComponent {
     this.comicService.addComic(formData).subscribe((response) => {
       if (response && response.message) {
         if (response.message === 'Create a new Comic successful!') {
-          if ((this.imageFileDetail ?? []).length > 0) {
-            const comicDetailRequests = (this.imageFileDetail ?? []).map((file, index) => {
-              const comicDetail = new FormData();
-              comicDetail.append('comic_id', response.data.id);
-              comicDetail.append('image_detail', file);
-              comicDetail.append('page_number', (index + 1).toString());
-              return this.comicService.addComicDetail(comicDetail);
-            });
+          // if ((this.imageFileDetail ?? []).length > 0) {
+          //   const comicDetailRequests = (this.imageFileDetail ?? []).map((file, index) => {
+          //     const comicDetail = new FormData();
+          //     comicDetail.append('comic_id', response.data.id);
+          //     comicDetail.append('image_detail', file);
+          //     comicDetail.append('page_number', (index + 1).toString());
+          //     return this.comicService.addComicDetail(comicDetail);
+          //   });
 
-            forkJoin(comicDetailRequests).subscribe(
-              () => {
-                this.toastr.success('Thêm thành công', 'Thông báo');
-                this.dialogRef.close('addComic');
-              },
-              (error) => {
-                this.toastr.error('Đã xảy ra lỗi khi thêm chi tiết truyện tranh', 'Thông báo');
-              }
-            );
-          } else {
-            this.toastr.success('Thêm thành công', 'Thông báo');
-            this.dialogRef.close('addComic');
-          }
+          //   forkJoin(comicDetailRequests).subscribe(
+          //     () => {
+          //       this.toastr.success('Thêm thành công', 'Thông báo');
+          //       this.dialogRef.close('addComic');
+          //     },
+          //     (error) => {
+          //       this.toastr.error('Đã xảy ra lỗi khi thêm chi tiết truyện tranh', 'Thông báo');
+          //     }
+          //   );
+          // } else {
+          //   this.toastr.success('Thêm thành công', 'Thông báo');
+          //   this.dialogRef.close('addComic');
+          // }
+          this.toastr.success('Thêm thành công', 'Thông báo');
+          this.dialogRef.close('addComic');
         } else if (response.error) {
           this.toastr.error('Tên Comic trùng. Vui lòng chọn tin khác', 'Thông báo');
         } else {

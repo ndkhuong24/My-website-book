@@ -152,9 +152,39 @@ class UpdateDeleteGroupsView(BaseUpdateDeleteView):
     serializer_class = GroupsSerializer
 
 
-class ListCreateComicView(BaseListCreateView):
+# class ListCreateComicView(BaseListCreateView):
+#     model = Comic
+#     serializer_class = ComicSerializer
+
+
+class ListCreateComicView(ListCreateAPIView):
     model = Comic
     serializer_class = ComicSerializer
+
+    def get_queryset(self):
+        return self.model.objects.all().order_by('name')
+
+    def create(self, request, *args, **kwargs):
+        name = request.data.get('name')
+        if self.model.objects.filter(name=name).exists():
+            return ServiceResult.get_result(
+                success=False,
+                message=f'Comic with this name already exists.',
+                status_code=http_status.HTTP_400_BAD_REQUEST
+            )
+
+        profile_picture = request.data.get('profile_picture')
+        print(profile_picture)
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message=f'Create a new Comic successful!',
+            status_code=http_status.HTTP_201_CREATED
+        )
 
 
 class UpdateDeleteComicView(BaseUpdateDeleteView):
