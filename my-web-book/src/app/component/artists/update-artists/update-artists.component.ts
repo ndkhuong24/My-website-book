@@ -81,21 +81,11 @@ export class UpdateArtistsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.artistsService.updateArtists(this.artistsID, artistsData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Update Artists successful!') {
-              this.toastr.success('Cập nhật thành công', 'Thông báo');
-              this.dialogRef.close("updateArtists");
-            } else if (response.error) {
-              this.toastr.error('Tên artists bị trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên artists bị trùng. Vui lòng chọn tin khác', 'Thông báo');
+          if (response.status === 200 && response.message === "Update Artists successful!" && response.success === true) {
+            this.toastr.success('Cập nhật thành công', 'Thông báo');
+            this.dialogRef.close("updateArtists");
+          } else if (response.status === 200 && response.success === false && response.message === "Artists with this name already exists.") {
+            this.toastr.error('Tên artists đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

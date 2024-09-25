@@ -75,21 +75,11 @@ export class AddParodiesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.parodiesService.addParodies(parodiesData).subscribe((response) => {
-          if (response && response.status) {
-            if (response.status === 201) {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addParodies");
-            } else if (response.error) {
-              this.toastr.error('Tên parodies Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên parodies trùng. Vui lòng chọn tin khác', 'Thông báo');
+          if (response.status === 201 && response.success === true && response.message === 'Create a new Parodies successful!') {
+            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.dialogRef.close("addParodies");
+          } else if (response.status === 200 && response.success === false && response.message === 'Parodies with this name already exists.') {
+            this.toastr.error('Thông tin Parody đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

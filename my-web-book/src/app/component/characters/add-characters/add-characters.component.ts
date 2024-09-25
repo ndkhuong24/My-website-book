@@ -75,24 +75,32 @@ export class AddCharactersComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.charactersService.addCharacters(charactersData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Create a new Characters successful!') {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addCharacters");
-            } else if (response.error) {
-              this.toastr.error('Tên characters trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
+          if (response.status === 201 && response.message === 'Create a new Characters successful!' && response.success === true) {
+            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.dialogRef.close("addCharacters");
+          } else if (response.status === 200 && response.success === false && response.message === 'Characters with this name already exists.') {
+            this.toastr.error('Character đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên characters trùng. Vui lòng chọn tin khác', 'Thông báo');
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
+          //   if (response && response.message) {
+          //     if (response.message === 'Create a new Characters successful!') {
+          //       this.toastr.success('Thêm thành công', 'Thông báo');
+          //       this.dialogRef.close("addCharacters");
+          //     } else if (response.error) {
+          //       this.toastr.error('Tên characters trùng. Vui lòng chọn tin khác', 'Thông báo');
+          //     } else {
+          //       this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          //     }
+          //   } else {
+          //     this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          //   }
+          // }, error => {
+          //   if (error.error && error.error.error) {
+          //     this.toastr.error('Tên characters trùng. Vui lòng chọn tin khác', 'Thông báo');
+          //   } else {
+          //     this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+          //   }
         });
       }
     });

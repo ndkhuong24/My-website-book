@@ -75,7 +75,7 @@ export class AddArtistsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.artistsService.addArtists(artistsData).subscribe((response) => {
-          if (response.status === 201 && response.statusText === "Create a new Artists successful!" && response.success === true) {
+          if (response.status === 201 && response.message === "Create a new Artists successful!" && response.success === true) {
             this.toastr.success('Thêm thành công', 'Thông báo');
             this.dialogRef.close("addArtists");
           } else if (response.success === false && response.message === "Artists with this name already exists." && response.status === 200) {

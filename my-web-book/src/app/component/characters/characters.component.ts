@@ -47,7 +47,7 @@ export class CharactersComponent implements OnInit {
         headerName: 'STT',
         valueGetter: (params) => params.node?.rowIndex != null ? params.node.rowIndex + 1 : null,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
+        flex: 1,
       },
       {
         headerName: 'Tên',
@@ -55,7 +55,25 @@ export class CharactersComponent implements OnInit {
         sortable: true,
         filter: true,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
+        flex: 1,
+      },
+      {
+        headerName: 'Ngày tạo',
+        field: 'created_at',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1,
+        valueFormatter: this.formatter
+      },
+      {
+        headerName: 'Ngày cập nhật',
+        field: 'updated_at',
+        sortable: true,
+        filter: true,
+        cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+        flex: 1,
+        valueFormatter: this.formatter
       },
       {
         headerName: 'Trạng thái',
@@ -64,16 +82,21 @@ export class CharactersComponent implements OnInit {
         filter: true,
         cellRenderer: StatusCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
+        flex: 1,
       },
       {
         headerName: 'Chức năng',
         field: 'actions',
         cellRenderer: CharactersCellRenderComponent,
         cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-        
+        flex: 1,
       },
     ];
+  }
+
+  formatter(params: { value: string | number | Date; }) {
+    const date = new Date(params.value);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   }
 
   addCharacters() {

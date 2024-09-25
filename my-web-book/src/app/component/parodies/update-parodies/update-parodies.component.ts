@@ -12,6 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ToastrService } from 'ngx-toastr';
 import { ParodiesService } from '../../../service/parodies.service';
 import Swal from 'sweetalert2';
+import e from 'express';
 
 @Component({
   selector: 'app-update-parodies',
@@ -81,21 +82,11 @@ export class UpdateParodiesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.parodiesService.updateParodies(this.parodiesID, parodiesData).subscribe((response) => {
-          if (response && response.status) {
-            if (response.status === 200) {
-              this.toastr.success('Cập nhật thành công', 'Thông báo');
-              this.dialogRef.close("updateParodies");
-            } else if (response.error) {
-              this.toastr.error('Tên ngôn ngữ bị trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên ngôn ngữ bị trùng. Vui lòng chọn tin khác', 'Thông báo');
+          if (response.status === 200 && response.message === 'Update Parodies successful!' && response.success === true) {
+            this.toastr.success('Cập nhật thành công', 'Thông báo');
+            this.dialogRef.close("updateParodies");
+          } else if (response.status === 200 && response.message === 'Parodies with this name already exists.' && response.success === false) {
+            this.toastr.error('Tên parodies đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
