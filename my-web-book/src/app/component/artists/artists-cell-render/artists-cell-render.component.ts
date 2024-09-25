@@ -51,7 +51,7 @@ export class ArtistsCellRenderComponent implements ICellRendererAngularComp {
     }).then((result) => {
       if (result.isConfirmed) {
         this.artistsService.deleteById(rowData.id).subscribe((response) => {
-          if (response.message === 'Delete Artists successful!') {
+          if (response.message === 'Delete Artists successful!' && response.status === 200) {
             this.toastr.success('Xóa thành công', 'Thông báo');
             this.artistsComponent.ngOnInit();
             this.cdr.detectChanges();

@@ -75,21 +75,11 @@ export class AddLanguagesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.languagesService.addLanguages(languagesData).subscribe(response => {
-          if (response && response.message) {
-            if (response.message === 'Create a new Languages successful!') {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addLanguages");
-            } else if (response.error) {
-              this.toastr.error('Tên ngôn ngữ trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên ngôn ngữ trùng. Vui lòng chọn tin khác', 'Thông báo');
+          if (response.status == 201 && response.message === 'Create a new Languages successful!' && response.success === true) {
+            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.dialogRef.close("addLanguages");
+          } else if (response.status == 200 && response.success === false && response.message === 'Languages with this name already exists.') {
+            this.toastr.error('Ngôn ngữ đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

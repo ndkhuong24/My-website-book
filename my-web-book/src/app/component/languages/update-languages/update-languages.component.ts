@@ -81,21 +81,11 @@ export class UpdateLanguagesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.languagesService.updateLanguages(this.languagesID, languagesData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Update Languages successful!') {
-              this.toastr.success('Cập nhật thành công', 'Thông báo');
-              this.dialogRef.close("updateLanguages");
-            } else if (response.error) {
-              this.toastr.error('Tên ngôn ngữ bị trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên ngôn ngữ bị trùng. Vui lòng chọn tin khác', 'Thông báo');
+          if (response.status === 200 && response.message === 'Update Languages successful!' && response.success === true) {
+            this.toastr.success('Cập nhật thành công', 'Thông báo');
+            this.dialogRef.close("updateLanguages");
+          } else if (response.status === 200 && response.message === 'Languages with this name already exists.') {
+            this.toastr.error('Ngôn ngữ đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }

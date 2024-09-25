@@ -50,7 +50,7 @@ export class LanguagesCellRenderComponent implements ICellRendererAngularComp {
     }).then((result) => {
       if (result.isConfirmed) {
         this.languagesService.deleteById(rowData.id).subscribe((response) => {
-          if (response.message === 'Delete Languages successful!') {
+          if (response.message === 'Delete Languages successful!' && response.status === 200) {
             this.toastr.success('Xóa thành công', 'Thông báo');
             this.languagesComponent.ngOnInit();
             this.cdr.detectChanges();
