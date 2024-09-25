@@ -75,21 +75,11 @@ export class AddArtistsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.artistsService.addArtists(artistsData).subscribe((response) => {
-          if (response && response.message) {
-            if (response.message === 'Create a new Artists successful!') {
-              this.toastr.success('Thêm thành công', 'Thông báo');
-              this.dialogRef.close("addArtists");
-            } else if (response.error) {
-              this.toastr.error('Tên artists trùng. Vui lòng chọn tin khác', 'Thông báo');
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          } else {
-            this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-          }
-        }, error => {
-          if (error.error && error.error.error) {
-            this.toastr.error('Tên artists trùng. Vui lòng chọn tin khác', 'Thông báo');
+          if (response.status === 201 && response.statusText === "Create a new Artists successful!" && response.success === true) {
+            this.toastr.success('Thêm thành công', 'Thông báo');
+            this.dialogRef.close("addArtists");
+          } else if (response.success === false && response.message === "Artists with this name already exists." && response.status === 200) {
+            this.toastr.error('Tên artists đã tồn tại', 'Thông báo');
           } else {
             this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
           }
