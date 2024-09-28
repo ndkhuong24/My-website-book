@@ -170,14 +170,6 @@ class ListCreateComicDetailView(ListCreateAPIView):
         return self.model.objects.all().order_by('page_number')
 
     def create(self, request, *args, **kwargs):
-        page_number = request.data.get('page_number')
-        if ComicDetail.objects.filter(page_number=page_number).exists():
-            return ServiceResult.get_result(
-                success=False,
-                message=f'ComicDetail with this page number already exists.',
-                status_code=http_status.HTTP_400_BAD_REQUEST
-            )
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -195,14 +187,6 @@ class UpdateDeleteComicDetailView(RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         obj = self.get_object()
-        page_number = request.data.get('page_number')
-        if ComicDetail.objects.filter(page_number=page_number).exclude(id=obj.id).exists():
-            return ServiceResult.get_result(
-                success=False,
-                message=f'ComicDetail with this page number already exists.',
-                status_code=http_status.HTTP_400_BAD_REQUEST
-            )
-
         serializer = self.get_serializer(obj, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
