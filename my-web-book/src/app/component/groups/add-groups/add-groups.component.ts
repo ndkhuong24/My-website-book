@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { ResponseMessage } from '../../../models/response.model';
 import { error } from 'console';
+import e from 'express';
 
 @Component({
   selector: 'app-add-groups',
@@ -78,26 +79,11 @@ export class AddGroupsComponent {
       if (result.isConfirmed) {
         this.groupsService.addGroups(groupsData).subscribe(
           (response) => {
-            if (response) {
-              if (response.status) {
-                if (response.status === 201) {
-                  this.toastr.success('Thêm thành công', 'Thông báo');
-                  this.dialogRef.close("addGroups");
-                } else {
-                  this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-                }
-              } else if (response.error) {
-                this.toastr.error(response.error, 'Thông báo');
-              } else {
-                this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-              }
-            } else {
-              this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-            }
-          },
-          (error) => {
-            if (error.error && error.error.error) {
-              this.toastr.error('Tên groups trùng. Vui lòng chọn tin khác', 'Thông báo');
+            if (response.status === 201 && response.success === true && response.message === 'Create a new Groups successful!') {
+              this.toastr.success('Thêm thành công', 'Thông báo');
+              this.dialogRef.close("addGroups");
+            } else if (response.status === 200 && response.success === false && response.message === 'Groups with this name already exists.') {
+              this.toastr.error('Groups đã tồn tại', 'Thông báo');
             } else {
               this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
             }
