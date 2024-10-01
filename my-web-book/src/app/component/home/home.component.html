@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" *ngFor="let comic of comics">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" [src]="comic.profile_picture" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comic.name }}</h5>
+                    <p class="card-text">Created at: {{ comic.created_at | date:'short' }}</p>
+                    <p class="card-text">Updated at: {{ comic.updated_at | date:'short' }}</p>
+                    <p class="card-text">Status: {{ comic.status }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
