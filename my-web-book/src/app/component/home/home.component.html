@@ -2,12 +2,19 @@
     <div class="row">
         <div class="col-md-4" *ngFor="let comic of comics">
             <div class="card mb-4 shadow-sm">
+                <div [ngStyle]="{'background-color': comic.category[0].name === 'Manga' ? '#552882' : 'transparent'}"
+                    class="category-comic-container">
+                    <p class="category-comic">
+                        {{comic.category[0].name}}
+                    </p>
+                </div>
                 <img class="card-img-top" [src]="comic.profile_picture" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{ comic.name }}</h5>
-                    <p class="card-text">Created at: {{ comic.created_at | date:'short' }}</p>
-                    <p class="card-text">Updated at: {{ comic.updated_at | date:'short' }}</p>
-                    <p class="card-text">Status: {{ comic.status }}</p>
+                <div class="card-body" style=" border-bottom-left-radius: 0.5rem;border-bottom-right-radius: 0.5rem;">
+                    <h3 class="card-title">{{ comic.name }}</h3>
+                    <div class="row d-flex justify-content-between">
+                        <p class="col-6">{{ comic.languages[0].name }}</p>
+                        <p class="col-6 text-end">hello</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,3 +1,47 @@
 .col-md-4 {
-    border-radius: 15px;
+    max-width: 250px;
+}
+
+.card {
+    border-radius: 0.5rem;
+    /* Bo góc cho toàn bộ thẻ card */
+}
+
+.category-comic-container {
+    border-top-left-radius: 0.5rem;
+    /* Bo góc phía trên bên trái */
+    border-top-right-radius: 0.5rem;
+    /* Bo góc phía trên bên phải */
+}
+
+.card-img-top {
+    border-radius: 0 !important;
+}
+
+.category-comic {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-left: 7px;
+    font-size: 15px;
+    color: white;
+}
+
+.card-title {
+    margin-top: -12px;
+    margin-bottom: 5px;
+    // font-size: large;
+    font-weight: bold;
+    color: white;
+}
+
+.card-body {
+    height: 70px;
+}
+
+.card-body {
+    background-color: #262A2B;
+}
+
+.col-6 {
+    color: white;
 }
