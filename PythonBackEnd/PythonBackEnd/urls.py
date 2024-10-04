@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/comic_detail', views.ListCreateComicDetailView.as_view(), name='list-create-comic-detail'),
     path('api/comic_detail/<int:pk>', views.UpdateDeleteComicDetailView.as_view(),
          name='retrieve-update-delete-comic-detail'),
+    path('api/comic/<int:comic_id>/details/', views.ComicDetailByComicIdView.as_view(), name='comic-detail-by-comic-id'),
 ]
 
 if settings.DEBUG:
