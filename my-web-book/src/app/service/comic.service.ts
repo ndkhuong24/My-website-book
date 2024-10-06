@@ -26,6 +26,10 @@ export class ComicService {
         return this.http.post<any>(`http://127.0.0.1:8000/api/comic_detail`, comicDetail);
     }
 
+    getDetailBtComicID(id: number): Observable<any> {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/comic/${id}/details/`);
+    }
+
     // getById(id: any): Observable<any> {
     //     return this.http.get<any>(`${this.apiUrl}/${id}`);
     // }
