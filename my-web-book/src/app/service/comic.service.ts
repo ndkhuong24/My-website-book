@@ -30,9 +30,9 @@ export class ComicService {
         return this.http.get<any>(`http://127.0.0.1:8000/api/comic/${id}/details/`);
     }
 
-    // getById(id: any): Observable<any> {
-    //     return this.http.get<any>(`${this.apiUrl}/${id}`);
-    // }
+    getById(id: any): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/${id}`);
+    }
 
     // updateAuthor(id: number, authorDataCurrent: any, imageFile: File | null) {
     //     const formData = new FormData();

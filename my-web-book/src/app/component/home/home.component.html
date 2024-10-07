@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4" *ngFor="let comic of comics">
-            <div class="card mb-4 shadow-sm">
+            <div class="card mb-4 shadow-sm" (click)="onCardClick(comic)">
                 <div [ngStyle]="{'background-color': comic.category[0].name === 'Manga' ? '#552882' : 'transparent'}"
                     class="category-comic-container">
                     <p class="category-comic">

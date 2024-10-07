@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ComicService } from '../../service/comic.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,18 +17,22 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private comicService: ComicService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.comicService.getAllComic().subscribe((data) => {
       this.comics = data;
 
-      // Lặp qua data để lấy ID của từng phần tử và log ra từng ID
       data.forEach((comic: any) => {
         this.comicService.getDetailBtComicID(comic.id).subscribe((detail) => {
           this.numberPages = detail.data.length;
         });
       });
     });
+  }
+
+  onCardClick(comic: any) {
+    this.router.navigate([`/gallery/${comic.id}`]);
   }
 }
