@@ -147,3 +147,9 @@ class ComicDetailSerializer(serializers.ModelSerializer):
         instance.page_number = validated_data.get('page_number', instance.page_number)
         instance.save()
         return instance
+
+
+class ComicDetailByComicIdView(serializers.ModelSerializer):
+    class Meta:
+        model = ComicDetail
+        fields = '__all__'

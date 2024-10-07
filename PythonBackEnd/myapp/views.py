@@ -4,7 +4,8 @@ from rest_framework.response import Response
 
 from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups, Comic, ComicDetail
 from myapp.serializers import CategorySerializer, TagsSerializer, LanguagesSerializer, ArtistsSerializer, \
-    ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer, ComicDetailSerializer
+    ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer, ComicDetailSerializer, \
+    ComicDetailByComicIdView
 
 
 class ServiceResult:
@@ -203,5 +204,23 @@ class UpdateDeleteComicDetailView(RetrieveUpdateDestroyAPIView):
         return ServiceResult.get_result(
             success=True,
             message='Delete ComicDetail successful!',
+            status_code=http_status.HTTP_200_OK
+        )
+
+
+class ComicDetailByComicIdView(ListCreateAPIView):
+    serializer_class = ComicDetailByComicIdView
+
+    def get_queryset(self):
+        comic_id = self.kwargs['comic_id']
+        return ComicDetail.objects.filter(comic_id=comic_id).order_by('page_number')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Comic details retrieved successfully!',
             status_code=http_status.HTTP_200_OK
         )

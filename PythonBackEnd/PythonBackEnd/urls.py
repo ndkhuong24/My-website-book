@@ -10,8 +10,6 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/authors', views.ListCreateAuthorView.as_view(), name='list-create-authors'),
-    # path('api/authors/<int:pk>', views.UpdateDeleteAuthorView.as_view(), name='retrieve-update-delete-author'),
     path('api/category', views.ListCreateCategoryView.as_view(), name='list-create-category'),
     path('api/category/<uuid:pk>', views.UpdateDeleteCategoryView.as_view(), name='retrieve-update-delete-category'),
     path('api/tags', views.ListCreateTagsView.as_view(), name='list-create-tags'),
@@ -32,6 +30,8 @@ urlpatterns = [
     path('api/comic_detail', views.ListCreateComicDetailView.as_view(), name='list-create-comic-detail'),
     path('api/comic_detail/<int:pk>', views.UpdateDeleteComicDetailView.as_view(),
          name='retrieve-update-delete-comic-detail'),
+    path('api/comic/<int:comic_id>/details/', views.ComicDetailByComicIdView.as_view(),
+         name='comic-detail-by-comic-id'),
 ]
 
 if settings.DEBUG:

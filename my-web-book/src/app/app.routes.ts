@@ -8,6 +8,7 @@ import { GroupsComponent } from './component/groups/groups.component';
 import { ParodiesComponent } from './component/parodies/parodies.component';
 import { ComicComponent } from './component/comic/comic.component';
 import { HomeComponent } from './component/home/home.component';
+import { DetailComponent } from './component/detail/detail.component';
 
 export const routes: Routes = [
     { path: 'api/category', component: CategoryComponent },
@@ -18,5 +19,6 @@ export const routes: Routes = [
     { path: 'api/characters', component: CharactersComponent },
     { path: 'api/groups', component: GroupsComponent },
     { path: 'api/comic', component: ComicComponent },
-    { path: '', component: HomeComponent }
+    { path: '', component: HomeComponent },
+    { path: 'gallery/:id', component: DetailComponent }
 ];
