@@ -12,6 +12,9 @@ import { ComicService } from '../../service/comic.service';
 export class DetailComponent implements OnInit {
   private comicId: number = 0;
 
+  public comic: any = {};
+  public comicDetail: any = [];
+
   constructor(
     private route: ActivatedRoute,
     private comicService: ComicService
@@ -23,10 +26,12 @@ export class DetailComponent implements OnInit {
 
     this.comicService.getDetailBtComicID(this.comicId).subscribe((response) => {
       console.log(response.data);
+      this.comicDetail = response.data;
     });
 
     this.comicService.getById(this.comicId).subscribe((response) => {
       console.log(response);
+      this.comic = response;
     });
 
   }
