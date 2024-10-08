@@ -1,7 +1,36 @@
 <div class="container-fluid">
     <div class="comic_detail">
-        <h3 style="width: 100%;">[{{comic.artists[0].name}}] {{comic.name}}</h3>
-
-        <!-- <p class="custom-hr"></p> -->
+        <div
+            style="border-bottom: 4px solid #33B2EF; display: flex; align-items: center; justify-content: center; height: 45px;">
+            <h3 style="width: 100%;">[{{comic.artists[0].name}}] {{comic.name}}</h3>
+        </div>
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-md-4">
+                <img class="card-img-top" [src]="comic.profile_picture" alt="Comic image">
+            </div>
+            <div class="col-md-8">
+                <div>
+                    <h4>Tags</h4>
+                </div>
+                <div>
+                    <h4>Artists</h4>
+                </div>
+                <div>
+                    <h4>Characters</h4>
+                </div>
+                <div>
+                    <h4>Groups</h4>
+                </div>
+                <div>
+                    <h4>Ngôn ngữ</h4>
+                </div>
+                <div>
+                    <h4>Thể loại</h4>
+                </div>
+                <div>
+                    <h4>Parodies</h4>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
