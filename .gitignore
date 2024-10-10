@@ -1,0 +1,30 @@
+# Thư mục và tệp cho Angular
+node_modules/
+dist/
+coverage/
+*.log
+*.env
+
+# Thư mục và tệp cho Django
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+media/
+*.env
+*.pot
+*.pyc
+*.DS_Store
+
+# Thư mục và tệp cho IDE (các IDE phổ biến)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Thư mục và tệp cho hệ điều hành
+Thumbs.db
+.DS_Store
