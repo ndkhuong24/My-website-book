@@ -13,7 +13,7 @@ __pycache__/
 *.db
 *.sqlite3
 *.log
-media/
+media/          # Bỏ qua thư mục media chứa tệp tải lên
 *.env
 *.pot
 *.pyc
@@ -21,9 +21,6 @@ media/
 
 # Thư mục và tệp cho IDE (các IDE phổ biến)
 .vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
 
 # Thư mục và tệp cho hệ điều hành
 Thumbs.db
