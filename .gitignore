@@ -13,7 +13,6 @@ __pycache__/
 *.db
 *.sqlite3
 *.log
-PythonBackEnd/media/  # Bỏ qua thư mục media chứa tệp tải lên
 *.env
 *.pot
 *.pyc
@@ -25,3 +24,6 @@ PythonBackEnd/media/  # Bỏ qua thư mục media chứa tệp tải lên
 # Thư mục và tệp cho hệ điều hành
 Thumbs.db
 .DS_Store
+
+PythonBackEnd/media/image_detail/
+PythonBackEnd/media/profile_picture/
