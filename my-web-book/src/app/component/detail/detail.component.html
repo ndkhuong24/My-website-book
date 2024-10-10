@@ -11,6 +11,13 @@
             <div class="col-md-8">
                 <div>
                     <h4>Tags</h4>
+                    <div class="radio-buttons-container">
+                        <div *ngFor="let tag of comicTags" class="radio-button">
+                            <input type="radio" id="{{tag.name}}" name="comicTag" [value]="tag.name"
+                                (click)="onRadioButtonSelect(tag.name)">
+                            <label for="{{tag.name}}">{{tag.name}}</label>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <h4>Artists</h4>
