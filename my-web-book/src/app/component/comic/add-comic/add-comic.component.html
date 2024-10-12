@@ -73,7 +73,7 @@
             <input class="file" type="file" (change)="onFileChange($event)" accept="image/*" />
 
             <div *ngIf="imageFile">
-                <img [src]="imageSrc" alt="Selected Image" style="max-width: auto; height: 430px;" />
+                <img [src]="imageSrc" alt="Selected Image" style="width: auto; max-width: 312px;" />
             </div>
         </div>
 
