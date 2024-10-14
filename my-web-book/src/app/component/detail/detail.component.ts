@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-
   private comicId: number = 0;
 
   public comic: any = {};
@@ -54,7 +53,31 @@ export class DetailComponent implements OnInit {
     });
   }
 
-  onRadioButtonSelect(_t13: any) {
+  onRadioButtonSelectTags(_t13: any) {
     console.log(_t13);
+  }
+
+  onRadioButtonSelectArtist(arg0: any) {
+    console.log(arg0);
+  }
+
+  onRadioButtonSelectCharacter(arg0: any) {
+    console.log(arg0);
+  }
+
+  onRadioButtonSelectGroup(arg0: any) {
+    console.log(arg0);
+  }
+
+  onRadioButtonSelectLanguage(arg0: any) {
+    console.log(arg0);
+  }
+
+  onRadioButtonSelectParody(arg0: any) {
+    console.log(arg0);
+  }
+
+  onRadioButtonSelectCategory(arg0: any) {
+    console.log(arg0);
   }
 }

@@ -2,7 +2,7 @@
     <div class="comic_detail">
         <div
             style="border-bottom: 4px solid #33B2EF; display: flex; align-items: center; justify-content: center; height: 45px;">
-            <h3 style="width: 100%;">[{{comic.artists[0].name}}] {{comic.name}}</h3>
+            <h3 style="width: 100%;">[{{comic.artists?.[0]?.name}}] {{comic.name}}</h3>
         </div>
         <div class="row" style="padding-top: 10px;">
             <div class="col-md-4">
@@ -14,28 +14,70 @@
                     <div class="radio-buttons-container">
                         <div *ngFor="let tag of comicTags" class="radio-button">
                             <input type="radio" id="{{tag.name}}" name="comicTag" [value]="tag.name"
-                                (click)="onRadioButtonSelect(tag.name)">
+                                (click)="onRadioButtonSelectTags(tag.name)">
                             <label for="{{tag.name}}">{{tag.name}}</label>
                         </div>
                     </div>
                 </div>
                 <div>
                     <h4>Artists</h4>
+                    <div class="radio-buttons-container">
+                        <div *ngFor="let artist of comicArtists" class="radio-button">
+                            <input type="radio" id="{{artist.name}}" name="comicArtist" [value]="artist.name"
+                                (click)="onRadioButtonSelectArtist(artist.name)">
+                            <label for="{{artist.name}}">{{artist.name}}</label>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <h4>Characters</h4>
+                    <div class="radio-buttons-container">
+                        <div *ngFor="let character of comicCharacters" class="radio-button">
+                            <input type="radio" id="{{character.name}}" name="comicCharacter" [value]="character.name"
+                                (click)="onRadioButtonSelectCharacter(character.name)">
+                            <label for="{{character.name}}">{{character.name}}</label>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <h4>Groups</h4>
+                    <div class="radio-buttons-container">
+                        <div *ngFor="let group of comicGroups" class="radio-button">
+                            <input type="radio" id="{{group.name}}" name="comicGroup" [value]="group.name"
+                                (click)="onRadioButtonSelectGroup(group.name)">
+                            <label for="{{group.name}}">{{group.name}}</label>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <h4>Ngôn ngữ</h4>
-                </div>
-                <div>
-                    <h4>Thể loại</h4>
+                    <div class="radio-buttons-container">
+                        <div *ngFor="let language of comicLanguages" class="radio-button">
+                            <input type="radio" id="{{language.name}}" name="comicLanguage" [value]="language.name"
+                                (click)="onRadioButtonSelectLanguage(language.name)">
+                            <label for="{{language.name}}">{{language.name}}</label>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <h4>Parodies</h4>
+                    <div class="radio-buttons-container">
+                        <div *ngFor="let parody of comicParodies" class="radio-button">
+                            <input type="radio" id="{{parody.name}}" name="comicParody" [value]="parody.name"
+                                (click)="onRadioButtonSelectParody(parody.name)">
+                            <label for="{{parody.name}}">{{parody.name}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4>Thể loại</h4>
+                    <div class="radio-buttons-container">
+                        <div *ngFor="let category of comicCategories" class="radio-button">
+                            <input type="radio" id="{{category.name}}" name="comicCategory" [value]="category.name"
+                                (click)="onRadioButtonSelectCategory(category.name)">
+                            <label for="{{category.name}}">{{category.name}}</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
