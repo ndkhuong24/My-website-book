@@ -1,89 +1,92 @@
 #title {
-    margin: 10px;
+    padding: 10px;
 }
 
-#button-layout {
-    margin: 10px;
-}
+// #button-layout {
+//     margin: 10px;
+// }
 
-mat-dialog-actions {
-    margin-top: 15px;
-}
+// .col-padding {
+//     padding-left: 20px;
+//     padding-right: 20px;
+// }
 
-button {
-    text-transform: uppercase;
-    margin-left: 8px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    display: inline-flex;
-    /* Thêm dòng này */
-    align-items: center;
-    /* Thêm dòng này để căn giữa icon và text */
-}
+// mat-dialog-actions {
+//     margin-top: 15px;
+// }
 
-button[mat-raised-button] {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+// button {
+//     text-transform: uppercase;
+//     margin-left: 8px;
+//     padding: 8px 16px;
+//     border-radius: 4px;
+//     display: inline-flex;
+//     /* Thêm dòng này */
+//     align-items: center;
+//     /* Thêm dòng này để căn giữa icon và text */
+// }
 
-mat-icon {
-    margin-right: 4px;
-    font-size: 20px;
-    /* Đảm bảo kích thước của icon hợp lý */
-}
+// button[mat-raised-button] {
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+// }
 
-button[color="warn"] {
-    background-color: #f44336;
-    color: #ffffff;
-}
+// mat-icon {
+//     margin-right: 4px;
+//     font-size: 20px;
+//     /* Đảm bảo kích thước của icon hợp lý */
+// }
 
-button[color="primary"] {
-    background-color: #2196f3;
-    color: #ffffff;
-}
+// button[color="warn"] {
+//     background-color: #f44336;
+//     color: #ffffff;
+// }
 
-button {
-    border: none;
-    outline: none;
-    box-shadow: none;
-}
+// button[color="primary"] {
+//     background-color: #2196f3;
+//     color: #ffffff;
+// }
 
-button:focus {
-    outline: none;
-}
+// button {
+//     border: none;
+//     outline: none;
+//     box-shadow: none;
+// }
 
-.col-6 {
-    mat-form-field {
-        width: 100%;
-    }
-}
+// button:focus {
+//     outline: none;
+// }
 
-.file {
-    margin-bottom: 10px;
-}
+// .col-6 {
+//     mat-form-field {
+//         width: 100%;
+//     }
+// }
 
-.checkbox-container {
-    display: flex;
-    flex-direction: column;
-}
+// .file {
+//     margin-bottom: 10px;
+// }
 
-.full-width {
-    width: 100%;
-}
+// .checkbox-container {
+//     display: flex;
+//     flex-direction: column;
+// }
 
-mat-form-field.full-width {
-    width: 100%;
-}
+// .full-width {
+//     width: 100%;
+// }
 
-mat-form-field.full-width input {
-    width: 100%;
-}
+// mat-form-field.full-width {
+//     width: 100%;
+// }
+
+// mat-form-field.full-width input {
+//     width: 100%;
+// }
 
 .drop-zone {
     width: 100%;
-    max-width: 300px;
+    max-width: 100%;
     min-height: 200px;
-    /* Đảm bảo chiều cao tối thiểu */
-    padding: 25px;
     border: 2px dashed #ccc;
     border-radius: 10px;
     display: flex;
@@ -96,7 +99,6 @@ mat-form-field.full-width input {
     cursor: pointer;
     flex-direction: column;
     overflow: auto;
-    /* Cho phép cuộn nếu nội dung quá lớn */
 }
 
 .drop-zone--over {
@@ -108,13 +110,59 @@ mat-form-field.full-width input {
     flex-wrap: wrap;
     margin-top: 10px;
     width: 100%;
-    /* Đảm bảo chiều rộng đầy đủ */
     justify-content: center;
-    /* Căn giữa các ảnh */
 }
 
 .preview-container img {
     max-width: 100px;
     max-height: 100px;
     margin: 5px;
+}
+
+.file-upload-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.file-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+.file-label {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.file-label:hover {
+    background-color: #f1f1f1;
+    border-color: #aaa;
+}
+
+.image-preview-container {
+    text-align: center;
+}
+
+.image-preview {
+    width: auto;
+    max-width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
