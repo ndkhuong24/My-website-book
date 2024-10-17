@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups, Comic, ComicDetail
 from myapp.serializers import CategorySerializer, TagsSerializer, LanguagesSerializer, ArtistsSerializer, \
     ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer, ComicDetailSerializer, \
-    ComicDetailByComicIdView
+    ComicDetailByComicIdView, ArtistByArtistName
 
 
 class ServiceResult:
@@ -222,5 +222,24 @@ class ComicDetailByComicIdView(ListCreateAPIView):
             success=True,
             data=serializer.data,
             message='Comic details retrieved successfully!',
+            status_code=http_status.HTTP_200_OK
+        )
+
+
+class ArtistByArtistName(ListCreateAPIView):
+    serializer_class = ArtistByArtistName
+
+    def get_queryset(self):
+        name = self.kwargs['name']
+        # Sử dụng icontains để tìm kiếm nghệ sĩ có tên chứa chuỗi được nhập
+        return Artists.objects.filter(name__icontains=name).order_by('name')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Search Artist name successfully!',
             status_code=http_status.HTTP_200_OK
         )

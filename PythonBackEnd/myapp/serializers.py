@@ -153,3 +153,9 @@ class ComicDetailByComicIdView(serializers.ModelSerializer):
     class Meta:
         model = ComicDetail
         fields = '__all__'
+
+
+class ArtistByArtistName(serializers.ModelSerializer):
+    class Meta:
+        model = Artists
+        fields = '__all__'

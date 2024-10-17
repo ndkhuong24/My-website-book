@@ -30,6 +30,10 @@ export class ArtistsService {
         return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
+    searchArtistByName(artistSearchName: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/name/${artistSearchName}`);
+    }
+
     updateArtists(artistsID: number, artistsData: any): Observable<any> {
         const formData = new FormData();
 
