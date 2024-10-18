@@ -231,7 +231,6 @@ class ArtistByArtistName(ListCreateAPIView):
 
     def get_queryset(self):
         name = self.kwargs['name']
-        # Sử dụng icontains để tìm kiếm nghệ sĩ có tên chứa chuỗi được nhập
         return Artists.objects.filter(name__icontains=name).order_by('name')
 
     def list(self, request, *args, **kwargs):

@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('api/artists', views.ListCreateArtistsView.as_view(), name='list-create-artists'),
     path('api/artists/<uuid:pk>', views.UpdateDeleteArtistsView.as_view(), name='retrieve-update-delete-artists'),
-    path('api/artists/name/<str:name>/', views.ArtistByArtistName.as_view(), name='artist-by-artist-name'),
+    path('/<str:name>/', views.ArtistByArtistName.as_view(), name='artist-by-artist-name'),
 
     path('api/parodies', views.ListCreateParodiesView.as_view(), name='list-create-parodies'),
     path('api/parodies/<uuid:pk>', views.UpdateDeleteParodiesView.as_view(), name='retrieve-update-delete-parodies'),
