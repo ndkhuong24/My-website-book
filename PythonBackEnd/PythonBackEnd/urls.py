@@ -27,13 +27,16 @@ urlpatterns = [
 
     path('api/parodies', views.ListCreateParodiesView.as_view(), name='list-create-parodies'),
     path('api/parodies/<uuid:pk>', views.UpdateDeleteParodiesView.as_view(), name='retrieve-update-delete-parodies'),
+    path('api/parodies/name/<str:name>/', views.ParodyByParodyName.as_view(), name='parody-by-parody-name'),
 
     path('api/characters', views.ListCreateCharactersView.as_view(), name='list-create-characters'),
     path('api/characters/<uuid:pk>', views.UpdateDeleteCharactersView.as_view(),
          name='retrieve-update-delete-characters'),
+    path('api/characters/name/<str:name>/', views.CharacterByCharacterName.as_view(), name='character-by-character-name'),
 
     path('api/groups', views.ListCreateGroupsView.as_view(), name='list-create-groups'),
     path('api/groups/<uuid:pk>', views.UpdateDeleteGroupsView.as_view(), name='retrieve-update-delete-groups'),
+    path('api/groups/name/<str:name>/', views.GroupByGroupName.as_view(), name='group-by-group-name'),
 
     path('api/comic', views.ListCreateComicView.as_view(), name='list-create-comic'),
     path('api/comic/<int:pk>', views.UpdateDeleteComicView.as_view(), name='retrieve-update-delete-comic'),

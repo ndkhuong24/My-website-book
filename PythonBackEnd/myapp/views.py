@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups, Comic, ComicDetail
 from myapp.serializers import CategorySerializer, TagsSerializer, LanguagesSerializer, ArtistsSerializer, \
     ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer, ComicDetailSerializer, \
-    ComicDetailByComicIdView, ArtistByArtistName, TagByTagName
+    ComicDetailByComicIdView, ArtistByArtistName, TagByTagName, ParodyByParodyName, CharacterByCharacterName, \
+    GroupByGroupName
 
 
 class ServiceResult:
@@ -284,5 +285,92 @@ class TagByTagName(ListCreateAPIView):
             success=True,
             data=serializer.data,
             message='Search Tag name successfully!',
+            status_code=http_status.HTTP_200_OK
+        )
+
+
+class ParodyByParodyName(ListCreateAPIView):
+    serializer_class = ParodyByParodyName
+
+    def get_queryset(self):
+        name = self.kwargs['name'].strip()
+
+        if not name or name.isspace():
+            return Parodies.objects.none()
+
+        search_terms = name.split()
+
+        query = Q()
+        for term in search_terms:
+            if term:
+                query &= Q(name__icontains=term)
+
+        return Parodies.objects.filter(query).order_by('name')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Search Parody name successfully!',
+            status_code=http_status.HTTP_200_OK
+        )
+
+
+class CharacterByCharacterName(ListCreateAPIView):
+    serializer_class = CharacterByCharacterName
+
+    def get_queryset(self):
+        name = self.kwargs['name'].strip()
+
+        if not name or name.isspace():
+            return Characters.objects.none()
+
+        search_terms = name.split()
+
+        query = Q()
+        for term in search_terms:
+            if term:
+                query &= Q(name__icontains=term)
+
+        return Characters.objects.filter(query).order_by('name')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Search Character name successfully!',
+            status_code=http_status.HTTP_200_OK
+        )
+
+
+class GroupByGroupName(ListCreateAPIView):
+    serializer_class = GroupByGroupName
+
+    def get_queryset(self):
+        name = self.kwargs['name'].strip()
+
+        if not name or name.isspace():
+            return Groups.objects.none()
+
+        search_terms = name.split()
+
+        query = Q()
+        for term in search_terms:
+            if term:
+                query &= Q(name__icontains=term)
+
+        return Groups.objects.filter(query).order_by('name')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Search Group name successfully!',
             status_code=http_status.HTTP_200_OK
         )

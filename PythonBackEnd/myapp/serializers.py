@@ -165,3 +165,21 @@ class TagByTagName(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = '__all__'
+
+
+class ParodyByParodyName(serializers.ModelSerializer):
+    class Meta:
+        model = Parodies
+        fields = '__all__'
+
+
+class CharacterByCharacterName(serializers.ModelSerializer):
+    class Meta:
+        model = Characters
+        fields = '__all__'
+
+
+class GroupByGroupName(serializers.ModelSerializer):
+    class Meta:
+        model = Groups
+        fields = '__all__'

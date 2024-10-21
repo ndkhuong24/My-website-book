@@ -33,6 +33,10 @@ export class GroupsService {
         return this.http.get<Groups>(`${this.apiUrl}/${id}`);
     }
 
+    searchGroupByName(groupSearchName: any): Observable<any> {
+        return this.http.get<Groups>(`${this.apiUrl}/name/${groupSearchName}`);
+    }
+
     // Cập nhật thông tin nhóm
     updateGroups(groupsID: number, groupData: GroupCreateUpdateData): Observable<any> {
         return this.http.put<any>(`${this.apiUrl}/${groupsID}`, groupData);

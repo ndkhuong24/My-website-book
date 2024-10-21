@@ -59,6 +59,12 @@ export class AddComicComponent {
   parodyRowData: any[] = [];
   parodyColumnDefs: ColDef[] = [];
 
+  characterRowData: any[] = [];
+  characterColumnDefs: ColDef[] = [];
+
+  groupRowData: any[] = [];
+  groupColumnDefs: ColDef[] = [];
+
   headerHeight: number = 50;
   rowHeight: number = 50;
   paginationPageSize = 10;
@@ -73,6 +79,8 @@ export class AddComicComponent {
   artistSearchName: string = '';
   tagSearchName: string = '';
   parodySearchName: string = '';
+  characterSearchName: string = '';
+  groupSearchName: string = '';
 
   tagsActive: any[] = [];
   artistsActive: any[] = [];
@@ -119,8 +127,8 @@ export class AddComicComponent {
       tags: this.tagsService.getAllTags(),//
       artists: this.artistsService.getAllArtists(),//
       languages: this.languagesService.getAllLanguages(),//
-      parodies: this.parodiesService.getAllParodies(),
-      characters: this.charactersService.getAllCharacters(),
+      parodies: this.parodiesService.getAllParodies(),//
+      characters: this.charactersService.getAllCharacters(),//
       groups: this.groupsService.getAllGroups(),
       categories: this.categoryService.getAllCategory(),//
     }).subscribe((results: any) => {
@@ -249,6 +257,83 @@ export class AddComicComponent {
         }
       ];
 
+      this.characterRowData = this.charactersActive;
+      this.characterColumnDefs = [
+        {
+          headerCheckboxSelection: true,
+          checkboxSelection: true,
+          width: 50,
+          resizable: false
+        },
+        {
+          headerName: 'Tên',
+          field: 'name',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày tạo',
+          field: 'created_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày cập nhật',
+          field: 'updated_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        }
+      ];
+
+      this.groupRowData = this.groupsActive;
+      this.groupColumnDefs = [
+        {
+          headerCheckboxSelection: true,
+          checkboxSelection: true,
+          width: 50,
+          resizable: false
+        },
+        {
+          headerName: 'Tên',
+          field: 'name',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày tạo',
+          field: 'created_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày cập nhật',
+          field: 'updated_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        }
+      ];
       // this.filteredTags = this.tagsActive;
       // this.filteredParodies = this.parodiesActive;
       // this.filteredCharacters = this.charactersActive;
@@ -287,6 +372,24 @@ export class AddComicComponent {
     console.log('Selected parodies:', selectedParodies);
   }
 
+  onRowCharacterSelected(event: any): void {
+    console.log('Character selected:', event.node.data);
+  }
+
+  onSelectionCharacterChanged(event: any): void {
+    const selectedCharacters = event.api.getSelectedRows();
+    console.log('Selected characters:', selectedCharacters);
+  }
+
+  onRowGroupSelected(event: any): void {
+    console.log('Group selected:', event.node.data);
+  }
+
+  onSelectionGroupChanged(event: any): void {
+    const selectedGroups = event.api.getSelectedRows();
+    console.log('Selected groups:', selectedGroups);
+  }
+
   onPageSizeChanged(newPageSize: number): void {
     this.paginationPageSize = newPageSize;
   }
@@ -310,6 +413,42 @@ export class AddComicComponent {
       this.tagsService.searchTagByName(this.tagSearchName).subscribe((response) => {
         if (response.status === 200 && response.success === true && response.message === "Search Tag name successfully!") {
           this.tagRowData = response.data;
+        }
+      });
+    }
+  }
+
+  searchParody() {
+    if (this.parodySearchName.length === 0 && this.parodySearchName.trim().length === 0) {
+      this.parodyRowData = this.parodiesActive;
+    } else {
+      this.parodiesService.searchParodyByName(this.parodySearchName).subscribe((response) => {
+        if (response.status === 200 && response.success === true && response.message === "Search Parody name successfully!") {
+          this.parodyRowData = response.data;
+        }
+      });
+    }
+  }
+
+  searchCharacter() {
+    if (this.characterSearchName.length === 0 && this.characterSearchName.trim().length === 0) {
+      this.characterRowData = this.charactersActive;
+    } else {
+      this.charactersService.searchCharacterByName(this.characterSearchName).subscribe((response) => {
+        if (response.status === 200 && response.success === true && response.message === "Search Character name successfully!") {
+          this.characterRowData = response.data;
+        }
+      });
+    }
+  }
+
+  searchGroup() {
+    if (this.groupSearchName.length === 0 && this.groupSearchName.trim().length === 0) {
+      this.groupRowData = this.groupsActive;
+    } else {
+      this.groupsService.searchGroupByName(this.groupSearchName).subscribe((response) => {
+        if (response.status === 200 && response.success === true && response.message === "Search Group name successfully!") {
+          this.groupRowData = response.data;
         }
       });
     }

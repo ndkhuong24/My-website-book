@@ -30,6 +30,10 @@ export class CharactersService {
         return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
+    searchCharacterByName(characterSearchName: any): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/name/${characterSearchName}`);
+    }
+
     updadteCharacters(charactersID: number, charactersData: any): Observable<any> {
         const formData = new FormData();
 

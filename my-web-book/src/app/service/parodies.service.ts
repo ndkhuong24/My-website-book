@@ -30,6 +30,10 @@ export class ParodiesService {
         return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
+    searchParodyByName(parodySearchName: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/name/${parodySearchName}`);
+    }
+
     updateParodies(parodiesID: number, parodiesData: any): Observable<any> {
         const formData = new FormData();
 
