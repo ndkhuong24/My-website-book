@@ -159,3 +159,9 @@ class ArtistByArtistName(serializers.ModelSerializer):
     class Meta:
         model = Artists
         fields = '__all__'
+
+
+class TagByTagName(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = '__all__'

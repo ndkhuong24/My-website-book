@@ -30,6 +30,10 @@ export class TagsService {
         return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
 
+    searchTagByName(tagSearchName: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/name/${tagSearchName}`);
+    }
+
     updateTags(tagsID: number, tagsData: any): Observable<any> {
         const formData = new FormData();
 

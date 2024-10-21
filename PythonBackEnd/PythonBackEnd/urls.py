@@ -16,13 +16,14 @@ urlpatterns = [
 
     path('api/tags', views.ListCreateTagsView.as_view(), name='list-create-tags'),
     path('api/tags/<uuid:pk>', views.UpdateDeleteTagsView.as_view(), name='retrieve-update-delete-tags'),
+    path('api/tags/name/<str:name>/', views.TagByTagName.as_view(), name='tag-by-tag-name'),
 
     path('api/languages', views.ListCreateLanguagesView.as_view(), name='list-create-languages'),
     path('api/languages/<uuid:pk>', views.UpdateDeleteLanguagesView.as_view(), name='retrieve-update-delete-languages'),
 
     path('api/artists', views.ListCreateArtistsView.as_view(), name='list-create-artists'),
     path('api/artists/<uuid:pk>', views.UpdateDeleteArtistsView.as_view(), name='retrieve-update-delete-artists'),
-    path('/<str:name>/', views.ArtistByArtistName.as_view(), name='artist-by-artist-name'),
+    path('api/artists/name/<str:name>/', views.ArtistByArtistName.as_view(), name='artist-by-artist-name'),
 
     path('api/parodies', views.ListCreateParodiesView.as_view(), name='list-create-parodies'),
     path('api/parodies/<uuid:pk>', views.UpdateDeleteParodiesView.as_view(), name='retrieve-update-delete-parodies'),

@@ -50,20 +50,19 @@ import { StatusCellRenderComponent } from '../comic-cell-render/status-cell-rend
   styleUrl: './add-comic.component.scss'
 })
 export class AddComicComponent {
-  // rowData: any[] = [];
-  // columnDefs: ColDef[] = [];
-
-  // rowData1: any[] = [];
-  // columnDefs1: ColDef[] = [];
-
-  // rowData2: any[] = [];
-  // columnDefs2: ColDef[] = [];
-
   artistRowData: any[] = [];
   artistColumnDefs: ColDef[] = [];
 
-  headerHeight: number = 38;
-  rowHeight: number = 50
+  tagRowData: any[] = [];
+  tagColumnDefs: ColDef[] = [];
+
+  parodyRowData: any[] = [];
+  parodyColumnDefs: ColDef[] = [];
+
+  headerHeight: number = 50;
+  rowHeight: number = 50;
+  paginationPageSize = 10;
+  paginationPageSizeSelector = [10, 20, 50, 100];
 
   imageFile: File | null = null;
   imageSrc: string | ArrayBuffer | null = null;
@@ -72,6 +71,8 @@ export class AddComicComponent {
 
   comicName: string = '';
   artistSearchName: string = '';
+  tagSearchName: string = '';
+  parodySearchName: string = '';
 
   tagsActive: any[] = [];
   artistsActive: any[] = [];
@@ -115,13 +116,13 @@ export class AddComicComponent {
     private categoryService: CategoryService,
   ) {
     forkJoin({
-      tags: this.tagsService.getAllTags(),
-      artists: this.artistsService.getAllArtists(),
-      languages: this.languagesService.getAllLanguages(),
+      tags: this.tagsService.getAllTags(),//
+      artists: this.artistsService.getAllArtists(),//
+      languages: this.languagesService.getAllLanguages(),//
       parodies: this.parodiesService.getAllParodies(),
       characters: this.charactersService.getAllCharacters(),
       groups: this.groupsService.getAllGroups(),
-      categories: this.categoryService.getAllCategory(),
+      categories: this.categoryService.getAllCategory(),//
     }).subscribe((results: any) => {
       this.tagsActive = results.tags.filter((tag: any) => tag.status === 1);
       this.artistsActive = results.artists.filter((artist: any) => artist.status === 1);
@@ -138,6 +139,84 @@ export class AddComicComponent {
           checkboxSelection: true,        // Hiển thị checkbox cho mỗi dòng
           width: 50,                      // Đặt chiều rộng cho cột checkbox
           resizable: false                // Không cho phép thay đổi kích thước cột
+        },
+        {
+          headerName: 'Tên',
+          field: 'name',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày tạo',
+          field: 'created_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày cập nhật',
+          field: 'updated_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        }
+      ];
+
+      this.tagRowData = this.tagsActive;
+      this.tagColumnDefs = [
+        {
+          headerCheckboxSelection: true,
+          checkboxSelection: true,
+          width: 50,
+          resizable: false
+        },
+        {
+          headerName: 'Tên',
+          field: 'name',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày tạo',
+          field: 'created_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        },
+        {
+          headerName: 'Ngày cập nhật',
+          field: 'updated_at',
+          sortable: true,
+          filter: true,
+          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          valueFormatter: this.dateFormatter,
+          flex: 1,
+          resizable: false
+        }
+      ];
+
+      this.parodyRowData = this.parodiesActive;
+      this.parodyColumnDefs = [
+        {
+          headerCheckboxSelection: true,
+          checkboxSelection: true,
+          width: 50,
+          resizable: false
         },
         {
           headerName: 'Tên',
@@ -190,15 +269,52 @@ export class AddComicComponent {
     console.log('Selected artists:', selectedRows);
   }
 
+  onRowTagSelected(event: any): void {
+    console.log('Tag selected:', event.node.data);
+  }
+
+  onSelectionTagChanged(event: any): void {
+    const selectedTags = event.api.getSelectedRows();
+    console.log('Selected tags:', selectedTags);
+  }
+
+  onRowParodySelected(event: any): void {
+    console.log('Parody selected:', event.node.data);
+  }
+
+  onSelectionParodyChanged(event: any): void {
+    const selectedParodies = event.api.getSelectedRows();
+    console.log('Selected parodies:', selectedParodies);
+  }
+
+  onPageSizeChanged(newPageSize: number): void {
+    this.paginationPageSize = newPageSize;
+  }
+
   searchArtist() {
     if (this.artistSearchName.length === 0 && this.artistSearchName.trim().length === 0) {
       this.artistRowData = this.artistsActive;
     } else {
       this.artistsService.searchArtistByName(this.artistSearchName).subscribe((response) => {
-        console.log('Search artist:', response);
+        if (response.status === 200 && response.success === true && response.message === "Search Artist name successfully!") {
+          this.artistRowData = response.data;
+        }
       });
     }
   }
+
+  searchTag() {
+    if (this.tagSearchName.length === 0 && this.tagSearchName.trim().length === 0) {
+      this.tagRowData = this.tagsActive;
+    } else {
+      this.tagsService.searchTagByName(this.tagSearchName).subscribe((response) => {
+        if (response.status === 200 && response.success === true && response.message === "Search Tag name successfully!") {
+          this.tagRowData = response.data;
+        }
+      });
+    }
+  }
+
   // filterTags() {
   //   const searchTerm = this.tagSearch.toLowerCase();
   //   this.filteredTags = this.tagsActive.filter(tag => tag.name.toLowerCase().includes(searchTerm));

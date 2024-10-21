@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import status as http_status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
@@ -5,7 +6,7 @@ from rest_framework.response import Response
 from myapp.models import Category, Tags, Languages, Artists, Parodies, Characters, Groups, Comic, ComicDetail
 from myapp.serializers import CategorySerializer, TagsSerializer, LanguagesSerializer, ArtistsSerializer, \
     ParodiesSerializer, CharactersSerializer, GroupsSerializer, ComicSerializer, ComicDetailSerializer, \
-    ComicDetailByComicIdView, ArtistByArtistName
+    ComicDetailByComicIdView, ArtistByArtistName, TagByTagName
 
 
 class ServiceResult:
@@ -230,8 +231,22 @@ class ArtistByArtistName(ListCreateAPIView):
     serializer_class = ArtistByArtistName
 
     def get_queryset(self):
-        name = self.kwargs['name']
-        return Artists.objects.filter(name__icontains=name).order_by('name')
+        name = self.kwargs['name'].strip()  # Xóa khoảng trắng ở đầu và cuối
+
+        # Trường hợp chỉ nhập khoảng trắng
+        if not name or name.isspace():
+            return Artists.objects.none()  # Trả về không có kết quả
+
+        # Tách chuỗi thành các từ riêng lẻ
+        search_terms = name.split()
+
+        # Xây dựng truy vấn
+        query = Q()
+        for term in search_terms:
+            if term:  # Kiểm tra xem từ có rỗng hay không
+                query &= Q(name__icontains=term)
+
+        return Artists.objects.filter(query).order_by('name')
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -240,5 +255,34 @@ class ArtistByArtistName(ListCreateAPIView):
             success=True,
             data=serializer.data,
             message='Search Artist name successfully!',
+            status_code=http_status.HTTP_200_OK
+        )
+
+
+class TagByTagName(ListCreateAPIView):
+    serializer_class = TagByTagName
+
+    def get_queryset(self):
+        name = self.kwargs['name'].strip()
+
+        if not name or name.isspace():
+            return Tags.objects.none()
+
+        search_terms = name.split()
+
+        query = Q()
+        for term in search_terms:
+            if term:
+                query &= Q(name__icontains=term)
+
+        return Tags.objects.filter(query).order_by('name')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return ServiceResult.get_result(
+            success=True,
+            data=serializer.data,
+            message='Search Tag name successfully!',
             status_code=http_status.HTTP_200_OK
         )
