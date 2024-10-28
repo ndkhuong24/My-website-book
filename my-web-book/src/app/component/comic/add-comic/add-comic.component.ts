@@ -20,7 +20,11 @@ import { CharactersService } from '../../../service/characters.service';
 import { GroupsService } from '../../../service/groups.service';
 import { CategoryService } from '../../../service/category.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ColDef, RowSelectedEvent, SelectionChangedEvent } from 'ag-grid-community';
+import {
+  ColDef,
+  RowSelectedEvent,
+  SelectionChangedEvent,
+} from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 import { ButtonCellRendererComponent } from './button-cell-renderer.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -44,10 +48,10 @@ import { StatusCellRenderComponent } from '../comic-cell-render/status-cell-rend
     MatCheckboxModule,
     AgGridModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   templateUrl: './add-comic.component.html',
-  styleUrl: './add-comic.component.scss'
+  styleUrl: './add-comic.component.scss',
 })
 export class AddComicComponent {
   artistRowData: any[] = [];
@@ -92,8 +96,8 @@ export class AddComicComponent {
 
   selectedCategories: any[] = [];
   selectedLanguages: any[] = [];
-  selectedArtist: number | null = null;
-  selectedGroup: number | null = null;
+  selectedArtists: any[] = [];
+  selectedGroups: any[] = [];
   selectedTags: any[] = [];
   selectedParodies: any[] = [];
   selectedCharacters: any[] = [];
@@ -121,62 +125,86 @@ export class AddComicComponent {
     private parodiesService: ParodiesService,
     private charactersService: CharactersService,
     private groupsService: GroupsService,
-    private categoryService: CategoryService,
+    private categoryService: CategoryService
   ) {
     forkJoin({
-      tags: this.tagsService.getAllTags(),//
-      artists: this.artistsService.getAllArtists(),//
-      languages: this.languagesService.getAllLanguages(),//
-      parodies: this.parodiesService.getAllParodies(),//
-      characters: this.charactersService.getAllCharacters(),//
+      tags: this.tagsService.getAllTags(),
+      artists: this.artistsService.getAllArtists(),
+      languages: this.languagesService.getAllLanguages(),
+      parodies: this.parodiesService.getAllParodies(),
+      characters: this.charactersService.getAllCharacters(),
       groups: this.groupsService.getAllGroups(),
-      categories: this.categoryService.getAllCategory(),//
+      categories: this.categoryService.getAllCategory(),
     }).subscribe((results: any) => {
       this.tagsActive = results.tags.filter((tag: any) => tag.status === 1);
-      this.artistsActive = results.artists.filter((artist: any) => artist.status === 1);
-      this.languagesActive = results.languages.filter((language: any) => language.status === 1);
-      this.parodiesActive = results.parodies.filter((parodie: any) => parodie.status === 1);
-      this.charactersActive = results.characters.filter((character: any) => character.status === 1);
-      this.groupsActive = results.groups.filter((group: any) => group.status === 1);
-      this.categoryActive = results.categories.filter((category: any) => category.status === 1);
+      this.artistsActive = results.artists.filter(
+        (artist: any) => artist.status === 1
+      );
+      this.languagesActive = results.languages.filter(
+        (language: any) => language.status === 1
+      );
+      this.parodiesActive = results.parodies.filter(
+        (parodie: any) => parodie.status === 1
+      );
+      this.charactersActive = results.characters.filter(
+        (character: any) => character.status === 1
+      );
+      this.groupsActive = results.groups.filter(
+        (group: any) => group.status === 1
+      );
+      this.categoryActive = results.categories.filter(
+        (category: any) => category.status === 1
+      );
 
       this.artistRowData = this.artistsActive;
       this.artistColumnDefs = [
         {
-          headerCheckboxSelection: true,  // Hiển thị checkbox trên tiêu đề của cột này (chọn tất cả)
-          checkboxSelection: true,        // Hiển thị checkbox cho mỗi dòng
-          width: 50,                      // Đặt chiều rộng cho cột checkbox
-          resizable: false                // Không cho phép thay đổi kích thước cột
+          headerCheckboxSelection: true, // Hiển thị checkbox trên tiêu đề của cột này (chọn tất cả)
+          checkboxSelection: true, // Hiển thị checkbox cho mỗi dòng
+          width: 50, // Đặt chiều rộng cho cột checkbox
+          resizable: false, // Không cho phép thay đổi kích thước cột
         },
         {
           headerName: 'Tên',
           field: 'name',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày tạo',
           field: 'created_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày cập nhật',
           field: 'updated_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
-        }
+          resizable: false,
+        },
       ];
 
       this.tagRowData = this.tagsActive;
@@ -185,37 +213,49 @@ export class AddComicComponent {
           headerCheckboxSelection: true,
           checkboxSelection: true,
           width: 50,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Tên',
           field: 'name',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày tạo',
           field: 'created_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày cập nhật',
           field: 'updated_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
-        }
+          resizable: false,
+        },
       ];
 
       this.parodyRowData = this.parodiesActive;
@@ -224,37 +264,49 @@ export class AddComicComponent {
           headerCheckboxSelection: true,
           checkboxSelection: true,
           width: 50,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Tên',
           field: 'name',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày tạo',
           field: 'created_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày cập nhật',
           field: 'updated_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
-        }
+          resizable: false,
+        },
       ];
 
       this.characterRowData = this.charactersActive;
@@ -263,37 +315,49 @@ export class AddComicComponent {
           headerCheckboxSelection: true,
           checkboxSelection: true,
           width: 50,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Tên',
           field: 'name',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày tạo',
           field: 'created_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày cập nhật',
           field: 'updated_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
-        }
+          resizable: false,
+        },
       ];
 
       this.groupRowData = this.groupsActive;
@@ -302,92 +366,87 @@ export class AddComicComponent {
           headerCheckboxSelection: true,
           checkboxSelection: true,
           width: 50,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Tên',
           field: 'name',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày tạo',
           field: 'created_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
+          resizable: false,
         },
         {
           headerName: 'Ngày cập nhật',
           field: 'updated_at',
           sortable: true,
           filter: true,
-          cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
+          cellStyle: {
+            'align-items': 'center',
+            'justify-content': 'middle',
+            display: 'flex',
+          },
           valueFormatter: this.dateFormatter,
           flex: 1,
-          resizable: false
-        }
+          resizable: false,
+        },
       ];
-      // this.filteredTags = this.tagsActive;
-      // this.filteredParodies = this.parodiesActive;
-      // this.filteredCharacters = this.charactersActive;
     });
   }
 
-  dateFormatter(params: { value: string | number | Date; }) {
+  dateFormatter(params: { value: string | number | Date }) {
     const date = new Date(params.value);
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   }
 
-  onRowArtistSelected(event: any) {
-    console.log('Artist selected:', event.node.data);
-  }
-
   onSelectionArtistChanged(event: any) {
-    const selectedRows = event.api.getSelectedRows();
-    console.log('Selected artists:', selectedRows);
-  }
-
-  onRowTagSelected(event: any): void {
-    console.log('Tag selected:', event.node.data);
+    const selectedRows = event.api.getSelectedNodes();
+    this.selectedArtists = selectedRows.map(
+      (node: { data: { id: any } }) => node.data.id
+    );
   }
 
   onSelectionTagChanged(event: any): void {
-    const selectedTags = event.api.getSelectedRows();
-    console.log('Selected tags:', selectedTags);
-  }
-
-  onRowParodySelected(event: any): void {
-    console.log('Parody selected:', event.node.data);
+    const selectedTagsCurrent = event.api.getSelectedNodes();
+    this.selectedTags = selectedTagsCurrent.map(
+      (node: { data: { id: any } }) => node.data.id
+    );
   }
 
   onSelectionParodyChanged(event: any): void {
-    const selectedParodies = event.api.getSelectedRows();
-    console.log('Selected parodies:', selectedParodies);
-  }
-
-  onRowCharacterSelected(event: any): void {
-    console.log('Character selected:', event.node.data);
+    const selectedParodiesCurrent = event.api.getSelectedNodes();
+    this.selectedParodies = selectedParodiesCurrent.map(
+      (node: { data: { id: any } }) => node.data.id
+    );
   }
 
   onSelectionCharacterChanged(event: any): void {
-    const selectedCharacters = event.api.getSelectedRows();
-    console.log('Selected characters:', selectedCharacters);
-  }
-
-  onRowGroupSelected(event: any): void {
-    console.log('Group selected:', event.node.data);
+    const selectedCharactersCurrent = event.api.getSelectedNodes();
+    this.selectedCharacters = selectedCharactersCurrent.map((node: { data: { id: any } }) => node.data.id);
   }
 
   onSelectionGroupChanged(event: any): void {
-    const selectedGroups = event.api.getSelectedRows();
-    console.log('Selected groups:', selectedGroups);
+    const selectedGroupsCurrent = event.api.getSelectedNodes();
+    this.selectedGroups = selectedGroupsCurrent.map((node: { data: { id: any } }) => node.data.id);
   }
 
   onPageSizeChanged(newPageSize: number): void {
@@ -395,118 +454,109 @@ export class AddComicComponent {
   }
 
   searchArtist() {
-    if (this.artistSearchName.length === 0 && this.artistSearchName.trim().length === 0) {
+    if (
+      this.artistSearchName.length === 0 &&
+      this.artistSearchName.trim().length === 0
+    ) {
       this.artistRowData = this.artistsActive;
     } else {
-      this.artistsService.searchArtistByName(this.artistSearchName).subscribe((response) => {
-        if (response.status === 200 && response.success === true && response.message === "Search Artist name successfully!") {
-          this.artistRowData = response.data;
-        }
-      });
+      this.artistsService
+        .searchArtistByName(this.artistSearchName)
+        .subscribe((response) => {
+          if (
+            response.status === 200 &&
+            response.success === true &&
+            response.message === 'Search Artist name successfully!'
+          ) {
+            this.artistRowData = response.data;
+          }
+        });
     }
   }
 
   searchTag() {
-    if (this.tagSearchName.length === 0 && this.tagSearchName.trim().length === 0) {
+    if (
+      this.tagSearchName.length === 0 &&
+      this.tagSearchName.trim().length === 0
+    ) {
       this.tagRowData = this.tagsActive;
     } else {
-      this.tagsService.searchTagByName(this.tagSearchName).subscribe((response) => {
-        if (response.status === 200 && response.success === true && response.message === "Search Tag name successfully!") {
-          this.tagRowData = response.data;
-        }
-      });
+      this.tagsService
+        .searchTagByName(this.tagSearchName)
+        .subscribe((response) => {
+          if (
+            response.status === 200 &&
+            response.success === true &&
+            response.message === 'Search Tag name successfully!'
+          ) {
+            this.tagRowData = response.data;
+          }
+        });
     }
   }
 
   searchParody() {
-    if (this.parodySearchName.length === 0 && this.parodySearchName.trim().length === 0) {
+    if (
+      this.parodySearchName.length === 0 &&
+      this.parodySearchName.trim().length === 0
+    ) {
       this.parodyRowData = this.parodiesActive;
     } else {
-      this.parodiesService.searchParodyByName(this.parodySearchName).subscribe((response) => {
-        if (response.status === 200 && response.success === true && response.message === "Search Parody name successfully!") {
-          this.parodyRowData = response.data;
-        }
-      });
+      this.parodiesService
+        .searchParodyByName(this.parodySearchName)
+        .subscribe((response) => {
+          if (
+            response.status === 200 &&
+            response.success === true &&
+            response.message === 'Search Parody name successfully!'
+          ) {
+            this.parodyRowData = response.data;
+          }
+        });
     }
   }
 
   searchCharacter() {
-    if (this.characterSearchName.length === 0 && this.characterSearchName.trim().length === 0) {
+    if (
+      this.characterSearchName.length === 0 &&
+      this.characterSearchName.trim().length === 0
+    ) {
       this.characterRowData = this.charactersActive;
     } else {
-      this.charactersService.searchCharacterByName(this.characterSearchName).subscribe((response) => {
-        if (response.status === 200 && response.success === true && response.message === "Search Character name successfully!") {
-          this.characterRowData = response.data;
-        }
-      });
+      this.charactersService
+        .searchCharacterByName(this.characterSearchName)
+        .subscribe((response) => {
+          if (
+            response.status === 200 &&
+            response.success === true &&
+            response.message === 'Search Character name successfully!'
+          ) {
+            this.characterRowData = response.data;
+          }
+        });
     }
   }
 
   searchGroup() {
-    if (this.groupSearchName.length === 0 && this.groupSearchName.trim().length === 0) {
+    if (
+      this.groupSearchName.length === 0 &&
+      this.groupSearchName.trim().length === 0
+    ) {
       this.groupRowData = this.groupsActive;
     } else {
-      this.groupsService.searchGroupByName(this.groupSearchName).subscribe((response) => {
-        if (response.status === 200 && response.success === true && response.message === "Search Group name successfully!") {
-          this.groupRowData = response.data;
-        }
-      });
+      this.groupsService
+        .searchGroupByName(this.groupSearchName)
+        .subscribe((response) => {
+          if (
+            response.status === 200 &&
+            response.success === true &&
+            response.message === 'Search Group name successfully!'
+          ) {
+            this.groupRowData = response.data;
+          }
+        });
     }
   }
-
-  // filterTags() {
-  //   const searchTerm = this.tagSearch.toLowerCase();
-  //   this.filteredTags = this.tagsActive.filter(tag => tag.name.toLowerCase().includes(searchTerm));
-  // }
-
-  // filterParodies() {
-  //   const searchTerm = this.parodySearch.toLowerCase();
-  //   this.filteredParodies = this.parodiesActive.filter(parody => parody.name.toLowerCase().includes(searchTerm));
-  // }
-
-  // filterCharacters() {
-  //   const searchTerm = this.characterSearch.toLowerCase();
-  //   this.filteredCharacters = this.charactersActive.filter(character => character.name.toLowerCase().includes(searchTerm));
-  // }
-
-  // displayTagName(tag: any): string {
-  //   return tag ? tag.name : '';
-  // }
-
-  // displayParodyName(parody: any): string {
-  //   return parody ? parody.name : '';
-  // }
-
-  // displayCharacterName(character: any): string {
-  //   return character ? character.name : '';
-  // }
-
-  // onTagSelected(event: any) {
-  //   const selectedTag = event.option.value;
-
-  //   if (selectedTag && !this.selectedTags.includes(selectedTag.id)) {
-  //     this.selectedTags.push(selectedTag.id);
-  //     this.onChangeTags(this.selectedTags);
-  //   }
-  // }
-
-  // onParodySelected(event: any) {
-  //   const selectedParody = event.option.value;
-
-  //   if (selectedParody && !this.selectedParodies.includes(selectedParody.id)) {
-  //     this.selectedParodies.push(selectedParody.id);
-  //     this.onChangeParodies(this.selectedParodies);
-  //   }
-  // }
-
-  // onCharacterSelected(event: any) {
-  //   const selectedCharacter = event.option.value;
-
-  //   if (selectedCharacter && !this.selectedCharacters.includes(selectedCharacter.id)) {
-  //     this.selectedCharacters.push(selectedCharacter.id);
-  //     this.onChangeCharacters(this.selectedCharacters);
-  //   }
-  // }
 
   onStatusChange(newStatus: boolean): void {
     this.status = newStatus;
@@ -521,7 +571,7 @@ export class AddComicComponent {
       this.selectedCategories = [category.id];
 
       this.categoryActive.forEach((cat: any) => {
-        cat.selected = (cat.id === category.id);
+        cat.selected = cat.id === category.id;
       });
     } else {
       this.selectedCategories = [];
@@ -534,180 +584,13 @@ export class AddComicComponent {
       this.selectedLanguages = [language.id];
 
       this.languagesActive.forEach((lang: any) => {
-        lang.selected = (lang.id === language.id);
+        lang.selected = lang.id === language.id;
       });
     } else {
       this.selectedLanguages = [];
       language.selected = false;
     }
   }
-
-  // onChangeArtist(selectedId: number | null) {
-  //   this.selectedArtist = selectedId;
-
-  //   this.artistsActive.forEach((artist: any) => {
-  //     artist.selected = (artist.id === selectedId);
-  //   });
-  // }
-
-  // onChangeGroup(selectedId: number | null) {
-  //   this.selectedGroup = selectedId;
-
-  //   this.groupsActive.forEach((group: any) => {
-  //     group.selected = (group.id === selectedId);
-  //   });
-  // }
-
-  // onChangeTags(selectedIds: string[]) {
-  //   this.selectedTags = selectedIds;
-
-  //   this.tagsActive.forEach((tag: any) => {
-  //     tag.selected = false;
-  //   });
-
-  //   this.rowData = selectedIds.map(selectedId => {
-  //     const selectedTag = this.tagsActive.find(tag => tag.id === selectedId);
-  //     if (selectedTag) {
-  //       selectedTag.selected = true;
-  //       return selectedTag;
-  //     }
-  //     return null;
-  //   }).filter(tag => tag !== null);
-
-  //   this.columnDefs = [
-  //     {
-  //       headerName: 'Tên',
-  //       field: 'name',
-  //       sortable: true,
-  //       filter: true,
-  //       cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-  //       flex: 1
-  //     },
-  //     {
-  //       headerName: 'Chức năng',
-  //       field: 'actions',
-  //       cellRenderer: ButtonCellRendererComponent,
-  //       cellRendererParams: {
-  //         onClick: this.onButtonClickTags.bind(this)
-  //       },
-  //       cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-  //       flex: 1
-  //     },
-  //   ];
-  // }
-
-  // onChangeParodies(selectedIds: any[]) {
-  //   this.selectedParodies = selectedIds;
-
-  //   this.parodiesActive.forEach((parody: any) => {
-  //     parody.selected = false;
-  //   });
-
-  //   this.rowData1 = selectedIds.map(selectedId => {
-  //     const selectedParody = this.parodiesActive.find(parody => parody.id === selectedId);
-  //     if (selectedParody) {
-  //       selectedParody.selected = true;
-  //       return selectedParody;
-  //     }
-  //     return null;
-  //   }).filter(parody => parody !== null);
-
-  //   this.columnDefs1 = [
-  //     {
-  //       headerName: 'Tên',
-  //       field: 'name',
-  //       sortable: true,
-  //       filter: true,
-  //       cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-  //       flex: 1
-  //     },
-  //     {
-  //       headerName: 'Chức năng',
-  //       field: 'actions',
-  //       cellRenderer: ButtonCellRendererComponent,
-  //       cellRendererParams: {
-  //         onClick: this.onButtonClickParodies.bind(this)
-  //       },
-  //       cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-  //       flex: 1
-  //     },
-  //   ];
-  // }
-
-  // onChangeCharacters(selectedIds: any[]) {
-  //   this.selectedCharacters = selectedIds;
-
-  //   this.charactersActive.forEach((character: any) => {
-  //     character.selected = false;
-  //   });
-
-  //   this.rowData2 = selectedIds.map(selectedId => {
-  //     const selectedCharacter = this.charactersActive.find(character => character.id === selectedId);
-  //     if (selectedCharacter) {
-  //       selectedCharacter.selected = true;
-  //       return selectedCharacter;
-  //     }
-  //     return null;
-  //   }).filter(character => character !== null);
-
-  //   this.columnDefs2 = [
-  //     {
-  //       headerName: 'Tên',
-  //       field: 'name',
-  //       sortable: true,
-  //       filter: true,
-  //       cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-  //       flex: 1
-  //     },
-  //     {
-  //       headerName: 'Chức năng',
-  //       field: 'actions',
-  //       cellRenderer: ButtonCellRendererComponent,
-  //       cellRendererParams: {
-  //         onClick: this.onButtonClickCharacters.bind(this)
-  //       },
-  //       cellStyle: { 'align-items': 'center', 'justify-content': 'middle', 'display': 'flex' },
-  //       flex: 1
-  //     },
-  //   ];
-  // }
-
-  // onButtonClickTags(rowData: any) {
-  //   this.selectedTags = this.selectedTags.filter(tagId => tagId !== rowData.id);
-
-  //   this.tagsActive.forEach((tag: any) => {
-  //     if (tag.id === rowData.id) {
-  //       tag.selected = false;
-  //     }
-  //   });
-
-  //   this.rowData = this.rowData.filter(tag => tag.id !== rowData.id);
-  // }
-
-  // onButtonClickCharacters(rowData2: any) {
-  //   this.selectedCharacters = this.selectedCharacters.filter(characterID => characterID !== rowData2.id);
-
-  //   this.charactersActive.forEach((character: any) => {
-  //     if (character.id === rowData2.id) {
-  //       character.selected = false;
-  //     }
-  //   });
-
-  //   this.rowData2 = this.rowData2.filter(character => character.id !== rowData2.id);
-  // }
-
-
-  // onButtonClickParodies(rowData1: any) {
-  //   this.selectedParodies = this.selectedParodies.filter(parodyID => parodyID !== rowData1.id);
-
-  //   this.parodiesActive.forEach((parody: any) => {
-  //     if (parody.id === rowData1.id) {
-  //       parody.selected = false;
-  //     }
-  //   });
-
-  //   this.rowData1 = this.rowData1.filter(parody => parody.id !== rowData1.id);
-  // }
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -717,116 +600,130 @@ export class AddComicComponent {
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         this.imageSrc = e.target?.result ?? '';
-      }
-      reader.readAsDataURL(this.imageFile)
+      };
+      reader.readAsDataURL(this.imageFile);
     }
   }
 
-  // addComic() {
-  //   if (!this.comicName) {
-  //     this.toastr.error('Tên truyện tranh là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+  addComic() {
+    if (!this.comicName) {
+      this.toastr.error('Tên truyện tranh là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.selectedCategories || this.selectedCategories.length === 0) {
-  //     this.toastr.error('Thể loại là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.selectedCategories || this.selectedCategories.length === 0) {
+      this.toastr.error('Thể loại là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.selectedLanguages || this.selectedLanguages.length === 0) {
-  //     this.toastr.error('Ngôn ngữ là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.selectedLanguages || this.selectedLanguages.length === 0) {
+      this.toastr.error('Ngôn ngữ là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.selectedTags || this.selectedTags.length === 0) {
-  //     this.toastr.error('Tag là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.selectedTags || this.selectedTags.length === 0) {
+      this.toastr.error('Tag là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.selectedParodies || this.selectedParodies.length === 0) {
-  //     this.toastr.error('Parody là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.selectedParodies || this.selectedParodies.length === 0) {
+      this.toastr.error('Parody là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.selectedCharacters || this.selectedCharacters.length === 0) {
-  //     this.toastr.error('Character là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.selectedCharacters || this.selectedCharacters.length === 0) {
+      this.toastr.error('Character là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.selectedArtist) {
-  //     this.toastr.error('Tác giả là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.selectedArtists || this.selectedArtists.length === 0) {
+      this.toastr.error('Tác giả là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.selectedGroup) {
-  //     this.toastr.error('Nhóm là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.selectedGroups || this.selectedGroups.length === 0) {
+      this.toastr.error('Nhóm là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.imageFile) {
-  //     this.toastr.error('Ảnh bìa là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.imageFile) {
+      this.toastr.error('Ảnh bìa là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   if (!this.imageFileDetail || this.imageFileDetail.length === 0) {
-  //     this.toastr.error('Ảnh chi tiết là bắt buộc', 'Thông báo');
-  //     return;
-  //   }
+    if (!this.imageFileDetail || this.imageFileDetail.length === 0) {
+      this.toastr.error('Ảnh chi tiết là bắt buộc', 'Thông báo');
+      return;
+    }
 
-  //   const formData = new FormData();
+    const formData = new FormData();
 
-  //   formData.append('name', this.comicName);
+    formData.append('name', this.comicName);
 
-  //   const statusValue = this.status ? 1 : 0;
+    const statusValue = this.status ? 1 : 0;
+    formData.append('status', statusValue.toString());
 
-  //   formData.append('status', statusValue.toString());
-  //   if (this.imageFile) {
-  //     formData.append('profile_picture', this.imageFile);
-  //   }
+    if (this.imageFile) {
+      formData.append('profile_picture', this.imageFile);
+    }
 
-  //   this.selectedTags.forEach(tagId => formData.append('tags_ids', tagId));
-  //   if (this.selectedArtist !== null) {
-  //     formData.append('artists_ids', this.selectedArtist.toString());
-  //   }
+    this.selectedCategories.forEach(categoryId => {
+      formData.append('category_ids', categoryId.toString());
+    });
 
-  //   this.selectedLanguages.forEach(languageId => formData.append('languages_ids', languageId));
-  //   this.selectedParodies.forEach(parodyId => formData.append('parodies_ids', parodyId));
-  //   this.selectedCharacters.forEach(characterId => formData.append('characters_ids', characterId));
+    this.selectedLanguages.forEach(languageId => {
+      formData.append('languages_ids', languageId.toString());
+    });
 
-  //   if (this.selectedGroup !== null) {
-  //     formData.append('groups_ids', this.selectedGroup.toString());
-  //   }
+    this.selectedArtists.forEach(artistId => {
+      formData.append('artists_ids', artistId.toString());
+    });
 
-  //   this.selectedCategories.forEach(categoryId => formData.append('category_ids', categoryId));
+    this.selectedGroups.forEach(groupId => {
+      formData.append('groups_ids', groupId.toString());
+    });
 
-  //   this.comicService.addComic(formData).subscribe((response) => {
-  //     if (response.status === 201 && response.message === 'Create a new Comic successful!' && response.success === true) {
-  //       if ((this.imageFileDetail ?? []).length > 0) {
-  //         const comicDetailRequests = (this.imageFileDetail ?? []).map((file, index) => {
-  //           const comicDetail = new FormData();
-  //           comicDetail.append('comic_id', response.data.id);
-  //           comicDetail.append('image_detail', file);
-  //           comicDetail.append('page_number', (index + 1).toString());
-  //           return this.comicService.addComicDetail(comicDetail);
-  //         });
+    this.selectedTags.forEach(tagId => {
+      formData.append('tags_ids', tagId.toString());
+    });
 
-  //         forkJoin(comicDetailRequests).subscribe(
-  //           () => {
-  //             this.toastr.success('Thêm thành công', 'Thông báo');
-  //             this.dialogRef.close('addComic');
-  //           },
-  //           (error) => {
-  //             this.toastr.error('Đã xảy ra lỗi khi thêm chi tiết truyện tranh', 'Thông báo');
-  //           }
-  //         );
-  //       }
-  //     } else if (response.status === 200 && response.message === 'Comic with this name already exists.' && response.success === false) {
-  //       this.toastr.error('Comic đã tồn tại', 'Thông báo');
-  //     } else {
-  //       this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
-  //     }
-  //   });
-  // }
+    this.selectedParodies.forEach(parodyId => {
+      formData.append('parodies_ids', parodyId.toString());
+    });
+
+    this.selectedCharacters.forEach(characterId => {
+      formData.append('characters_ids', characterId.toString());
+    });
+
+    this.comicService.addComic(formData).subscribe((response) => {
+      if (response.status === 201 && response.message === 'Create a new Comic successful!' && response.success === true) {
+        if ((this.imageFileDetail ?? []).length > 0) {
+          const comicDetailRequests = (this.imageFileDetail ?? []).map((file, index) => {
+            const comicDetail = new FormData();
+            comicDetail.append('comic_id', response.data.id);
+            comicDetail.append('image_detail', file);
+            comicDetail.append('page_number', (index + 1).toString());
+            return this.comicService.addComicDetail(comicDetail);
+          });
+
+          forkJoin(comicDetailRequests).subscribe(
+            (response) => {
+              console.log(response);
+              this.toastr.success('Thêm thành công', 'Thông báo');
+              this.dialogRef.close('addComic');
+            },
+            (error) => {
+              this.toastr.error('Đã xảy ra lỗi khi thêm chi tiết truyện tranh', 'Thông báo');
+            }
+          );
+        }
+      } else if (response.status === 200 && response.message === 'Comic with this name already exists.' && response.success === false) {
+        this.toastr.error('Comic đã tồn tại', 'Thông báo');
+      } else {
+        this.toastr.error('Đã xảy ra lỗi', 'Thông báo');
+      }
+    });
+  }
 
   onDropZoneClick(): void {
     const fileInput = document.getElementById('file-input') as HTMLInputElement;
@@ -907,7 +804,7 @@ export class AddComicComponent {
       return numA - numB;
     });
 
-    sortedFiles.forEach(file => {
+    sortedFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePreviews.push(e.target.result);
