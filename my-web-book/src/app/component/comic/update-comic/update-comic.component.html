@@ -1,0 +1,74 @@
+<h2 mat-dialog-title id="title">Cập nhật truyện</h2>
+
+<div mat-dialog-content class="container row">
+    <div class="col-md-8 col-padding">
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill">
+                    <mat-label>Tên truyện tranh</mat-label>
+                    <input matInput [(ngModel)]="comicName" name="comicName" required minlength="3" maxlength="250"
+                        pattern="^[a-zA-ZÀ-ỹ\s\-\'\!]+$" #comicNameInput="ngModel" />
+                    <mat-error *ngIf="comicNameInput.errors?.['required']">Tên truyện tranh là bắt buộc.</mat-error>
+                    <mat-error *ngIf="comicNameInput.errors?.['minlength']">
+                        Tên truyện tranh phải có ít nhất 3 ký tự.
+                    </mat-error>
+                    <mat-error *ngIf="comicNameInput.errors?.['maxlength']">
+                        Tên truyện tranh không được vượt quá 250 ký tự.
+                    </mat-error>
+                    <mat-error *ngIf="comicNameInput.errors?.['pattern']">
+                        Tên truyện tranh chỉ được chứa các ký tự chữ cái và khoảng trắng.
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="checkbox-container" style="margin-bottom: 20px; margin-top: 20px">
+                    <mat-label style="margin-bottom: 8px">Thể loại</mat-label>
+                    <div>
+                        <mat-checkbox *ngFor="let category of categoryActive" [checked]="category.selected"
+                            (change)="onCategoryChange(category, $event.checked)">
+                            {{ category.name }}
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+                <div class="checkbox-container" style="margin-bottom: 20px; margin-top: 20px">
+                    <mat-label style="margin-bottom: 8px">Ngôn ngữ</mat-label>
+                    <div>
+                        <mat-checkbox *ngFor="let language of languagesActive" [checked]="language.selected"
+                            (change)="onLanguageChange(language, $event.checked)">
+                            {{ language.name }}
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+                <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)"
+                    style="margin-bottom: 20px; margin-top: 20px">
+                    {{ status ? "Hoạt Động" : "Ngừng Hoạt Động" }}
+                </mat-slide-toggle>
+            </div>
+
+            <div class="col-md-6">
+                <div class="file-upload-container">
+                    <input class="file-input" type="file" (change)="onFileChange($event)" accept="image/*" />
+                    <label class="file-label" for="file-input" *ngIf="!imageFile">Ảnh đại diện</label>
+                    <div *ngIf="imageSrc" class="image-preview-container">
+                        <img [src]="imageSrc" alt="Selected Image" class="image-preview" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div></div>
+    </div>
+    <div class="col-md-4 col-padding"></div>
+</div>
+
+<div id="button-layout" mat-dialog-actions align="center">
+    <button mat-raised-button color="warn" (click)="onCancel()">
+        <mat-icon>close</mat-icon> Thoát
+    </button>
+    <button mat-raised-button color="primary" (click)="updateComic()">
+        <mat-icon>save</mat-icon> Cập nhật
+    </button>
+</div>

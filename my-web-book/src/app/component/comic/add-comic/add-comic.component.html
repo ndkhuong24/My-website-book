@@ -1,4 +1,4 @@
-<h2 mat-dialog-title id="title">Thêm tác giả</h2>
+<h2 mat-dialog-title id="title">Thêm truyện</h2>
 
 <div mat-dialog-content class="container row">
   <div class="col-md-8 col-padding">
@@ -45,6 +45,7 @@
           {{ status ? "Hoạt Động" : "Ngừng Hoạt Động" }}
         </mat-slide-toggle>
       </div>
+      
       <div class="col-md-6">
         <div class="file-upload-container">
           <input class="file-input" type="file" (change)="onFileChange($event)" accept="image/*" />
@@ -154,6 +155,7 @@
       </ag-grid-angular>
     </div>
   </div>
+  
   <div class="col-md-4 col-padding">
     <div class="drop-zone" id="drop-zone" (click)="onDropZoneClick()" (dragover)="onDragOver($event)"
       (dragleave)="onDragLeave()" (drop)="onDrop($event)">
@@ -166,162 +168,6 @@
     </div>
   </div>
 </div>
-
-<!-- <div mat-dialog-content class="container row">
-    <div class="col-8 row">
-        <div class="col-6">
-            <mat-form-field appearance="fill">
-                <mat-label>Tên truyện tranh</mat-label>
-                <input matInput [(ngModel)]="comicName" name="comicName" required minlength="3" maxlength="250"
-                    pattern="^[a-zA-ZÀ-ỹ\s]+$" #comicNameInput="ngModel" />
-                <mat-error *ngIf="comicNameInput.errors?.['required']">Tên truyện tranh là bắt buộc.</mat-error>
-                <mat-error *ngIf="comicNameInput.errors?.['minlength']">
-                    Tên truyện tranh phải có ít nhất 3 ký tự.
-                </mat-error>
-                <mat-error *ngIf="comicNameInput.errors?.['maxlength']">
-                    Tên truyện tranh không được vượt quá 250 ký tự.
-                </mat-error>
-                <mat-error *ngIf="comicNameInput.errors?.['pattern']">
-                    Tên truyện tranh chỉ được chứa các ký tự chữ cái và khoảng trắng.
-                </mat-error>
-            </mat-form-field>
-
-            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-                <mat-label style="margin-bottom: 8px;">Thể loại</mat-label>
-                <div>
-                    <mat-checkbox *ngFor="let category of categoryActive" [checked]="category.selected"
-                        (change)="onCategoryChange(category, $event.checked)">
-                        {{ category.name }}
-                    </mat-checkbox>
-                </div>
-            </div>
-
-            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-                <mat-label style="margin-bottom: 8px;">Ngôn ngữ</mat-label>
-                <div>
-                    <mat-checkbox *ngFor="let language of languagesActive" [checked]="language.selected"
-                        (change)="onLanguageChange(language, $event.checked)">
-                        {{ language.name }}
-                    </mat-checkbox>
-                </div>
-            </div>
-
-            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-                <mat-label style="margin-bottom: 8px;">Artists</mat-label>
-                <div>
-                    <mat-select [(ngModel)]="selectedArtist" multiple="true" (ngModelChange)="onChangeArtist($event)"
-                        placeholder="Chọn Artist">
-                        <mat-option *ngFor="let artist of artistsActive" [value]="artist.id">
-                            {{ artist.name }}
-                        </mat-option>
-                    </mat-select>
-                </div>
-            </div>
-
-            <div class="checkbox-container" style="margin-bottom: 20px;margin-top: 20px;">
-                <mat-label style="margin-bottom: 8px;">Groups</mat-label>
-                <div>
-                    <mat-select [(ngModel)]="selectedGroup" multiple="true" (ngModelChange)="onChangeGroup($event)"
-                        placeholder="Chọn Group">
-                        <mat-option *ngFor="let group of groupsActive" [value]="group.id">
-                            {{ group.name }}
-                        </mat-option>
-                    </mat-select>
-                </div>
-            </div>
-
-            <mat-slide-toggle [(ngModel)]="status" (ngModelChange)="onStatusChange($event)"
-                style="margin-bottom: 20px;margin-top: 20px;">
-                {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
-            </mat-slide-toggle>
-        </div>
-
-        <div class="col-6">
-            <input class="file" type="file" (change)="onFileChange($event)" accept="image/*" />
-
-            <div *ngIf="imageFile">
-                <img [src]="imageSrc" alt="Selected Image" style="width: auto; max-width: 312px;" />
-            </div>
-        </div>
-
-        <div class="col-4">
-            <div class="checkbox-container">
-                <mat-label style="margin-bottom: 8px;">Tags</mat-label>
-                <div>
-                    <mat-form-field class="full-width">
-                        <input type="text" matInput [matAutocomplete]="autoTags" [(ngModel)]="tagSearch"
-                            (input)="filterTags()">
-                        <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="onTagSelected($event)"
-                            [displayWith]="displayTagName">
-                            <mat-option *ngFor="let tag of filteredTags" [value]="tag">
-                                {{ tag.name }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-            </div>
-            <ag-grid-angular *ngIf="rowData.length > 0" style="width: 100%;" class="ag-theme-alpine"
-                domLayout="autoHeight" [rowData]="rowData" [columnDefs]="columnDefs" [headerHeight]="headerHeight"
-                [rowHeight]="rowHeight">
-            </ag-grid-angular>
-        </div>
-
-        <div class="col-4">
-            <div class="checkbox-container">
-                <mat-label style="margin-bottom: 8px;">Parodies</mat-label>
-                <div>
-                    <mat-form-field class="full-width">
-                        <input type="text" matInput [matAutocomplete]="autoParodies" [(ngModel)]="parodySearch"
-                            (input)="filterParodies()">
-                        <mat-autocomplete #autoParodies="matAutocomplete" (optionSelected)="onParodySelected($event)"
-                            [displayWith]="displayParodyName">
-                            <mat-option *ngFor="let parody of filteredParodies" [value]="parody">
-                                {{ parody.name }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-            </div>
-            <ag-grid-angular *ngIf="rowData1.length > 0" style="width: 100%;" class="ag-theme-alpine"
-                domLayout="autoHeight" [rowData]="rowData1" [columnDefs]="columnDefs1" [headerHeight]="headerHeight"
-                [rowHeight]="rowHeight">
-            </ag-grid-angular>
-        </div>
-
-        <div class="col-4">
-            <div class="checkbox-container">
-                <mat-label style="margin-bottom: 8px;">Characters</mat-label>
-                <div>
-                    <mat-form-field class="full-width">
-                        <input type="text" matInput [matAutocomplete]="autoCharacters" [(ngModel)]="characterSearch"
-                            (input)="filterCharacters()">
-                        <mat-autocomplete #autoCharacters="matAutocomplete"
-                            (optionSelected)="onCharacterSelected($event)" [displayWith]="displayCharacterName">
-                            <mat-option *ngFor="let character of filteredCharacters" [value]="character">
-                                {{ character.name }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-            </div>
-            <ag-grid-angular *ngIf="rowData2.length > 0" style="width: 100%;" class="ag-theme-alpine"
-                domLayout="autoHeight" [rowData]="rowData2" [columnDefs]="columnDefs2" [headerHeight]="headerHeight"
-                [rowHeight]="rowHeight">
-            </ag-grid-angular>
-        </div>
-    </div>
-
-    <div class="col-4">
-        <div class="drop-zone" id="drop-zone" (click)="onDropZoneClick()" (dragover)="onDragOver($event)"
-            (dragleave)="onDragLeave()" (drop)="onDrop($event)">
-            <input type="file" id="file-input" accept="image/*" multiple style="display: none;"
-                (change)="onFileSelected($event)">
-            <div class="preview-container" id="preview-container">
-                <img *ngFor="let imgSrc of imagePreviews" [src]="imgSrc" alt="Image Preview">
-            </div>
-        </div>
-    </div>
-</div>-->
 
 <div id="button-layout" mat-dialog-actions align="center">
   <button mat-raised-button color="warn" (click)="onCancel()">

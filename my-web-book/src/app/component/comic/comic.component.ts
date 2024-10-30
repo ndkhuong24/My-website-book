@@ -190,7 +190,7 @@ export class ComicComponent implements OnInit {
     const dialogRef = this.matdialog.open(AddComicComponent, {
       width: '250%',
       height: '100vh',
-      disableClose: true
+      // disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((result) => {

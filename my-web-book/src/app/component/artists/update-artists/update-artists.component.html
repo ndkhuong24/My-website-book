@@ -1,6 +1,6 @@
 <h2 mat-dialog-title id="title">Cập nhật artists</h2>
 
-<div mat-dialog-content class="container row">
+<div mat-dialog-content class="container">
     <mat-form-field appearance="fill">
         <mat-label>Tên artists</mat-label>
         <input matInput [(ngModel)]="artistsName" name="artistsName" required minlength="3" maxlength="250"
@@ -21,6 +21,8 @@
         {{ status ? 'Hoạt Động' : 'Ngừng Hoạt Động' }}
     </mat-slide-toggle>
 </div>
+
+<br>
 
 <div id="button-layout" mat-dialog-actions align="end">
     <button mat-raised-button color="warn" (click)="onCancel()">

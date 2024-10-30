@@ -42,7 +42,7 @@ export class UpdateCharactersComponent {
     public dialogRef: MatDialogRef<UpdateCharactersComponent>,
     private charactersService: CharactersService,
     private toastr: ToastrService,
-    @Inject(MAT_DIALOG_DATA) private data: any
+    @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.charactersName = data.name;
     this.status = data.status;

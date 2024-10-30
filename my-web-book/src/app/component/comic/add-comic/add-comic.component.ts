@@ -20,16 +20,10 @@ import { CharactersService } from '../../../service/characters.service';
 import { GroupsService } from '../../../service/groups.service';
 import { CategoryService } from '../../../service/category.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  ColDef,
-  RowSelectedEvent,
-  SelectionChangedEvent,
-} from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
-import { ButtonCellRendererComponent } from './button-cell-renderer.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips'; // Import MatChipsModule
-import { StatusCellRenderComponent } from '../comic-cell-render/status-cell-render.component';
 
 @Component({
   selector: 'app-add-comic',

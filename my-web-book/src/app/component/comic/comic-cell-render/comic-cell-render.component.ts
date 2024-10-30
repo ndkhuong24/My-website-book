@@ -6,6 +6,7 @@ import { ComicComponent } from '../comic.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { UpdateComicComponent } from '../update-comic/update-comic.component';
 
 @Component({
   selector: 'app-comic-cell-render',
@@ -62,6 +63,22 @@ export class ComicCellRenderComponent implements ICellRendererAngularComp {
   }
 
   onupdateClick() {
-    throw new Error('Method not implemented.');
+    const rowData = this.params.data;
+
+    this.comicService.getById(rowData.id).subscribe((response) => {
+      const dialogRef = this.matdialog.open(UpdateComicComponent, {
+        width: '250%',
+        height: '100vh',
+        // disableClose: true,
+        data: response
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'updateComic') {
+          this.comicComponent.ngOnInit();
+          this.cdr.detectChanges();
+        }
+      });
+    });
   }
 }
