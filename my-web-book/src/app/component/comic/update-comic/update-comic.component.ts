@@ -54,6 +54,9 @@ export class UpdateComicComponent {
   selectedCategories: any[] = [];
   selectedLanguages: any[] = [];
 
+  imagePreviews: string[] = [];
+  imageFileDetail: File[] | [] | undefined;
+
   constructor(
     private dialogRef: MatDialogRef<UpdateComicComponent>,
     private comicService: ComicService,
@@ -144,5 +147,93 @@ export class UpdateComicComponent {
       this.selectedLanguages = [];
       language.selected = false;
     }
+  }
+
+  onDropZoneClick(): void {
+    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files) {
+      const sortedFiles = Array.from(input.files).sort((a, b) => {
+        const nameA = a.name.replace(/\D/g, '');
+        const nameB = b.name.replace(/\D/g, '');
+        const numA = parseInt(nameA, 10);
+        const numB = parseInt(nameB, 10);
+
+        if (isNaN(numA) || isNaN(numB)) {
+          return a.name.localeCompare(b.name);
+        }
+
+        return numA - numB;
+      });
+
+      this.imageFileDetail = sortedFiles;
+
+      this.handleFiles(sortedFiles);
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    const dropZone = document.getElementById('drop-zone');
+    dropZone?.classList.add('drop-zone--over');
+  }
+
+  onDragLeave(): void {
+    const dropZone = document.getElementById('drop-zone');
+    dropZone?.classList.remove('drop-zone--over');
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const dropZone = document.getElementById('drop-zone');
+    dropZone?.classList.remove('drop-zone--over');
+    if (event.dataTransfer?.files) {
+      const sortedFiles = Array.from(event.dataTransfer.files).sort((a, b) => {
+        const nameA = a.name.replace(/\D/g, '');
+        const nameB = b.name.replace(/\D/g, '');
+        const numA = parseInt(nameA, 10);
+        const numB = parseInt(nameB, 10);
+
+        if (isNaN(numA) || isNaN(numB)) {
+          return a.name.localeCompare(b.name);
+        }
+
+        return numA - numB;
+      });
+
+      this.imageFileDetail = sortedFiles;
+
+      this.handleFiles(sortedFiles);
+    }
+  }
+
+  handleFiles(files: File[]): void {
+    this.imagePreviews = [];
+
+    const sortedFiles = files.sort((a, b) => {
+      const nameA = a.name.replace(/\D/g, '');
+      const nameB = b.name.replace(/\D/g, '');
+      const numA = parseInt(nameA, 10);
+      const numB = parseInt(nameB, 10);
+
+      if (isNaN(numA) || isNaN(numB)) {
+        return a.name.localeCompare(b.name);
+      }
+
+      return numA - numB;
+    });
+
+    sortedFiles.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviews.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
   }
 }
