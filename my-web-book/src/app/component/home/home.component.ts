@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
       this.comics = data;
 
       data.forEach((comic: any) => {
-        this.comicService.getDetailBtComicID(comic.id).subscribe((detail) => {
+        this.comicService.getDetailByComicID(comic.id).subscribe((detail) => {
           this.numberPages = detail.data.length;
         });
       });

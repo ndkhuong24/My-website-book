@@ -19,6 +19,7 @@ import { forkJoin } from 'rxjs';
 import { CategoryService } from '../../../service/category.service';
 import { subscribe } from 'diagnostics_channel';
 import { LanguagesService } from '../../../service/languages.service';
+import { ColDef } from 'ag-grid-community';
 
 @Component({
   selector: 'app-update-comic',
@@ -43,32 +44,58 @@ import { LanguagesService } from '../../../service/languages.service';
   styleUrl: './update-comic.component.scss'
 })
 export class UpdateComicComponent {
+  headerHeight: number = 50;
+  rowHeight: number = 50;
+  paginationPageSize = 10;
+  paginationPageSizeSelector = [10, 20, 50, 100];
+
+  artistRowData: any[] = [];
+  artistColumnDefs: ColDef[] = [];
+
   status: boolean = true;
   comicName: string;
   imageFile: File | null = null;
   imageSrc: string | ArrayBuffer | null = null;
 
-  categoryActive: any[] = [];
+  tagsActive: any[] = [];
+  artistsActive: any[] = [];
   languagesActive: any[] = [];
+  parodiesActive: any[] = [];
+  charactersActive: any[] = [];
+  groupsActive: any[] = [];
+  categoryActive: any[] = [];
 
   selectedCategories: any[] = [];
   selectedLanguages: any[] = [];
+  selectedArtists: any[] = [];
+  selectedGroups: any[] = [];
+  selectedTags: any[] = [];
+  selectedParodies: any[] = [];
+  selectedCharacters: any[] = [];
 
   imagePreviews: string[] = [];
   imageFileDetail: File[] | [] | undefined;
+  artistSearchName: string = '';
 
   constructor(
     private dialogRef: MatDialogRef<UpdateComicComponent>,
-    private comicService: ComicService,
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) dataCurrent: any,
 
     private categoryService: CategoryService,
     private languagesService: LanguagesService,
+    private comicService: ComicService,
   ) {
     this.comicName = dataCurrent.name;
     this.status = dataCurrent.status;
     this.imageSrc = dataCurrent.profile_picture;
+
+    comicService.getDetailByComicID(dataCurrent.id).subscribe((response) => {
+      if (response.success) {
+        const sortData = response.data.sort((a: any, b: any) => a.page_number - b.page_number);
+        this.imagePreviews = sortData.map((item: any) => item.image_detail);
+      }
+    });
 
     forkJoin({
       categories: this.categoryService.getAllCategory(),
@@ -235,5 +262,16 @@ export class UpdateComicComponent {
       };
       reader.readAsDataURL(file);
     });
+  }
+
+  searchArtist() {
+    throw new Error('Method not implemented.');
+  }
+
+  onSelectionArtistChanged(event: any) {
+    const selectedRows = event.api.getSelectedNodes();
+    this.selectedArtists = selectedRows.map(
+      (node: { data: { id: any } }) => node.data.id
+    );
   }
 }

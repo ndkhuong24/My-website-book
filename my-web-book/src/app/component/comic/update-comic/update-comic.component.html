@@ -60,7 +60,20 @@
         <hr>
 
         <div>
+            <h3>Artists</h3>
 
+            <mat-form-field appearance="outline" style="width: 50%; margin-bottom: 16px">
+                <mat-label>Tên</mat-label>
+                <input matInput [(ngModel)]="artistSearchName" name="artistSearchName" placeholder="Nhập tên ..."
+                    (ngModelChange)="searchArtist()" />
+            </mat-form-field>
+
+            <ag-grid-angular style="width: 100%; height: 602px" class="ag-theme-alpine" [rowData]="artistRowData"
+                [columnDefs]="artistColumnDefs" [headerHeight]="headerHeight"
+                (selectionChanged)="onSelectionArtistChanged($event)" [rowSelection]="'multiple'"
+                [rowHeight]="rowHeight" [pagination]="true" [paginationPageSize]="paginationPageSize"
+                [paginationPageSizeSelector]="paginationPageSizeSelector">
+            </ag-grid-angular>
         </div>
     </div>
     <div class="col-md-4 col-padding">
@@ -70,7 +83,7 @@
                 (change)="onFileSelected($event)" />
             <label style="font-size: larger" *ngIf="!(imagePreviews.length > 0)">Chi tiết sản phẩm</label>
             <div class="preview-container" id="preview-container">
-                <img *ngFor="let imgSrc of imagePreviews" [src]="imgSrc" alt="Image Preview" />
+                <img *ngFor="let imgSrc of  " [src]="imgSrc" alt="Image Preview" />
             </div>
         </div>
     </div>

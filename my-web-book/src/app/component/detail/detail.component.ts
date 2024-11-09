@@ -36,7 +36,7 @@ export class DetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.comicId = id !== null ? +id : 0;
 
-    this.comicService.getDetailBtComicID(this.comicId).subscribe((response) => {
+    this.comicService.getDetailByComicID(this.comicId).subscribe((response) => {
       this.comicDetail = response.data;
     });
 

@@ -805,7 +805,5 @@ export class AddComicComponent {
       };
       reader.readAsDataURL(file);
     });
-
-    console.log(this.imagePreviews);
   }
 }
